@@ -22,6 +22,9 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _resist = 1;
     [SerializeField] private int _speed = 1;
 
+    // Statuses
+    private bool knockout = false;
+
     // GameObject references
 
     /***************************************
