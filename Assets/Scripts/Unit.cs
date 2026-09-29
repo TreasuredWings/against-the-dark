@@ -1,4 +1,5 @@
 using System.Runtime;
+using System;
 using UnityEngine;
 
 // Base class for all Unit-type classes.
@@ -84,7 +85,21 @@ public class Unit : MonoBehaviour
     * Class Functions *
     ***************************************/
 
-    
+    // Perform a basic attack against the target Unit
+    // Damage formula is currently:
+    // damage = a.atk - (b.def * 0.5)
+    // Damage defaults to 1 if at 0 or under.
+    public void BasicAttack(Unit target)
+    {
+        int damage = (int)Math.Floor( Math.Max( this.Attack - (target.Defense * 0.5), 1 ));
+        target.TakeDamage(damage);
+    }
+
+    // Recieve damage, capped at this unit's current hp (handled in property)
+    public void TakeDamage(int incomingDamage)
+    {
+        HP -= incomingDamage;
+    }
 
     /***************************************
     * Unity Functions *
