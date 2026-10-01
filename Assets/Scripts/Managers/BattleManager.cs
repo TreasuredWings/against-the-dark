@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 /*
 The BattleManager is responsible for managing turns, recieving inputs from the UI, and telling Units to perform skills.
 */
 
-public enum BATTLE_STATE { START, INPUT, WAIT, VICTORY, DEFEAT }
+public enum BATTLE_STATE { START, COMMAND, WAIT, VICTORY, DEFEAT }
 
 public class BattleManager : MonoBehaviour
 {
@@ -13,47 +14,49 @@ public class BattleManager : MonoBehaviour
     ***************************************/
 
     // Battle stats
-    private int roundNumber = 0;
+    [SerializeField] private int _roundNumber = 0;
+    [SerializeField] private List<Unit> _turnOrder;
 
     // Unit references
-    private Unit[] allies;
-    private Unit[] enemies;
+    [SerializeField] private List<Unit> _allies;
+    [SerializeField] private List<Unit> _enemies;
+
+    /***************************************
+    * Properties *
+    ***************************************/
+
+    
 
     /***************************************
     * Class functions *
     ***************************************/
 
     // Flow control
-    // StartBattle initializes a battle with an array of party members and enemies
-    public void StartBattle()
+
+    // StartBattle initializes a battle with a list of party members and enemies
+    public void StartBattle(Unit[] allies, Unit[] enemies)
     {
-        
+        _allies = new List<Unit>();
+        foreach (Unit ally in allies)
+        {
+            _allies.Add(ally);
+        }
+        _enemies = new List<Unit>();
+        foreach (Unit enemy in enemies)
+        {
+            _enemies.Add(enemy);
+        }
+        StartRound();
     }
 
-    private void BattleLoop()
+    public void StartRound()
     {
-        
+        _roundNumber++;
+        Debug.Log("Beginning round " + _roundNumber);
     }
 
-    // The battle loop functions as such:
-    // Each round allows every unit to take a turn
-    // At the start of a round, take every unit's current speed, vary them by 20%, and order them from largest to smallest
-    // During a round, call the next unit's turn
-    // When there are no more turns to call, start another round
-
-    private void Round()
-    {
-        
-    }
-
-    // Continue doing rounds until all enemies or all party members are dead
-    
-    private void AllyTurn(int allyIndex)
-    {
-        
-    }
-
-    private void EnemyTurn(int enemyIndex)
+    // ProcessBattle runs through turns in the turn order until a player turn is reached
+    private void ProcessBattle()
     {
         
     }

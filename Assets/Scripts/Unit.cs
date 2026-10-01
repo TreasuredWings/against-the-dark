@@ -24,12 +24,13 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _speed = 1;
 
     // Statuses
-    private bool knockout = false;
+    [SerializeField] private bool _ally = false;
+    [SerializeField] private bool _knockout = false;
 
     // GameObject references
 
     /***************************************
-    * Getters / Setters *
+    * Properties *
     ***************************************/
     
     // Read-write properties
@@ -84,6 +85,9 @@ public class Unit : MonoBehaviour
     public int Magic => _magic;
     public int Resist => _resist;
     public int Speed => _speed;
+
+    public bool IsAlly => _ally;
+    public bool IsKnockedOut => _knockout;
 
     /***************************************
     * Class Functions *
