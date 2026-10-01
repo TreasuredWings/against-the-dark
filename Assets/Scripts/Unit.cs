@@ -1,6 +1,7 @@
 using System.Runtime;
 using System;
 using UnityEngine;
+using System.Diagnostics;
 
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
@@ -96,6 +97,7 @@ public class Unit : MonoBehaviour
     {
         int damage = (int)Math.Floor( Math.Max( this.Attack - (target.Defense * 0.5), 1 ));
         target.TakeDamage(damage);
+        UnityEngine.Debug.Log(this.Name + " dealt " + damage + " damage to " + target.Name);
     }
 
     // Recieve damage, capped at this unit's current hp (handled in property)
