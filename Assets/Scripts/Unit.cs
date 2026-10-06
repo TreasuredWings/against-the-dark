@@ -17,17 +17,18 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _hpMax = 100;
     [SerializeField] private int _mp = 10;
     [SerializeField] private int _mpMax = 10;
-    [SerializeField] private int _attack = 1;
-    [SerializeField] private int _defense = 1;
-    [SerializeField] private int _magic = 1;
-    [SerializeField] private int _resist = 1;
-    [SerializeField] private int _speed = 1;
+    [SerializeField] private int _attack = 5;
+    [SerializeField] private int _defense = 5;
+    [SerializeField] private int _magic = 5;
+    [SerializeField] private int _resist = 5;
+    [SerializeField] private int _speed = 5;
 
     // Statuses
     [SerializeField] private bool _ally = false;
     [SerializeField] private bool _knockout = false;
 
-    // GameObject references
+    // In battle stats
+    
 
     /***************************************
     * Properties *
