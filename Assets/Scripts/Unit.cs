@@ -1,5 +1,7 @@
 using System.Runtime;
+using System;
 using UnityEngine;
+using System.Diagnostics;
 
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
@@ -15,16 +17,21 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _hpMax = 100;
     [SerializeField] private int _mp = 10;
     [SerializeField] private int _mpMax = 10;
-    [SerializeField] private int _attack = 1;
-    [SerializeField] private int _defense = 1;
-    [SerializeField] private int _magic = 1;
-    [SerializeField] private int _resist = 1;
-    [SerializeField] private int _speed = 1;
+    [SerializeField] private int _attack = 5;
+    [SerializeField] private int _defense = 5;
+    [SerializeField] private int _magic = 5;
+    [SerializeField] private int _resist = 5;
+    [SerializeField] private int _speed = 5;
 
-    // GameObject references
+    // Statuses
+    [SerializeField] private bool _ally = false;
+    [SerializeField] private bool _knockout = false;
+
+    // In battle stats
+    
 
     /***************************************
-    * Getters / Setters *
+    * Properties *
     ***************************************/
     
     // Read-write properties
@@ -80,11 +87,29 @@ public class Unit : MonoBehaviour
     public int Resist => _resist;
     public int Speed => _speed;
 
+    public bool IsAlly => _ally;
+    public bool IsKnockedOut => _knockout;
+
     /***************************************
     * Class Functions *
     ***************************************/
 
-    
+    // Perform a basic attack against the target Unit
+    // Damage formula is currently:
+    // damage = a.atk - (b.def * 0.5)
+    // Damage defaults to 1 if at 0 or under.
+    public void BasicAttack(Unit target)
+    {
+        int damage = (int)Math.Floor( Math.Max( this.Attack - (target.Defense * 0.5), 1 ));
+        target.TakeDamage(damage);
+        UnityEngine.Debug.Log(this.Name + " dealt " + damage + " damage to " + target.Name);
+    }
+
+    // Recieve damage, capped at this unit's current hp (handled in property)
+    public void TakeDamage(int incomingDamage)
+    {
+        HP -= incomingDamage;
+    }
 
     /***************************************
     * Unity Functions *
