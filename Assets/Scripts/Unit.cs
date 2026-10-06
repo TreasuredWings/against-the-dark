@@ -10,8 +10,10 @@ public class Unit : MonoBehaviour
     * Fields *
     ***************************************/
 
+    [Header("Unit Parameters")]
+
     // Unit stats
-    [SerializeField] private string _name = "Default";
+    [SerializeField] private string _name = "Unitman";
     [SerializeField] private int _level = 1;
     [SerializeField] private int _hp = 100;
     [SerializeField] private int _hpMax = 100;
@@ -24,7 +26,6 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _speed = 5;
 
     // Statuses
-    [SerializeField] private bool _ally = false;
     [SerializeField] private bool _knockout = false;
 
     // In battle stats
@@ -35,60 +36,21 @@ public class Unit : MonoBehaviour
     ***************************************/
     
     // Read-write properties
-    // HP/MP must stay within bounds 0 < value < HP/MP max
-    public int HP
-    {
-        get => _hp;
-        set
-        {
-            if (value > _hpMax)
-            {
-                _hp = _hpMax;
-            }
-            else if (value < 0)
-            {
-                _hp = 0;
-            }
-            else
-            {
-                _hp = value;
-            }
-        }
-    }
-
-    public int MP
-    {
-        get => _mp;
-        set
-        {
-            if (value > _mpMax)
-            {
-                _mp = _mpMax;
-            }
-            else if (value < 0)
-            {
-                _mp = 0;
-            }
-            else
-            {
-                _mp = value;
-            }
-        }
-    }
+    public int HP {get => _hp; set => _hp = value;}
+    public int MP {get => _mp; set => _mp = value;}
 
     // Read-only properties
-    public string Name => _name;
-    public int Level => _level;
-    public int HPMax => _hpMax;
-    public int MPMax => _mpMax;
-    public int Attack => _attack;
-    public int Defense => _defense;
-    public int Magic => _magic;
-    public int Resist => _resist;
-    public int Speed => _speed;
+    public string Name {get => _name; private set => _name = value;}
+    public int Level {get => _level; private set => _level = value;}
+    public int HPMax {get => _hpMax; private set => _hpMax = value;}
+    public int MPMax {get => _mpMax; private set => _mpMax = value;}
+    public int Attack {get => _attack; private set => _attack = value;}
+    public int Defense {get => _defense; private set => _defense = value;}
+    public int Magic {get => _magic; private set => _magic = value;}
+    public int Resist {get => _resist; private set => _resist = value;}
+    public int Speed {get => _speed; private set => _speed = value;}
 
-    public bool IsAlly => _ally;
-    public bool IsKnockedOut => _knockout;
+    public bool IsKnockedOut {get => _knockout; private set => _knockout = value;}
 
     /***************************************
     * Class Functions *
@@ -98,17 +60,39 @@ public class Unit : MonoBehaviour
     // Damage formula is currently:
     // damage = a.atk - (b.def * 0.5)
     // Damage defaults to 1 if at 0 or under.
-    public void BasicAttack(Unit target)
+    public virtual void BasicAttack(Unit target)
     {
         int damage = (int)Math.Floor( Math.Max( this.Attack - (target.Defense * 0.5), 1 ));
         target.TakeDamage(damage);
-        UnityEngine.Debug.Log(this.Name + " dealt " + damage + " damage to " + target.Name);
+        // Debug log
+        UnityEngine.Debug.Log("Unit: " + this.Name + " dealt " + damage + " damage to " + target.Name);
     }
 
-    // Recieve damage, capped at this unit's current hp (handled in property)
-    public void TakeDamage(int incomingDamage)
+    // Recieve damage, capped at this unit's current hp
+    // Returns: this unit's new HP
+    public virtual int TakeDamage(int incomingDamage)
     {
-        HP -= incomingDamage;
+        if (incomingDamage > HP)
+        {
+            HP = 0;
+        }
+        else
+        {
+            HP -= incomingDamage;
+        }
+        return HP;
+    }
+
+    // Attempt to spend the specified ammount of MP
+    // Returns: true if it was able to spend, false if it could not
+    public bool SpendMP(int cost)
+    {
+        if (cost <= MP)
+        {
+            MP -= cost;
+            return true;
+        }
+        return false;
     }
 
     /***************************************
