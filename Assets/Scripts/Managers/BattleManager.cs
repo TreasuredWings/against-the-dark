@@ -64,6 +64,7 @@ public class BattleManager : MonoBehaviour
 
         // Initialize the TurnOrder Queue
         TurnOrder = new List<Unit>();
+        RoundNumber = 0;
 
         // State change
         State = BattleState.Wait;

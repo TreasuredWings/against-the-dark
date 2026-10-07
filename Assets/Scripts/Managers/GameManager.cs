@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
     * Fields *
     ***************************************/
 
-    // Unit fields
     [SerializeField] private BattleManager battleM;
     [SerializeField] private List<Ally> _party;
     [Header("Debug")]

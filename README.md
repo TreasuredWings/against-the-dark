@@ -8,6 +8,8 @@ When the player clicks on a button during the Command state:
 
 During the Targeting state, the player should be able to highlight potential targets and pick one
 - After picking a target, execute the command against the target
+- Most likely the UI canvas is going to need a behavior script to handle state switching between command mode, menu mode, and targeting mode
+- Also needs a reference to the battle manager to send finished commands out for processing
 
 Command execution:
 - Attack:
