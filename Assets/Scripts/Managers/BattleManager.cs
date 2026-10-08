@@ -26,6 +26,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private List<Ally> _allies;
     [SerializeField] private List<Enemy> _enemies;
 
+    [SerializeField] private Ally _activeAlly;
+
     // *** Properties ***
 
     public static BattleManager Instance { get; private set; }
@@ -35,6 +37,8 @@ public class BattleManager : MonoBehaviour
     public List<Unit> TurnOrder { get => _turnOrder; private set => _turnOrder = value; }
     public List<Ally> Allies { get => _allies; set => _allies = value; }
     public List<Enemy> Enemies { get => _enemies; set => _enemies = value; }
+
+    public Ally ActiveAlly { get => _activeAlly; private set => _activeAlly = value; }
 
     // *** Core Functions ***
 
@@ -123,16 +127,16 @@ public class BattleManager : MonoBehaviour
             if (TurnOrder[0].GetType() == typeof(Enemy))
             {
                 // Process the enemy's turn by calling it for an action
-                Enemy next = (Enemy)TurnOrder[0];
+                Enemy next = (Enemy)GetNextTurn(true);
                 next.TakeTurn();
-                TurnOrder.RemoveAt(0);
             }
             else
             {
                 // End this process and wait for input
-                Debug.Log("BattleManager: Awaiting command");
                 State = BattleState.Command;
-                UIManager.Instance.AskForCommand();
+                ActiveAlly = (Ally)GetNextTurn(false);
+                UIManager.Instance.ShowWindow(UIState.Action);
+                Debug.Log("BattleManager: Awaiting command for " + GetNextTurn(false).Name);
             }
         }
     }
@@ -153,17 +157,5 @@ public class BattleManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
