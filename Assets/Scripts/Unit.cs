@@ -7,9 +7,8 @@ using System.Collections.Generic;
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
 {
-    /***************************************
-    * Fields *
-    ***************************************/
+    
+    // *** Fields ***
 
     [Header("Unit Parameters")]
 
@@ -34,9 +33,7 @@ public class Unit : MonoBehaviour
     // In battle stats
     
 
-    /***************************************
-    * Properties *
-    ***************************************/
+    // *** Properties ***
     
     // Read-write properties
     public int HP {get => _hp; set => _hp = value;}
@@ -57,9 +54,7 @@ public class Unit : MonoBehaviour
 
     public bool IsKnockedOut {get => _knockout; private set => _knockout = value;}
 
-    /***************************************
-    * Class Functions *
-    ***************************************/
+    // *** Functions ***
 
     // Perform a basic attack against the target Unit
     // Damage formula is currently:
@@ -75,14 +70,14 @@ public class Unit : MonoBehaviour
 
     // UseSkill: Attempt to use specified Skill on targets.
     // Return: True if skill could be executed, False if requirements were not met/skill was not executed.
-    public bool UseSkill(int ID, List<Unit> targets)
+    public bool UseSkill(Skill chosen, List<Unit> targets)
     {
-        int mpCost = SkillList[ID].MPCost;
+        int mpCost = chosen.MPCost;
         if (!SpendMP(mpCost))
         {
             return false;
         }
-        if (!SkillList[ID].Use(targets))
+        if (!chosen.Use(targets))
         {
             return false;
         }
@@ -116,20 +111,7 @@ public class Unit : MonoBehaviour
         return false;
     }
 
-    /***************************************
-    * Unity Functions *
-    ***************************************/
+    // *** Unity Functions ***
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
 }

@@ -49,7 +49,6 @@ public class UIManager : MonoBehaviour
                 break;
             case UIState.Skill:
                 SkillWindow.SetActive(true);
-                // TODO: Add functionality to populate SkillWindow with the correct skills
                 PopulateSkillWindow(SkillType.Special);
                 State = UIState.Skill;
                 break;
@@ -66,7 +65,7 @@ public class UIManager : MonoBehaviour
 
     private void PopulateSkillWindow(SkillType filter)
     {
-        List<Skill> raw = BattleManager.Instance.ActiveAlly.SkillList;
+        List<Skill> raw = InputManager.Instance.ActiveAlly.SkillList;
         List<Skill> filtered = new List<Skill>();
         foreach (Skill s in raw)
         {

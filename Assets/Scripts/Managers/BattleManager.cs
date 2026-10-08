@@ -26,8 +26,6 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private List<Ally> _allies;
     [SerializeField] private List<Enemy> _enemies;
 
-    [SerializeField] private Ally _activeAlly;
-
     // *** Properties ***
 
     public static BattleManager Instance { get; private set; }
@@ -37,8 +35,6 @@ public class BattleManager : MonoBehaviour
     public List<Unit> TurnOrder { get => _turnOrder; private set => _turnOrder = value; }
     public List<Ally> Allies { get => _allies; set => _allies = value; }
     public List<Enemy> Enemies { get => _enemies; set => _enemies = value; }
-
-    public Ally ActiveAlly { get => _activeAlly; private set => _activeAlly = value; }
 
     // *** Core Functions ***
 
@@ -127,29 +123,28 @@ public class BattleManager : MonoBehaviour
             if (TurnOrder[0].GetType() == typeof(Enemy))
             {
                 // Process the enemy's turn by calling it for an action
-                Enemy next = (Enemy)GetNextTurn(true);
+                Enemy next = (Enemy)TurnOrder[0];
                 next.TakeTurn();
+                TurnOrder.RemoveAt(0);
             }
             else
             {
                 // End this process and wait for input
                 State = BattleState.Command;
-                ActiveAlly = (Ally)GetNextTurn(false);
+                InputManager.Instance.ActiveAlly = (Ally)TurnOrder[0];
                 UIManager.Instance.ShowWindow(UIState.Action);
-                Debug.Log("BattleManager: Awaiting command for " + GetNextTurn(false).Name);
+                Debug.Log("BattleManager: Awaiting command for " + InputManager.Instance.ActiveAlly.Name);
             }
         }
     }
 
-    // Utility function for player input, with options to peek or dequeue
-    public Unit GetNextTurn(bool dequeue)
+    // InputManager calls InputComplete when the player successfully completed their turn
+    public void InputComplete()
     {
-        Unit temp = TurnOrder[0];
-        if (dequeue)
-        {
-            TurnOrder.RemoveAt(0);
-        }
-        return temp;
+        // Go back to waiting, remove the ally from the turn queue, and resume turn processing.
+        State = BattleState.Wait;
+        TurnOrder.RemoveAt(0);
+        ProcessTurns();
     }
 
     // *** Unity Functions ***

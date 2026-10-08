@@ -3,8 +3,8 @@ using UnityEngine;
 
 public enum SkillType { Class, Special, Item, Limit }
 
-// Interface for a Skill: an object that can be Used to affect targets.
-public class Skill : MonoBehaviour
+// Absctract class for a Skill: an object that can be Used to affect targets.
+public abstract class Skill : MonoBehaviour
 {
     public string Name { get; private set; }
     public string Desc { get; private set; }
@@ -21,7 +21,7 @@ public class Skill : MonoBehaviour
         MPCost = mpCost;
     }
 
-    public virtual bool Use(List<Unit> target)
+    public bool Use(List<Unit> target)
     {
         // Does nothing by default
         return true;
