@@ -21,9 +21,5 @@ public abstract class Skill : MonoBehaviour
         MPCost = mpCost;
     }
 
-    public bool Use(List<Unit> target)
-    {
-        // Does nothing by default
-        return true;
-    }
+    public abstract bool Use(List<Unit> target);
 }
