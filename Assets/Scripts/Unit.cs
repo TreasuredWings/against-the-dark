@@ -2,6 +2,7 @@ using System.Runtime;
 using System;
 using UnityEngine;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
@@ -24,6 +25,8 @@ public class Unit : MonoBehaviour
     [SerializeField] private int _magic = 5;
     [SerializeField] private int _resist = 5;
     [SerializeField] private int _speed = 5;
+
+    [SerializeField] private List<Skill> _skillList = new List<Skill>();
 
     // Statuses
     [SerializeField] private bool _knockout = false;
@@ -50,6 +53,8 @@ public class Unit : MonoBehaviour
     public int Resist {get => _resist; private set => _resist = value;}
     public int Speed {get => _speed; private set => _speed = value;}
 
+    public List<Skill> SkillList {get => _skillList; private set => _skillList = value;}
+
     public bool IsKnockedOut {get => _knockout; private set => _knockout = value;}
 
     /***************************************
@@ -66,6 +71,22 @@ public class Unit : MonoBehaviour
         target.TakeDamage(damage);
         // Debug log
         UnityEngine.Debug.Log("Unit: " + this.Name + " dealt " + damage + " damage to " + target.Name);
+    }
+
+    // UseSkill: Attempt to use specified Skill on targets.
+    // Return: True if skill could be executed, False if requirements were not met/skill was not executed.
+    public bool UseSkill(int ID, List<Unit> targets)
+    {
+        int mpCost = SkillList[ID].MPCost;
+        if (!SpendMP(mpCost))
+        {
+            return false;
+        }
+        if (!SkillList[ID].Use(targets))
+        {
+            return false;
+        }
+        return true;
     }
 
     // Recieve damage, capped at this unit's current hp
