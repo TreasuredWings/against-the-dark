@@ -4,14 +4,16 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    /***************************************
-    * Fields *
-    ***************************************/
+    // *** Fields ***
 
-    [SerializeField] private BattleManager battleM;
     [SerializeField] private List<Ally> _party;
+
     [Header("Debug")]
     [SerializeField] private List<Enemy> _testTroop;
+
+    // *** Properties ***
+
+    public static GameManager Instance { get; private set; }
 
     public List<Ally> Party { get => _party; private set => _party = value; }
     public List<Enemy> TestTroop { get => _testTroop; private set => _testTroop = value; }
@@ -23,13 +25,18 @@ public class GameManager : MonoBehaviour
     public void StartBattle()
     {
         Debug.Log("GameManager: Starting battle!");
-        battleM.InitializeBattle(Party, TestTroop);
-        battleM.ProcessTurns();
+        BattleManager.Instance.InitializeBattle(Party, TestTroop);
+        BattleManager.Instance.ProcessTurns();
     }
 
     /***************************************
     * Unity Functions *
     ***************************************/
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

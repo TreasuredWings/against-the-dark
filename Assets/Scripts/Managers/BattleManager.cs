@@ -13,10 +13,9 @@ public enum BattleState { None, Start, Command, Wait, Victory, Defeat }
 
 public class BattleManager : MonoBehaviour
 {
-    /***************************************
-    * Fields *
-    ***************************************/
+    // *** Fields ***
 
+    // State
     [SerializeField] private BattleState _state = BattleState.None;
 
     // Battle stats
@@ -27,9 +26,9 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private List<Ally> _allies;
     [SerializeField] private List<Enemy> _enemies;
 
-    /***************************************
-    * Properties *
-    ***************************************/
+    // *** Properties ***
+
+    public static BattleManager Instance { get; private set; }
 
     public BattleState State { get => _state; private set => _state = value; }
     public int RoundNumber { get => _roundNumber; private set => _roundNumber = value; }
@@ -37,9 +36,7 @@ public class BattleManager : MonoBehaviour
     public List<Ally> Allies { get => _allies; set => _allies = value; }
     public List<Enemy> Enemies { get => _enemies; set => _enemies = value; }
 
-    /***************************************
-    * Class functions *
-    ***************************************/
+    // *** Core Functions ***
 
     // StartBattle initializes a battle with a list of party members and enemies
     public void InitializeBattle(List<Ally> party, List<Enemy> troop)
@@ -135,6 +132,7 @@ public class BattleManager : MonoBehaviour
                 // End this process and wait for input
                 Debug.Log("BattleManager: Awaiting command");
                 State = BattleState.Command;
+                UIManager.Instance.AskForCommand();
             }
         }
     }
@@ -150,9 +148,12 @@ public class BattleManager : MonoBehaviour
         return temp;
     }
 
-    /***************************************
-    * Unity Functions *
-    ***************************************/
+    // *** Unity Functions ***
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
