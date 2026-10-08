@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 132679104}
   m_Layer: 0
   m_Name: PartyMember
-  m_TagString: Untagged
+  m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -937,7 +937,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea3e8f0f8ebf6f60ac1891c4747732b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  battleM: {fileID: 361951706}
   _party:
   - {fileID: 132679104}
   _testTroop:
@@ -1093,7 +1092,7 @@ GameObject:
   - component: {fileID: 883358963}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1748,7 +1747,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1223616525
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2050,10 +2049,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5ed709f4adfb447a604f4224150167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  battleM: {fileID: 0}
-  actionWindow: {fileID: 0}
-  menuWindow: {fileID: 0}
-  targetingHUD: {fileID: 0}
+  _state: 0
+  _actionWindow: {fileID: 1223616524}
+  _menuWindow: {fileID: 0}
+  _targetingHUD: {fileID: 0}
 --- !u!1 &1569378156
 GameObject:
   m_ObjectHideFlags: 0
