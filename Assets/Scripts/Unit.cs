@@ -4,55 +4,37 @@ using UnityEngine;
 using System.Diagnostics;
 using System.Collections.Generic;
 
+public enum UnitStats { Level, HPMax, MPMax, Attack, Defense, Magic, Resist, Speed }
+
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
 {
-    
-    // *** Fields ***
-
-    [Header("Unit Parameters")]
-
-    // Unit stats
-    [SerializeField] private string _name = "Unitman";
-    [SerializeField] private int _level = 1;
-    [SerializeField] private int _hp = 100;
-    [SerializeField] private int _hpMax = 100;
-    [SerializeField] private int _mp = 10;
-    [SerializeField] private int _mpMax = 10;
-    [SerializeField] private int _attack = 5;
-    [SerializeField] private int _defense = 5;
-    [SerializeField] private int _magic = 5;
-    [SerializeField] private int _resist = 5;
-    [SerializeField] private int _speed = 5;
-
-    [SerializeField] private List<Skill> _skillList = new List<Skill>();
-
-    // Statuses
-    [SerializeField] private bool _knockout = false;
-
-    // In battle stats
-    
-
     // *** Properties ***
-    
-    // Read-write properties
-    public int HP {get => _hp; set => _hp = value;}
-    public int MP {get => _mp; set => _mp = value;}
 
-    // Read-only properties
-    public string Name {get => _name; private set => _name = value;}
-    public int Level {get => _level; private set => _level = value;}
-    public int HPMax {get => _hpMax; private set => _hpMax = value;}
-    public int MPMax {get => _mpMax; private set => _mpMax = value;}
-    public int Attack {get => _attack; private set => _attack = value;}
-    public int Defense {get => _defense; private set => _defense = value;}
-    public int Magic {get => _magic; private set => _magic = value;}
-    public int Resist {get => _resist; private set => _resist = value;}
-    public int Speed {get => _speed; private set => _speed = value;}
+    // Base stats
+    [Header("Unit Parameters")]
+    [field: SerializeField] public string Name {get; private set;} = "Default Unit";
+    [field: SerializeField] public int Level {get; private set;} = 1;
+    [field: SerializeField] public int HPMax {get; private set;} = 100;
+    [field: SerializeField] public int MPMax {get; private set;} = 10;
+    [field: SerializeField] public int Attack {get; private set;} = 10;
+    [field: SerializeField] public int Defense {get; private set;} = 10;
+    [field: SerializeField] public int Magic {get; private set;} = 10;
+    [field: SerializeField] public int Resist {get; private set;} = 10;
+    [field: SerializeField] public int Speed {get; private set;} = 10;
 
+    // Dynamic stats
+    [field: SerializeField] public int HP {get; private set;}
+    [field: SerializeField] public int MP {get; private set;}
+
+    [field: SerializeField] public bool IsKnockedOut {get; private set;} = false;
+
+    [field: SerializeField] public List<float> Affinities { get; private set; } = new List<float> { 1, 1, 1, 1, 1, 1 };
+    [field: SerializeField] public List<SkillData> StartingSkills { get; private set; } = new List<SkillData>();
+
+    // The real skill list is hidden from the editor
+    private List<Skill> _skillList = new List<Skill>();
     public List<Skill> SkillList {get => _skillList; private set => _skillList = value;}
-
-    public bool IsKnockedOut {get => _knockout; private set => _knockout = value;}
 
     // *** Functions ***
 
@@ -72,13 +54,15 @@ public class Unit : MonoBehaviour
     // Return: True if skill could be executed, False if requirements were not met/skill was not executed.
     public bool UseSkill(Skill chosen, List<Unit> targets)
     {
-        int mpCost = chosen.MPCost;
+        int mpCost = chosen.Config.MPCost;
         if (!SpendMP(mpCost))
         {
+            // Could not spend enough MP, cancel skill.
             return false;
         }
-        if (!chosen.Use(targets))
+        if (!chosen.Use(this, targets))
         {
+            // Could not apply skill fully, cancel skill.
             return false;
         }
         return true;
@@ -113,5 +97,12 @@ public class Unit : MonoBehaviour
 
     // *** Unity Functions ***
 
+    void Awake()
+    {
+        foreach (SkillData data in StartingSkills)
+        {
+            SkillList.Add(new Skill(data));
+        }
+    }
 
 }

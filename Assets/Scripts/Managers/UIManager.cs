@@ -12,10 +12,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private UIState _state = UIState.Wait;
     [SerializeField] private UIState _previous = UIState.Wait;
 
-    [SerializeField] private GameObject _actionWindow;
-    [SerializeField] private GameObject _skillWindow;
-    [SerializeField] private GameObject _targetWindow;
-
     // *** Properties ***
 
     public static UIManager Instance { get; private set; }
@@ -30,9 +26,11 @@ public class UIManager : MonoBehaviour
         }
     }
     public UIState Previous { get => _previous; private set => _previous = value; }
-    public GameObject ActionWindow { get => _actionWindow; private set => _actionWindow = value; }
-    public GameObject SkillWindow { get => _skillWindow; private set => _skillWindow = value; }
-    public GameObject TargetWindow { get => _targetWindow; private set => _targetWindow = value; }
+    [field: SerializeField] public GameObject ActionWindow { get; private set; }
+    [field: SerializeField] public GameObject SkillWindow { get; private set; }
+    [field: SerializeField] public GameObject TargetWindow { get; private set; }
+
+    [field: SerializeField] public TargetButton TargetPrefab { get; private set; }
 
     // *** Functions ***
 
@@ -54,7 +52,7 @@ public class UIManager : MonoBehaviour
                 break;
             case UIState.Target:
                 ActionWindow.SetActive(true);
-                // TODO: Add functionality to populate TargetWindow with the correct targets
+                PopulateTargetWindow( InputManager.Instance.ActiveSkill.Config.Target );
                 State = UIState.Target;
                 break;
             case UIState.Wait:
@@ -69,7 +67,7 @@ public class UIManager : MonoBehaviour
         List<Skill> filtered = new List<Skill>();
         foreach (Skill s in raw)
         {
-            if (s.Type == filter)
+            if (s.Config.Type == filter)
             {
                 filtered.Add(s);
             }
@@ -77,6 +75,29 @@ public class UIManager : MonoBehaviour
         foreach (Skill s in filtered)
         {
             // Spawn a button, position it, draw the correct name, give it the correct OnClick function
+        }
+    }
+
+    private void PopulateTargetWindow(TargetType filter)
+    {
+        switch(filter)
+        {
+            case TargetType.Self:
+                // Spawn the Self button prefab
+                break;
+            case TargetType.SingleEnemy:
+                break;
+            case TargetType.SingleAlly:
+                break;
+            case TargetType.AllEnemies:
+                // Spawn the all enemies button prefab
+                break;
+            case TargetType.AllAllies:
+                // Spawn the all allies button prefab
+                break;
+            default:
+                UnityEngine.Debug.Log("Something bad happened in PopulateTargetWindow");
+                break;
         }
     }
 

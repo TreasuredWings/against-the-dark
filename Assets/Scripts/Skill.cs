@@ -2,27 +2,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Absctract class for a Skill: an object that can be Used to affect targets.
-public class Skill : MonoBehaviour
+public class Skill 
 {
-    public string Name { get; private set; }
-    public string Desc { get; private set; }
-    public SkillType Type { get; private set; }
-    public int MPCost { get; private set; }
-    public Unit Owner { get; private set; }
+    [field: SerializeField] public SkillData Config { get; private set; }
 
-    public SkillData StoredSkillData { get; private set; }
-
-    public Skill(string name, string desc, Unit owner, SkillType type, int mpCost)
+    public Skill(SkillData data)
     {
-        Name = name;
-        Desc = desc;
-        Owner = owner;
-        Type = type;
-        MPCost = mpCost;
+        Config = data;
     }
 
-    public bool Use(List<Unit> target)
+    public bool Use(Unit user, List<Unit> targets)
     {
+        foreach (SkillEffectBaseData effect in Config.EffectChain)
+        {
+            effect?.Use(user, targets);
+        }
         return true;
     }
 }

@@ -12,12 +12,10 @@ public class SkillData : ScriptableObject
     [field: SerializeField] public string Description { get; private set; } = "This is a skill description.";
     // Skill icon sprite?
     
-    [field: SerializeField] public SkillType FilterType { get; private set; } = SkillType.Basic;
+    [field: SerializeField] public SkillType Type { get; private set; } = SkillType.Basic;
     [field: SerializeField] public PartyClassType AssociatedClass { get; private set; } = PartyClassType.None;
     [field: SerializeField] public TargetType Target { get; private set; } = TargetType.Self;
 
     [field: SerializeField] public int MPCost { get; private set; } = 0;
-    [field: SerializeField] public List<EffectData> EffectChain { get; private set; } = new List<EffectData>();
-
-    
+    [field: SerializeField] public List<SkillEffectBaseData> EffectChain { get; private set; } = new List<SkillEffectBaseData>();
 }

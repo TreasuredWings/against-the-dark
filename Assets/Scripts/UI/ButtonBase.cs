@@ -1,11 +1,10 @@
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class ButtonBase : MonoBehaviour
 {
-    private Button _btn;
-
-    public Button Btn { get => _btn; private set => _btn = value; }
+    public Button Btn { get; private set; }
 
     public abstract void Clicked();
 

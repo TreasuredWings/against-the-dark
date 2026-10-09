@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
 
     public Ally ActiveAlly { get; set; }
     public Skill ActiveSkill { get; private set; }
+    public TargetType ActiveTargeting { get; private set; }
     
     // *** Functions ***
 
@@ -26,10 +27,12 @@ public class InputManager : MonoBehaviour
         {
             case ActionButtons.Attack:
                 ActiveSkill = ActiveAlly.SkillList[0];
+                ActiveTargeting = ActiveSkill.Config.Target;
                 UIManager.Instance.ShowWindow(UIState.Target);
                 break;
             case ActionButtons.Class:
                 ActiveSkill = ActiveAlly.SkillList[2];
+                ActiveTargeting = ActiveSkill.Config.Target;
                 UIManager.Instance.ShowWindow(UIState.Target);
                 break;
             case ActionButtons.Skill:
@@ -37,6 +40,7 @@ public class InputManager : MonoBehaviour
                 break;
             case ActionButtons.Defend:
                 ActiveSkill = ActiveAlly.SkillList[1];
+                ActiveTargeting = ActiveSkill.Config.Target;
                 UIManager.Instance.ShowWindow(UIState.Target);
                 break;
             case ActionButtons.Item:
@@ -51,12 +55,13 @@ public class InputManager : MonoBehaviour
     public void SkillButton(int id)
     {
         ActiveSkill = ActiveAlly.SkillList[id];
+        ActiveTargeting = ActiveSkill.Config.Target;
         UIManager.Instance.ShowWindow(UIState.Target);
     }
 
     // Target buttons call this to say they've been pressed
     // TargetChosen tells the ActiveAlly to use ActiveSkill on a list of targets given by the target buttons
-    public void TargetButton(List<Unit> targets)
+    public void TargetButtonClicked(List<Unit> targets)
     {
         if (ActiveAlly.UseSkill(ActiveSkill, targets))
         {

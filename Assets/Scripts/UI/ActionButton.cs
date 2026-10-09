@@ -3,9 +3,7 @@ using UnityEngine.UI;
 
 public class ActionButton : ButtonBase
 {
-    [SerializeField] private ActionButtons _buttonType = ActionButtons.Attack;
-
-    public ActionButtons ButtonType { get => _buttonType; private set => _buttonType = value; }
+    [field: SerializeField] public ActionButtons ButtonType { get; private set; } = ActionButtons.Attack;
 
     public override void Clicked()
     {
