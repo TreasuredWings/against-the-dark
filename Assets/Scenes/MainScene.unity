@@ -190,6 +190,7 @@ MonoBehaviour:
   - 1
   <StartingSkills>k__BackingField:
   - {fileID: 11400000, guid: 266830f9c0b6468449eb19c057b67383, type: 2}
+  - {fileID: 11400000, guid: 7d83e2148a7ad664297e8d8e38e7cf77, type: 2}
   _class: 0
 --- !u!212 &132679105
 SpriteRenderer:
