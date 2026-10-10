@@ -6,17 +6,17 @@ public class GameManager : MonoBehaviour
 
     // *** Fields ***
 
-    [SerializeField] private List<Ally> _party;
+    [SerializeField] private List<Unit> _party;
 
     [Header("Debug")]
-    [SerializeField] private List<Enemy> _testTroop;
+    [SerializeField] private List<Unit> _testTroop;
 
     // *** Properties ***
 
     public static GameManager Instance { get; private set; }
 
-    public List<Ally> Party { get => _party; private set => _party = value; }
-    public List<Enemy> TestTroop { get => _testTroop; private set => _testTroop = value; }
+    public List<Unit> Party { get => _party; private set => _party = value; }
+    public List<Unit> TestTroop { get => _testTroop; private set => _testTroop = value; }
 
     /***************************************
     * Class functions *

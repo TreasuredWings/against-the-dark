@@ -30,8 +30,6 @@ public class UIManager : MonoBehaviour
     [field: SerializeField] public GameObject SkillWindow { get; private set; }
     [field: SerializeField] public GameObject TargetWindow { get; private set; }
 
-    [field: SerializeField] public TargetButton TargetPrefab { get; private set; }
-
     // *** Functions ***
 
     public void ShowWindow(UIState option)
@@ -47,56 +45,14 @@ public class UIManager : MonoBehaviour
                 break;
             case UIState.Skill:
                 SkillWindow.SetActive(true);
-                PopulateSkillWindow(SkillType.Special);
                 State = UIState.Skill;
                 break;
             case UIState.Target:
-                ActionWindow.SetActive(true);
-                PopulateTargetWindow( InputManager.Instance.ActiveSkill.Config.Target );
+                TargetWindow.SetActive(true);
                 State = UIState.Target;
                 break;
             case UIState.Wait:
                 State = UIState.Wait;
-                break;
-        }
-    }
-
-    private void PopulateSkillWindow(SkillType filter)
-    {
-        List<Skill> raw = InputManager.Instance.ActiveAlly.SkillList;
-        List<Skill> filtered = new List<Skill>();
-        foreach (Skill s in raw)
-        {
-            if (s.Config.Type == filter)
-            {
-                filtered.Add(s);
-            }
-        }
-        foreach (Skill s in filtered)
-        {
-            // Spawn a button, position it, draw the correct name, give it the correct OnClick function
-        }
-    }
-
-    private void PopulateTargetWindow(TargetType filter)
-    {
-        switch(filter)
-        {
-            case TargetType.Self:
-                // Spawn the Self button prefab
-                break;
-            case TargetType.SingleEnemy:
-                break;
-            case TargetType.SingleAlly:
-                break;
-            case TargetType.AllEnemies:
-                // Spawn the all enemies button prefab
-                break;
-            case TargetType.AllAllies:
-                // Spawn the all allies button prefab
-                break;
-            default:
-                UnityEngine.Debug.Log("Something bad happened in PopulateTargetWindow");
                 break;
         }
     }

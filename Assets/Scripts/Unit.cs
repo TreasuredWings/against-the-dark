@@ -4,8 +4,6 @@ using UnityEngine;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-public enum UnitStats { Level, HPMax, MPMax, Attack, Defense, Magic, Resist, Speed }
-
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
 {

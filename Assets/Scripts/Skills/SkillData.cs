@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SkillType { Basic, Class, Special, Item, Enemy }
-public enum TargetType { Self, SingleEnemy, AllEnemies, SingleAlly, AllAllies }
+
 
 [CreateAssetMenu(fileName = "SkillData", menuName = "Scriptable Objects/SkillData")]
 public class SkillData : ScriptableObject
@@ -13,7 +12,7 @@ public class SkillData : ScriptableObject
     // Skill icon sprite?
     
     [field: SerializeField] public SkillType Type { get; private set; } = SkillType.Basic;
-    [field: SerializeField] public PartyClassType AssociatedClass { get; private set; } = PartyClassType.None;
+    [field: SerializeField] public ClassType AssociatedClass { get; private set; } = ClassType.None;
     [field: SerializeField] public TargetType Target { get; private set; } = TargetType.Self;
 
     [field: SerializeField] public int MPCost { get; private set; } = 0;

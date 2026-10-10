@@ -1,12 +1,18 @@
 using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class ButtonBase : MonoBehaviour
 {
-    public Button Btn { get; private set; }
+    [field: SerializeField] public Button Btn { get; private set; }
 
     public abstract void Clicked();
+
+    public void ToggleInteractable(bool flag)
+    {
+        Btn.interactable = flag;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,7 +22,7 @@ public abstract class ButtonBase : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void OnDestroy()
     {
         Btn.onClick.RemoveListener(Clicked);
     }

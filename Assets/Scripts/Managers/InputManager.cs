@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using UnityEngine;
@@ -52,9 +51,9 @@ public class InputManager : MonoBehaviour
     }
 
     // Skill buttons call this to say they've been pressed
-    public void SkillButton(int id)
+    public void SkillButtonClicked(Skill skill)
     {
-        ActiveSkill = ActiveAlly.SkillList[id];
+        ActiveSkill = skill;
         ActiveTargeting = ActiveSkill.Config.Target;
         UIManager.Instance.ShowWindow(UIState.Target);
     }
@@ -73,6 +72,11 @@ public class InputManager : MonoBehaviour
             UnityEngine.Debug.Log("Skill could not be used");
             UIManager.Instance.ShowWindow(UIState.Target);
         }
+    }
+
+    public void BackButtonClicked()
+    {
+        UIManager.Instance.ShowWindow(UIManager.Instance.Previous);
     }
 
     // *** Unity Functions ***

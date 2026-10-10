@@ -23,8 +23,8 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private List<Unit> _turnOrder;
 
     // Unit references
-    [SerializeField] private List<Ally> _allies;
-    [SerializeField] private List<Enemy> _enemies;
+    [SerializeField] private List<Unit> _allies;
+    [SerializeField] private List<Unit> _enemies;
 
     // *** Properties ***
 
@@ -33,28 +33,28 @@ public class BattleManager : MonoBehaviour
     public BattleState State { get => _state; private set => _state = value; }
     public int RoundNumber { get => _roundNumber; private set => _roundNumber = value; }
     public List<Unit> TurnOrder { get => _turnOrder; private set => _turnOrder = value; }
-    public List<Ally> Allies { get => _allies; set => _allies = value; }
-    public List<Enemy> Enemies { get => _enemies; set => _enemies = value; }
+    public List<Unit> Allies { get => _allies; set => _allies = value; }
+    public List<Unit> Enemies { get => _enemies; set => _enemies = value; }
 
     // *** Core Functions ***
 
     // StartBattle initializes a battle with a list of party members and enemies
-    public void InitializeBattle(List<Ally> party, List<Enemy> troop)
+    public void InitializeBattle(List<Unit> party, List<Unit> troop)
     {
         // State change
         State = BattleState.Start;
         Debug.Log("BattleManager: Initializing Unit lists");
 
         // Add all incoming allies
-        Allies = new List<Ally>();
-        foreach (Ally member in party)
+        Allies = new List<Unit>();
+        foreach (Unit member in party)
         {
             Allies.Add(member);
         }
 
         // Add all incoming enemies
-        _enemies = new List<Enemy>();
-        foreach (Enemy enemy in troop)
+        _enemies = new List<Unit>();
+        foreach (Unit enemy in troop)
         {
             Enemies.Add(enemy);
         }
@@ -74,11 +74,11 @@ public class BattleManager : MonoBehaviour
         Debug.Log("BattleManager: Beginning round " + RoundNumber);
 
         // Put all Units into TurnOrder
-        foreach (Ally member in Allies)
+        foreach (Unit member in Allies)
         {
             TurnOrder.Add(member);
         }
-        foreach (Enemy member in Enemies)
+        foreach (Unit member in Enemies)
         {
             TurnOrder.Add(member);
         }

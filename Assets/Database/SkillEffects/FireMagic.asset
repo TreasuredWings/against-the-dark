@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a786a8241ff97b47ab6ab2a074b5ca2, type: 3}
   m_Name: FireMagic
   m_EditorClassIdentifier: Assembly-CSharp::DamageData
-  <StatType>k__BackingField: 1
   <Element>k__BackingField: 1
   <Pierce>k__BackingField: 0
   <FlatDamage>k__BackingField: 1

@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public enum PartyClassType { None, Freelancer, Guardian, Striker, Breaker, Healer, Enhancer, Disruptor }
+
 
 public class Ally : Unit
 {
 
     [Header("Ally Parameters")]
-    [SerializeField] private PartyClassType _class = PartyClassType.Freelancer;
+    [SerializeField] private ClassType _class = ClassType.Freelancer;
 
-    public PartyClassType Class { get => _class; set => _class = value; }
+    public ClassType Class { get => _class; set => _class = value; }
 }
