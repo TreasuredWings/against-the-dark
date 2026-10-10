@@ -3,16 +3,17 @@ using System;
 using UnityEngine;
 using System.Diagnostics;
 using System.Collections.Generic;
+using UnityEngine.Rendering.Universal.Internal;
 
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
 {
     // *** Properties ***
 
-    // Base stats
+
+    // Dynamic stats
     [Header("Unit Parameters")]
     [field: SerializeField] public string Name {get; private set;} = "Default Unit";
-    [field: SerializeField] public int Level {get; private set;} = 1;
     [field: SerializeField] public int HPMax {get; private set;} = 100;
     [field: SerializeField] public int MPMax {get; private set;} = 10;
     [field: SerializeField] public int Attack {get; private set;} = 10;
@@ -22,12 +23,17 @@ public class Unit : MonoBehaviour
     [field: SerializeField] public int Speed {get; private set;} = 10;
 
     // Dynamic stats
-    [field: SerializeField] public int HP {get; private set;}
-    [field: SerializeField] public int MP {get; private set;}
+    [field: SerializeField] public int HP {get; private set;} = 100;
+    [field: SerializeField] public int MP {get; private set;} = 10;
+
+    [field: SerializeField] public float OutDamageMod {get; private set;} = 1;
+    [field: SerializeField] public float IncDamageMod {get; private set;} = 1;
+    [field: SerializeField] public float SpeedMod {get; private set;} = 1;
 
     [field: SerializeField] public bool IsKnockedOut {get; private set;} = false;
 
     [field: SerializeField] public List<float> Affinities { get; private set; } = new List<float> { 1, 1, 1, 1, 1, 1 };
+    [field: SerializeField] public List<StatusEffectBase> AppliedStatuses { get; private set; } = new List<StatusEffectBase>();
     [field: SerializeField] public List<SkillData> StartingSkills { get; private set; } = new List<SkillData>();
 
     // The real skill list is hidden from the editor
@@ -35,18 +41,6 @@ public class Unit : MonoBehaviour
     public List<Skill> SkillList {get => _skillList; private set => _skillList = value;}
 
     // *** Functions ***
-
-    // Perform a basic attack against the target Unit
-    // Damage formula is currently:
-    // damage = a.atk - (b.def * 0.5)
-    // Damage defaults to 1 if at 0 or under.
-    public virtual void BasicAttack(Unit target)
-    {
-        int damage = (int)Math.Floor( Math.Max( this.Attack - (target.Defense * 0.5), 1 ));
-        target.TakeDamage(damage);
-        // Debug log
-        UnityEngine.Debug.Log("Unit: " + this.Name + " dealt " + damage + " damage to " + target.Name);
-    }
 
     // UseSkill: Attempt to use specified Skill on targets.
     // Return: True if skill could be executed, False if requirements were not met/skill was not executed.
@@ -83,7 +77,7 @@ public class Unit : MonoBehaviour
 
     // Attempt to spend the specified ammount of MP
     // Returns: true if it was able to spend, false if it could not
-    public bool SpendMP(int cost)
+    public virtual bool SpendMP(int cost)
     {
         if (cost <= MP)
         {
@@ -91,6 +85,35 @@ public class Unit : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public virtual void CheckStatuses(StatusTiming filter)
+    {
+        foreach (StatusEffectBase status in AppliedStatuses)
+        {
+            if (status.Timing == filter)
+            {
+                status.Trigger(this);
+            }
+        }
+        for (int i = AppliedStatuses.Count - 1; i < 0; i--)
+        {
+            StatusEffectBase status = AppliedStatuses[i];
+            if (status.Duration <= 0)
+            {
+                AppliedStatuses.RemoveAt(i);
+            }
+        }
+    }
+
+    public virtual void AddStatus(StatusEffectBase status)
+    {
+        AppliedStatuses.Add(status);
+    }
+
+    public virtual void AddSkill(Skill newSkill)
+    {
+        SkillList.Add(newSkill);
     }
 
     // *** Unity Functions ***

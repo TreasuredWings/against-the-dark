@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Unit
@@ -16,6 +17,10 @@ public class Enemy : Unit
     public void TakeTurn()
     {
         Debug.Log("Enemy: " + Name + " is taking a turn.");
+        // TEST: For placeholder's sake, enemies will by default attack a random party member
+        int targetIndex = Random.Range(0, BattleManager.Instance.Allies.Count - 1);
+        List<Unit> targets = new List<Unit> { BattleManager.Instance.Allies[targetIndex] };
+        UseSkill(SkillList[0], targets);
     }
 
     // TODO: OVERRIDE TakeDamage() TO HANDLE STUN AS WELL

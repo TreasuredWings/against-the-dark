@@ -13,7 +13,7 @@ public class Skill
 
     public bool Use(Unit user, List<Unit> targets)
     {
-        foreach (SkillEffectBaseData effect in Config.EffectChain)
+        foreach (SkillEffectBase effect in Config.EffectChain)
         {
             effect?.Use(user, targets);
         }

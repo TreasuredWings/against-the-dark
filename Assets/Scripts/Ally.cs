@@ -9,4 +9,18 @@ public class Ally : Unit
     [SerializeField] private ClassType _class = ClassType.Freelancer;
 
     public ClassType Class { get => _class; set => _class = value; }
+
+    public override int TakeDamage(int incomingDamage)
+    {
+        int damageTaken = base.TakeDamage(incomingDamage);
+        UIManager.Instance.UpdateAllStatusWindows();
+        return damageTaken;
+    }
+
+    public override bool SpendMP(int cost)
+    {
+        bool result = base.SpendMP(cost);
+        UIManager.Instance.UpdateAllStatusWindows();
+        return result;
+    }
 }

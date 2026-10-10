@@ -6,7 +6,7 @@ using UnityEngine.SocialPlatforms;
 
 
 [CreateAssetMenu(fileName = "DamageData", menuName = "Skill Effects/DamageData")]
-public class DamageData : SkillEffectBaseData
+public class DamageData : SkillEffectBase
 {
     [field: SerializeField] public DamageType Element { get; private set; } = DamageType.Physical;
     [field: SerializeField] public bool Pierce { get; private set; } = false;
@@ -22,20 +22,23 @@ public class DamageData : SkillEffectBaseData
 
         foreach (Unit target in targets)
         {
+            int baseDamage;
             if (Element == DamageType.Physical)
             {
-                int damage = (int) Math.Floor( Math.Max( user.Attack - ( target.Defense * 0.5 * pierceValue ), 1 ) );
-                target.TakeDamage(damage);
+                baseDamage = (int) Math.Floor( Math.Max( user.Attack - ( target.Defense * 0.5 * pierceValue ), 1 ) );
             }
             else if (Element == DamageType.Flat)
             {
-                target.TakeDamage(FlatDamage);
+                baseDamage = FlatDamage;
             }
             else
             {
-                int damage = (int) Math.Floor( Math.Max( ( user.Magic - ( target.Resist * 0.5 * pierceValue ) ) * target.Affinities[(int)Element], 1 ) );
-                target.TakeDamage(damage);
+                baseDamage = (int) Math.Floor( Math.Max( ( user.Magic - ( target.Resist * 0.5 * pierceValue ) ) * target.Affinities[(int)Element], 1 ) );
             }
+            // TODO: MODIFY HOW DAMAGE MODS WORK
+            int finalDamage = (int) Math.Max( Math.Floor( baseDamage * (user.OutDamageMod + target.IncDamageMod) ), 1 );
+            target.TakeDamage(finalDamage);
+            Debug.Log(user.Name + " dealt " + finalDamage.ToString() + " damage to " + target.Name);
         }
 
         return true;

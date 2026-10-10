@@ -16,5 +16,5 @@ public class SkillData : ScriptableObject
     [field: SerializeField] public TargetType Target { get; private set; } = TargetType.Self;
 
     [field: SerializeField] public int MPCost { get; private set; } = 0;
-    [field: SerializeField] public List<SkillEffectBaseData> EffectChain { get; private set; } = new List<SkillEffectBaseData>();
+    [field: SerializeField] public List<SkillEffectBase> EffectChain { get; private set; } = new List<SkillEffectBase>();
 }

@@ -124,7 +124,9 @@ public class BattleManager : MonoBehaviour
             {
                 // Process the enemy's turn by calling it for an action
                 Enemy next = (Enemy)TurnOrder[0];
+                next.CheckStatuses(StatusTiming.Start);
                 next.TakeTurn();
+                next.CheckStatuses(StatusTiming.End);
                 TurnOrder.RemoveAt(0);
             }
             else
@@ -132,6 +134,7 @@ public class BattleManager : MonoBehaviour
                 // End this process and wait for input
                 State = BattleState.Command;
                 InputManager.Instance.ActiveAlly = (Ally)TurnOrder[0];
+                InputManager.Instance.ActiveAlly.CheckStatuses(StatusTiming.Start);
                 UIManager.Instance.ShowWindow(UIState.Action);
                 Debug.Log("BattleManager: Awaiting command for " + InputManager.Instance.ActiveAlly.Name);
             }
@@ -143,6 +146,7 @@ public class BattleManager : MonoBehaviour
     {
         // Go back to waiting, remove the ally from the turn queue, and resume turn processing.
         State = BattleState.Wait;
+        InputManager.Instance.ActiveAlly.CheckStatuses(StatusTiming.End);
         TurnOrder.RemoveAt(0);
         ProcessTurns();
     }
