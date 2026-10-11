@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public enum UIState { Wait, Action, Skill, Target }
 
@@ -29,7 +30,7 @@ public class UIManager : MonoBehaviour
         }
     }
     public UIState Previous { get => _previous; private set => _previous = value; }
-    public List<UIState> MenuList { get; private set; }
+    public List<UIState> MenuLayers { get; private set; } = new List<UIState>();
     public int MenuNumber { get; private set; } = 0;
     [field: SerializeField] public GameObject ActionWindow { get; private set; }
     [field: SerializeField] public GameObject SkillWindow { get; private set; }
@@ -40,27 +41,23 @@ public class UIManager : MonoBehaviour
 
     // *** Functions ***
 
-    public void ShowWindow(UIState option)
+    public void ShowWindow()
     {
         ActionWindow.SetActive(false);
         SkillWindow.SetActive(false);
         TargetWindow.SetActive(false);
-        switch (option)
+        switch (MenuLayers[MenuLayers.Count - 1])
         {
             case UIState.Action:
                 ActionWindow.SetActive(true);
-                State = UIState.Action;
                 break;
             case UIState.Skill:
                 SkillWindow.SetActive(true);
-                State = UIState.Skill;
                 break;
             case UIState.Target:
                 TargetWindow.SetActive(true);
-                State = UIState.Target;
                 break;
             case UIState.Wait:
-                State = UIState.Wait;
                 break;
         }
     }
@@ -68,7 +65,6 @@ public class UIManager : MonoBehaviour
     public void SetStatusWindow()
     {
         AllyStatus1.SetAlly( (Ally)GameManager.Instance.Party[0] );
-        // TODO
         AllyStatus2.SetAlly( (Ally)GameManager.Instance.Party[1] );
         AllyStatus3.SetAlly( (Ally)GameManager.Instance.Party[2] );
         UpdateAllStatusWindows();
@@ -79,6 +75,18 @@ public class UIManager : MonoBehaviour
         AllyStatus1.UpdateValues();
         AllyStatus2.UpdateValues();
         AllyStatus3.UpdateValues();
+    }
+
+    public void EnterWindow(UIState option)
+    {
+        MenuLayers.Add(option);
+        ShowWindow();
+    }
+
+    public void GoBack()
+    {
+        MenuLayers.RemoveAt(MenuLayers.Count - 1);
+        ShowWindow();
     }
 
     // *** Unity Functions ***

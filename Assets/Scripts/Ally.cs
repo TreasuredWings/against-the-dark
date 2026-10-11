@@ -1,14 +1,32 @@
 using UnityEngine;
-
-
+using System.Collections.Generic;
 
 public class Ally : Unit
 {
 
     [Header("Ally Parameters")]
-    [SerializeField] private ClassType _class = ClassType.Freelancer;
+    [field: SerializeField] public AllyClass Class {get; private set;}
 
-    public ClassType Class { get => _class; set => _class = value; }
+    public void AssignClass(AllyClass newClass)
+    {
+        Class = newClass;
+        InitializeData();
+    }
+
+    public void InitializeData()
+    {
+        HPMax = Class.HPMax;
+        HP = HPMax;
+        MPMax = Class.MPMax;
+        MP = MPMax;
+        Attack = Class.Attack;
+        Defense = Class.Defense;
+        Magic = Class.Magic;
+        Resist = Class.Resist;
+        Speed = Class.Speed;
+        Affinities = new List<float>(Class.Affinities);
+        AddSkill(Class.ClassSkill);
+    }
 
     public override int TakeDamage(int incomingDamage)
     {

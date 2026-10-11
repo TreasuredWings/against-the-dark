@@ -6,12 +6,11 @@ using TMPro;
 
 public class TargetButton : ButtonBase
 {
-    [field: SerializeField] public TextMeshProUGUI text {get; private set;}
     [field: SerializeField] public List<Unit> Targets {get; private set;} = new List<Unit>();
 
     public void SetText(string newText)
     {
-        text.text = newText;
+        Text.text = newText;
     }
 
     public void SetTargets(List<Unit> newTargets)

@@ -31,7 +31,10 @@ public class SkillWindow : MonoBehaviour
             Skill sk = active.SkillList[i];
             btn.SetText( sk.Name );
             btn.SetSkill( sk );
-            btn.ToggleInteractable(true);
+            if (InputManager.Instance.ActiveAlly.MP >= sk.MPCost)
+            {
+                btn.ToggleInteractable(true);
+            }
         }
         // Enable the back button
         BackButton.ToggleInteractable(true);

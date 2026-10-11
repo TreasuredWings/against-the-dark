@@ -3,12 +3,11 @@ using TMPro;
 
 public class SkillButton : ButtonBase
 {
-    [field: SerializeField] public TextMeshProUGUI text {get; private set;}
     public Skill AssignedSkill {get; private set;}
 
     public void SetText(string newText)
     {
-        text.text = newText;
+        Text.text = newText;
     }
 
     public void SetSkill(Skill newSkill)

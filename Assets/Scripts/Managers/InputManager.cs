@@ -27,20 +27,20 @@ public class InputManager : MonoBehaviour
             case ActionButtons.Attack:
                 ActiveSkill = ActiveAlly.SkillList[0];
                 ActiveTargeting = ActiveSkill.Target;
-                UIManager.Instance.ShowWindow(UIState.Target);
+                UIManager.Instance.EnterWindow(UIState.Target);
                 break;
             case ActionButtons.Class:
                 ActiveSkill = ActiveAlly.SkillList[2];
                 ActiveTargeting = ActiveSkill.Target;
-                UIManager.Instance.ShowWindow(UIState.Target);
+                UIManager.Instance.EnterWindow(UIState.Target);
                 break;
             case ActionButtons.Skill:
-                UIManager.Instance.ShowWindow(UIState.Skill);
+                UIManager.Instance.EnterWindow(UIState.Skill);
                 break;
             case ActionButtons.Defend:
                 ActiveSkill = ActiveAlly.SkillList[1];
                 ActiveTargeting = ActiveSkill.Target;
-                UIManager.Instance.ShowWindow(UIState.Target);
+                UIManager.Instance.EnterWindow(UIState.Target);
                 break;
             case ActionButtons.Item:
                 // TODO: maybe.
@@ -55,7 +55,7 @@ public class InputManager : MonoBehaviour
     {
         ActiveSkill = skill;
         ActiveTargeting = ActiveSkill.Target;
-        UIManager.Instance.ShowWindow(UIState.Target);
+        UIManager.Instance.EnterWindow(UIState.Target);
     }
 
     // Target buttons call this to say they've been pressed
@@ -69,14 +69,13 @@ public class InputManager : MonoBehaviour
         else
         {
             // Skill could not be used
-            UnityEngine.Debug.Log("Skill could not be used");
-            UIManager.Instance.ShowWindow(UIState.Target);
+            Debug.Log("Skill could not be used");
         }
     }
 
     public void BackButtonClicked()
     {
-        UIManager.Instance.ShowWindow(UIManager.Instance.Previous);
+        UIManager.Instance.GoBack();
     }
 
     // *** Unity Functions ***

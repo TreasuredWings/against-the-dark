@@ -2,10 +2,12 @@ using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public abstract class ButtonBase : MonoBehaviour
 {
     [field: SerializeField] public Button Btn { get; private set; }
+    [field: SerializeField] public TextMeshProUGUI Text {get; private set;}
 
     public abstract void Clicked();
 

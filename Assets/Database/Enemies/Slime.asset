@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   <Name>k__BackingField: Slime
+  <EnemySprite>k__BackingField: {fileID: -973339696, guid: 0e4ffceb21fe1bfd4852684e6bf26734, type: 3}
   <HPMax>k__BackingField: 100
   <MPMax>k__BackingField: 20
   <Attack>k__BackingField: 10

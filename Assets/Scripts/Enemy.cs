@@ -19,6 +19,9 @@ public class Enemy : Unit
     [field: SerializeField] public float StunMod { get; private set; } = 1;
     [field: SerializeField] public bool IsStunned { get; private set; } = false;
 
+    [Header("UI Hooks")]
+    [field: SerializeField] public EnemyStatus Status { get; private set; }
+
     // TakeTurn automates the process of taking a turn for the enemy,
     // calling the correct action function from Unit.
     // Meant to be called by BattleManager to process enemy turns.
@@ -26,6 +29,7 @@ public class Enemy : Unit
     public void InitializeData()
     {
         Name = Data.Name;
+        UnitSprite.sprite = Data.EnemySprite;
         HPMax = Data.HPMax;
         HP = HPMax;
         MPMax = Data.MPMax;
@@ -108,11 +112,18 @@ public class Enemy : Unit
 
     public override int TakeDamage(int incomingDamage)
     {
+        int newHP;
         if (IsStunned)
         {
-            return base.TakeDamage((int) Math.Floor(incomingDamage * 1.5));
+            int stunDamage = (int) Math.Floor(incomingDamage * 1.5);
+            newHP = base.TakeDamage(stunDamage);
+        } 
+        else
+        {
+            newHP = base.TakeDamage(incomingDamage);
         }
-        return base.TakeDamage(incomingDamage);
+        UpdateStatus();
+        return newHP;
     }
 
     public override int TakeStun(int incomingStun)
@@ -129,6 +140,7 @@ public class Enemy : Unit
         {
             IsStunned = true;
         }
+        UpdateStatus();
         return Stun;
     }
 
@@ -136,5 +148,10 @@ public class Enemy : Unit
     {
         IsStunned = false;
         Stun = 0;
+    }
+
+    public void UpdateStatus()
+    {
+        Status.UpdateValues();
     }
 }

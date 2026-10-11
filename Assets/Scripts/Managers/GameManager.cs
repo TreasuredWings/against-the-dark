@@ -8,13 +8,15 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
-    [field: SerializeField] public List<Unit> Party { get; private set; } = new List<Unit>();
-    [field: SerializeField] public List<EnemyData> TestTroop { get; private set; }
+    [field: SerializeField] public GameObject AllyPrefab { get; private set; }
+    [field: SerializeField] public GameObject PartyContainer { get; private set; }
+    [field: SerializeField] public List<Ally> Party { get; private set; } = new List<Ally>();
+    [field: SerializeField] public Troop TestTroop { get; private set; }
 
-    [field: SerializeField] public string Ally1Name { get; private set; } = "Alex";
-    // [field: SerializeField] public Class Ally1Class { get; private set; }
-    [field: SerializeField] public string ALly2Name { get; private set; } = "Victoria";
-    [field: SerializeField] public string ALly3Name { get; private set; } = "Selphie";
+    [field: SerializeField] public List<string> AllyNames {get; private set;} = new List<string> { "Alex", "Victoria", "Sylvie" };
+    [field: SerializeField] public List<Sprite> AllySprites {get; private set;} = new List<Sprite>();
+    [field: SerializeField] public List<AllyClass> AllyClasses {get; private set;} = new List<AllyClass>();
+    [field: SerializeField] public Skill DebugSkill {get; private set;}
 
     [field: SerializeField] public int BattleNumber { get; private set; } = 0;
 
@@ -26,14 +28,22 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         // Instantiate ally prefabs
-        // Add them to party
-        // Give names
-        // Give starting classes
-        // Add their prefabs to the correct game object
-        // Initialize their starting data and skills
+        for (int i = 0; i < 3; i++)
+        {
+            // Instantiate, parented to PartyContainer
+            GameObject tempObj = Instantiate(AllyPrefab, new Vector3(-4 - i, i - 1, 0), Quaternion.identity, PartyContainer.transform);
+            Ally tempA = tempObj.GetComponent<Ally>();
+            // Assign names and classes
+            tempA.Name = AllyNames[i];
+            tempA.UnitSprite.sprite = AllySprites[i];
+            tempA.AssignClass(AllyClasses[i]);
+            tempA.AddSkill(DebugSkill);
+            Party.Add(tempA);
+        }
         UIManager.Instance.SetStatusWindow();
         // Pull a random troop to start the game
         // Start a battle with those troops
+        StartBattle();
     }
 
     // TODO
@@ -45,7 +55,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("GameManager: Starting battle!");
         
-        BattleManager.Instance.InitializeBattle(Party, TestTroop);
+        BattleManager.Instance.InitializeBattle(Party, TestTroop.EnemyList);
         BattleManager.Instance.ProcessTurns();
     }
 

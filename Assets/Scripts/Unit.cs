@@ -13,7 +13,8 @@ public class Unit : MonoBehaviour
 
     // Dynamic stats
     [Header("Unit Parameters")]
-    [field: SerializeField] public string Name {get; protected set;} = "Default Unit";
+    [field: SerializeField] public SpriteRenderer UnitSprite {get; set;}
+    [field: SerializeField] public string Name {get; set;} = "Default Unit";
     [field: SerializeField] public int HPMax {get; protected set;} = 100;
     [field: SerializeField] public int MPMax {get; protected set;} = 10;
     [field: SerializeField] public int Attack {get; protected set;} = 10;
@@ -29,6 +30,7 @@ public class Unit : MonoBehaviour
     [field: SerializeField] public float OutDamageMod {get; protected set;} = 1;
     [field: SerializeField] public float IncDamageMod {get; protected set;} = 1;
     [field: SerializeField] public float SpeedMod {get; protected set;} = 1;
+    [field: SerializeField] public float SpeedVariance {get; protected set;} = 1;
 
     [field: SerializeField] public bool IsKnockedOut {get; protected set;} = false;
 
@@ -131,6 +133,11 @@ public class Unit : MonoBehaviour
     public virtual void AddSkill(Skill newSkill)
     {
         SkillList.Add(newSkill);
+    }
+
+    public void RollSpeed()
+    {
+        SpeedVariance = (float) (UnityEngine.Random.value * 0.4 + 0.8);
     }
 
     // *** Unity Functions ***

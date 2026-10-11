@@ -43,7 +43,7 @@ public class BattleManager : MonoBehaviour
     // *** Core Functions ***
 
     // StartBattle initializes a battle with a list of party members and enemies
-    public void InitializeBattle(List<Unit> party, List<EnemyData> troop)
+    public void InitializeBattle(List<Ally> party, List<EnemyData> troop)
     {
         // State change
         State = BattleState.Start;
@@ -62,10 +62,11 @@ public class BattleManager : MonoBehaviour
         foreach (EnemyData data in troop)
         {
             i++;
-            GameObject tempObj = Instantiate(EnemyPrefab, new Vector3(4 + i, i, 0), Quaternion.identity, TroopContainer.transform);
+            GameObject tempObj = Instantiate(EnemyPrefab, new Vector3(i*2, i - 2, 0), Quaternion.identity, TroopContainer.transform);
             Enemy tempE = tempObj.GetComponent<Enemy>();
             tempE.Data = data;
             tempE.InitializeData();
+            tempE.UpdateStatus();
             Enemies.Add(tempE);
         }
 
@@ -97,8 +98,12 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        // Sort the turn order by each unit's speed * their speed mod
-        TurnOrder = TurnOrder.OrderByDescending(unit => unit.Speed * unit.SpeedMod).ToList();
+        // Sort the turn order by each unit's speed * their speed mod * their speed variance
+        foreach (Unit unit in TurnOrder)
+        {
+            unit.RollSpeed();
+        }
+        TurnOrder = TurnOrder.OrderByDescending(unit => unit.Speed * unit.SpeedMod * unit.SpeedVariance).ToList();
 
         string logmsg = "Turn Order: ";
         for (int i = 0; i < TurnOrder.Count; i++)
@@ -142,7 +147,7 @@ public class BattleManager : MonoBehaviour
             }
             
             // Check if the next turn is for an Ally or Enemy
-            if (TurnOrder[0].GetType() == typeof(Enemy))
+            if (TurnOrder[0].GetType() == typeof(Enemy) && !TurnOrder[0].IsKnockedOut)
             {
                 // Process the enemy's turn by calling it for an action
                 Enemy next = (Enemy)TurnOrder[0];
@@ -151,14 +156,20 @@ public class BattleManager : MonoBehaviour
                 next.CheckStatuses(StatusTiming.End);
                 TurnOrder.RemoveAt(0);
             }
-            else
+            else if (TurnOrder[0].GetType() == typeof(Ally) && !TurnOrder[0].IsKnockedOut)
             {
                 // End this process and wait for input
                 State = BattleState.Command;
                 InputManager.Instance.ActiveAlly = (Ally)TurnOrder[0];
                 InputManager.Instance.ActiveAlly.CheckStatuses(StatusTiming.Start);
-                UIManager.Instance.ShowWindow(UIState.Action);
-                Debug.Log("BattleManager: Awaiting command for " + InputManager.Instance.ActiveAlly.Name);
+                UIManager.Instance.UpdateAllStatusWindows();
+                UIManager.Instance.EnterWindow(UIState.Action);
+                Debug.Log("BattleManager: " + InputManager.Instance.ActiveAlly.Name + "'s turn!");
+            }
+            else
+            {
+                // Skip this person's turn if they're dead
+                TurnOrder.RemoveAt(0);
             }
         }
     }
