@@ -30,6 +30,7 @@ public class Ally : Unit
 
     public override int TakeDamage(int incomingDamage)
     {
+        UIManager.Instance.CreateEffectText(transform.position, incomingDamage.ToString(), Colors.White);
         int newHP = base.TakeDamage(incomingDamage);
         UIManager.Instance.UpdateAllStatusWindows();
         return newHP;

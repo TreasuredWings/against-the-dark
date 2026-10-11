@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using TMPro;
 
-public class SkillButton : ButtonBase
+public class SkillButton : ButtonBase, IPointerEnterHandler, IPointerExitHandler
 {
-    public Skill AssignedSkill {get; private set;}
+    public Skill AssignedSkill {get; private set;} = null;
 
     public void SetText(string newText)
     {
@@ -18,5 +19,18 @@ public class SkillButton : ButtonBase
     public override void Clicked()
     {
         InputManager.Instance.SkillButtonClicked(AssignedSkill);
+    }
+
+    public void OnPointerEnter(PointerEventData pointerEventData)
+    {
+        if (AssignedSkill != null)
+        {
+            UIManager.Instance.ShowDescriptionText( AssignedSkill.Description );
+        }
+    }
+
+    public void OnPointerExit(PointerEventData pointerEventData)
+    {
+        UIManager.Instance.HideDescriptionText();
     }
 }

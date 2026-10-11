@@ -44,7 +44,6 @@ public class DamageData : SkillEffectBase
             int finalDamage = (int) Math.Max( Math.Floor( baseDamage * user.OutDamageMod * target.IncDamageMod ), 1 );
             target.TakeDamage(finalDamage);
             target.TakeStun( (int) Math.Max( Math.Floor( StunValue * target.Affinities[ (int)Element ] ), 0) );
-            Debug.Log(user.Name + " dealt " + finalDamage.ToString() + " damage to " + target.Name);
         }
 
         return true;

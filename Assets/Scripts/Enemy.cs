@@ -45,7 +45,6 @@ public class Enemy : Unit
 
     public void TakeTurn()
     {
-        // Debug.Log("Enemy: " + Name + " is taking a turn.");
         Skill toUse = GetSkill();
         List<Unit> onTargets = GetTargets(toUse);
         UseSkill(toUse, onTargets);
@@ -116,10 +115,12 @@ public class Enemy : Unit
         if (IsStunned)
         {
             int stunDamage = (int) Math.Floor(incomingDamage * 1.5);
+            UIManager.Instance.CreateEffectText(transform.position, stunDamage.ToString(), Colors.Stun);
             newHP = base.TakeDamage(stunDamage);
         } 
         else
         {
+            UIManager.Instance.CreateEffectText(transform.position, incomingDamage.ToString(), Colors.White);
             newHP = base.TakeDamage(incomingDamage);
         }
         UpdateStatus();

@@ -40,6 +40,9 @@ public class BattleManager : MonoBehaviour
     public List<Ally> Allies { get; private set; }
     public List<Enemy> Enemies { get; private set; }
 
+    [field: SerializeField] public GameObject VictoryScreen {get; private set;}
+    [field: SerializeField] public GameObject DefeatScreen {get; private set;}
+
     // *** Core Functions ***
 
     // StartBattle initializes a battle with a list of party members and enemies
@@ -47,7 +50,6 @@ public class BattleManager : MonoBehaviour
     {
         // State change
         State = BattleState.Start;
-        Debug.Log("BattleManager: Initializing Unit lists");
 
         // Add all incoming allies
         Allies = new List<Ally>();
@@ -128,7 +130,7 @@ public class BattleManager : MonoBehaviour
             if (AllKO(Allies.Cast<Unit>().ToList()))
             {
                 // End the battle on a loss
-                Debug.Log("BattleManager: DEFEAT!!");
+                DefeatScreen.SetActive(true);
                 break;
             }
 
@@ -136,7 +138,7 @@ public class BattleManager : MonoBehaviour
             if (AllKO(Enemies.Cast<Unit>().ToList()))
             {
                 // End the battle on a win
-                Debug.Log("BattleManager: VICTORY!!");
+                VictoryScreen.SetActive(true);
                 break;
             }
 
@@ -164,7 +166,6 @@ public class BattleManager : MonoBehaviour
                 InputManager.Instance.ActiveAlly.CheckStatuses(StatusTiming.Start);
                 UIManager.Instance.UpdateAllStatusWindows();
                 UIManager.Instance.EnterWindow(UIState.Action);
-                Debug.Log("BattleManager: " + InputManager.Instance.ActiveAlly.Name + "'s turn!");
             }
             else
             {
@@ -194,18 +195,6 @@ public class BattleManager : MonoBehaviour
             }
         }
         return true;
-    }
-
-    // TODO
-    public void Victory()
-    {
-        // Show a victory screen
-    }
-
-    // TODO
-    public void Defeat()
-    {
-        // Show a defeat screen
     }
 
     // *** Unity Functions ***

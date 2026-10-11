@@ -64,6 +64,7 @@ public class InputManager : MonoBehaviour
     {
         if (ActiveAlly.UseSkill(ActiveSkill, targets))
         {
+            UIManager.Instance.HideDescriptionText();
             BattleManager.Instance.InputComplete();
         }
         else
@@ -75,7 +76,20 @@ public class InputManager : MonoBehaviour
 
     public void BackButtonClicked()
     {
+        UIManager.Instance.HideDescriptionText();
         UIManager.Instance.GoBack();
+    }
+
+    public void VictoryContinueClicked()
+    {
+        // TODO: Continue game
+        GameManager.Instance.StartGame();
+    }
+
+    public void DefeatMainMenuClicked()
+    {
+        // TODO: Properly reset game to start menu
+        GameManager.Instance.StartGame();
     }
 
     // *** Unity Functions ***

@@ -62,6 +62,7 @@ public class Unit : MonoBehaviour
     // Returns: this unit's new HP
     public virtual int TakeDamage(int incomingDamage)
     {
+        
         if (incomingDamage > HP)
         {
             HP = 0;

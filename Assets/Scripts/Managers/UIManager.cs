@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -38,6 +40,10 @@ public class UIManager : MonoBehaviour
     [field: SerializeField] public AllyStatus AllyStatus1 { get; private set; }
     [field: SerializeField] public AllyStatus AllyStatus2 { get; private set; }
     [field: SerializeField] public AllyStatus AllyStatus3 { get; private set; }
+
+    [field: SerializeField] public GameObject EffectTextPrefab { get; private set; }
+    [field: SerializeField] public GameObject EffectTextContainer {get; private set;}
+    [field: SerializeField] public GameObject DescriptionText {get; private set;}
 
     // *** Functions ***
 
@@ -87,6 +93,22 @@ public class UIManager : MonoBehaviour
     {
         MenuLayers.RemoveAt(MenuLayers.Count - 1);
         ShowWindow();
+    }
+
+    public void CreateEffectText(Vector3 pos, string text, Color32 color)
+    {
+        GameObject newText = Instantiate(EffectTextPrefab, pos, Quaternion.identity, EffectTextContainer.transform);
+        newText.GetComponent<EffectPopup>().OnCreate(text, color);
+    }
+
+    public void ShowDescriptionText(string text)
+    {
+        DescriptionText.GetComponent<TextMeshProUGUI>().text = text;
+    }
+
+    public void HideDescriptionText()
+    {
+        DescriptionText.GetComponent<TextMeshProUGUI>().text = "";
     }
 
     // *** Unity Functions ***
