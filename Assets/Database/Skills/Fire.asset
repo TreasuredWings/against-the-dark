@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e11fe17aee629c60991e436b4ea064cd, type: 3}
+  m_Script: {fileID: 11500000, guid: da7a244ae2e33375faed01ef351bf89b, type: 3}
   m_Name: Fire
-  m_EditorClassIdentifier: Assembly-CSharp::SkillData
+  m_EditorClassIdentifier: Assembly-CSharp::Skill
   <Name>k__BackingField: Fire
-  <Description>k__BackingField: Deal fire damage to one enemy.
+  <Description>k__BackingField: Cast a fire magical attack at a single enemy.
   <Type>k__BackingField: 2
   <AssociatedClass>k__BackingField: 4
   <Target>k__BackingField: 1

@@ -29,7 +29,7 @@ public class SkillWindow : MonoBehaviour
         {
             SkillButton btn = SkillButtons[i-3];
             Skill sk = active.SkillList[i];
-            btn.SetText( sk.Config.Name );
+            btn.SetText( sk.Name );
             btn.SetSkill( sk );
             btn.ToggleInteractable(true);
         }

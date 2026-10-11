@@ -29,34 +29,44 @@ public class BattleManager : MonoBehaviour
     // *** Properties ***
 
     public static BattleManager Instance { get; private set; }
+    [field: SerializeField] public GameObject PartyContainer { get; private set; }
+    
+    [field: SerializeField] public GameObject TroopContainer { get; private set; }
+    [field: SerializeField] public GameObject EnemyPrefab { get; private set; }
 
     public BattleState State { get => _state; private set => _state = value; }
     public int RoundNumber { get => _roundNumber; private set => _roundNumber = value; }
     public List<Unit> TurnOrder { get => _turnOrder; private set => _turnOrder = value; }
-    public List<Unit> Allies { get => _allies; set => _allies = value; }
-    public List<Unit> Enemies { get => _enemies; set => _enemies = value; }
+    public List<Ally> Allies { get; private set; }
+    public List<Enemy> Enemies { get; private set; }
 
     // *** Core Functions ***
 
     // StartBattle initializes a battle with a list of party members and enemies
-    public void InitializeBattle(List<Unit> party, List<Unit> troop)
+    public void InitializeBattle(List<Unit> party, List<EnemyData> troop)
     {
         // State change
         State = BattleState.Start;
         Debug.Log("BattleManager: Initializing Unit lists");
 
         // Add all incoming allies
-        Allies = new List<Unit>();
-        foreach (Unit member in party)
+        Allies = new List<Ally>();
+        foreach (Ally member in party)
         {
             Allies.Add(member);
         }
 
         // Add all incoming enemies
-        _enemies = new List<Unit>();
-        foreach (Unit enemy in troop)
+        Enemies = new List<Enemy>();
+        int i = 0;
+        foreach (EnemyData data in troop)
         {
-            Enemies.Add(enemy);
+            i++;
+            GameObject tempObj = Instantiate(EnemyPrefab, new Vector3(4 + i, i, 0), Quaternion.identity, TroopContainer.transform);
+            Enemy tempE = tempObj.GetComponent<Enemy>();
+            tempE.Data = data;
+            tempE.InitializeData();
+            Enemies.Add(tempE);
         }
 
         // Initialize the TurnOrder Queue
@@ -78,14 +88,17 @@ public class BattleManager : MonoBehaviour
         {
             TurnOrder.Add(member);
         }
-        foreach (Unit member in Enemies)
+        foreach (Enemy member in Enemies)
         {
             TurnOrder.Add(member);
+            if (member.IsStunned)
+            {
+                member.ResetStun();
+            }
         }
 
-        // Sort the turn order by speed
-        // TODO: INTRODUCE VARIANCE
-        TurnOrder = TurnOrder.OrderByDescending(unit => unit.Speed).ToList();
+        // Sort the turn order by each unit's speed * their speed mod
+        TurnOrder = TurnOrder.OrderByDescending(unit => unit.Speed * unit.SpeedMod).ToList();
 
         string logmsg = "Turn Order: ";
         for (int i = 0; i < TurnOrder.Count; i++)
@@ -97,8 +110,6 @@ public class BattleManager : MonoBehaviour
         Debug.Log(logmsg);
     }
 
-    // TODO: CREATE A "ROUND PREVIEW"
-
     // ProcessTurns runs through turns in the turn order, restarting the round if needed
     // Loop end cases:
     // All allies are knocked out
@@ -109,9 +120,20 @@ public class BattleManager : MonoBehaviour
         while (State == BattleState.Wait)
         {
             // If all allies are dead, end the battle
-            // TODO: ADD CODE TO CHECK FOR ALL ALLIES DEAD
+            if (AllKO(Allies.Cast<Unit>().ToList()))
+            {
+                // End the battle on a loss
+                Debug.Log("BattleManager: DEFEAT!!");
+                break;
+            }
+
             // If all enemies are dead, end the battle
-            // TODO: ADD CODE TO CHECK FOR ALL ENEMIES DEAD
+            if (AllKO(Enemies.Cast<Unit>().ToList()))
+            {
+                // End the battle on a win
+                Debug.Log("BattleManager: VICTORY!!");
+                break;
+            }
 
             // If turn order is empty, start a new round
             if (TurnOrder.Count <= 0)
@@ -149,6 +171,30 @@ public class BattleManager : MonoBehaviour
         InputManager.Instance.ActiveAlly.CheckStatuses(StatusTiming.End);
         TurnOrder.RemoveAt(0);
         ProcessTurns();
+    }
+
+    public bool AllKO(List<Unit> units)
+    {
+        foreach (Unit unit in units)
+        {
+            if (!unit.IsKnockedOut)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // TODO
+    public void Victory()
+    {
+        // Show a victory screen
+    }
+
+    // TODO
+    public void Defeat()
+    {
+        // Show a defeat screen
     }
 
     // *** Unity Functions ***

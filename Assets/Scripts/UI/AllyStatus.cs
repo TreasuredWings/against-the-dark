@@ -24,9 +24,5 @@ public class AllyStatus : MonoBehaviour
             HPDisplay.SetValues(AssignedAlly.HPMax, AssignedAlly.HP);
             MPDisplay.SetValues(AssignedAlly.MPMax, AssignedAlly.MP);
         }
-        else
-        {
-            Debug.Log(this.name + " is not hooked to an ally");
-        }
     }
 }

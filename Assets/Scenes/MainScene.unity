@@ -146,7 +146,7 @@ Transform:
   m_GameObject: {fileID: 132679102}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: 0, z: 0}
+  m_LocalPosition: {x: -5, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -165,7 +165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Ally
   <Name>k__BackingField: Alex
-  <Level>k__BackingField: 1
   <HPMax>k__BackingField: 100
   <MPMax>k__BackingField: 10
   <Attack>k__BackingField: 10
@@ -175,6 +174,9 @@ MonoBehaviour:
   <Speed>k__BackingField: 10
   <HP>k__BackingField: 100
   <MP>k__BackingField: 10
+  <OutDamageMod>k__BackingField: 1
+  <IncDamageMod>k__BackingField: 1
+  <SpeedMod>k__BackingField: 1
   <IsKnockedOut>k__BackingField: 0
   <Affinities>k__BackingField:
   - 1
@@ -183,10 +185,11 @@ MonoBehaviour:
   - 1
   - 1
   - 1
-  <StartingSkills>k__BackingField:
+  <AppliedStatuses>k__BackingField: []
+  <SkillList>k__BackingField:
   - {fileID: 11400000, guid: 266830f9c0b6468449eb19c057b67383, type: 2}
   - {fileID: 11400000, guid: fdf447b104718fb4984e2f9b7f3f3c0e, type: 2}
-  - {fileID: 11400000, guid: 7d83e2148a7ad664297e8d8e38e7cf77, type: 2}
+  - {fileID: 11400000, guid: fdf447b104718fb4984e2f9b7f3f3c0e, type: 2}
   _class: 0
 --- !u!212 &132679105
 SpriteRenderer:
@@ -298,6 +301,9 @@ MonoBehaviour:
   _turnOrder: []
   _allies: []
   _enemies: []
+  <PartyContainer>k__BackingField: {fileID: 1839122153}
+  <TroopContainer>k__BackingField: {fileID: 1695839786}
+  <EnemyPrefab>k__BackingField: {fileID: 2068601689634491412, guid: f52dcd0345dcfe6b98109abbd736ff03, type: 3}
 --- !u!4 &361951707
 Transform:
   m_ObjectHideFlags: 0
@@ -312,6 +318,139 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1676929337}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &385796237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 385796240}
+  - component: {fileID: 385796239}
+  - component: {fileID: 385796238}
+  m_Layer: 0
+  m_Name: PartyMember (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &385796238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385796237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd4a51fdbe422317a0b9661c380c630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ally
+  <Name>k__BackingField: Selphie
+  <HPMax>k__BackingField: 80
+  <MPMax>k__BackingField: 20
+  <Attack>k__BackingField: 20
+  <Defense>k__BackingField: 10
+  <Magic>k__BackingField: 10
+  <Resist>k__BackingField: 10
+  <Speed>k__BackingField: 10
+  <HP>k__BackingField: 80
+  <MP>k__BackingField: 20
+  <OutDamageMod>k__BackingField: 1
+  <IncDamageMod>k__BackingField: 1
+  <SpeedMod>k__BackingField: 1
+  <IsKnockedOut>k__BackingField: 0
+  <Affinities>k__BackingField:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  <AppliedStatuses>k__BackingField: []
+  <SkillList>k__BackingField:
+  - {fileID: 11400000, guid: 266830f9c0b6468449eb19c057b67383, type: 2}
+  - {fileID: 11400000, guid: fdf447b104718fb4984e2f9b7f3f3c0e, type: 2}
+  - {fileID: 11400000, guid: 7d83e2148a7ad664297e8d8e38e7cf77, type: 2}
+  - {fileID: 11400000, guid: 70167e51b496240568082dd702259749, type: 2}
+  _class: 0
+--- !u!212 &385796239
+SpriteRenderer:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385796237}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 1048973849, guid: 539318b9031412a4ca2dba443141cb3a, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 0.64, y: 0.64}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+  m_BlendShapeWeights: []
+--- !u!4 &385796240
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385796237}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7, y: 2, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1839122154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &549106363
 GameObject:
@@ -573,10 +712,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea3e8f0f8ebf6f60ac1891c4747732b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _party:
+  <Party>k__BackingField:
   - {fileID: 132679104}
-  _testTroop:
-  - {fileID: 883358961}
+  - {fileID: 953051920}
+  - {fileID: 385796238}
+  <TestTroop>k__BackingField:
+  - {fileID: 11400000, guid: a27e3a840a2fec1edb8c1b8033a863d9, type: 2}
+  - {fileID: 11400000, guid: a27e3a840a2fec1edb8c1b8033a863d9, type: 2}
+  - {fileID: 11400000, guid: a27e3a840a2fec1edb8c1b8033a863d9, type: 2}
+  <Ally1Name>k__BackingField: Alex
+  <ALly2Name>k__BackingField: Victoria
+  <ALly3Name>k__BackingField: Selphie
+  <BattleNumber>k__BackingField: 0
 --- !u!1001 &862890311
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -835,7 +982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c167cdd768e4c439e98dfed7bdb5fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
---- !u!1 &883358959
+--- !u!1 &953051917
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -843,74 +990,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 883358960}
-  - component: {fileID: 883358962}
-  - component: {fileID: 883358961}
+  - component: {fileID: 953051918}
+  - component: {fileID: 953051919}
+  - component: {fileID: 953051920}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: PartyMember (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &883358960
+--- !u!4 &953051918
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883358959}
+  m_GameObject: {fileID: 953051917}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6, y: 0.5, z: 0}
+  m_LocalPosition: {x: -6, y: 1, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1839122154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &883358961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883358959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 486da50e469623aac9c3881fbf26e55b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  <Name>k__BackingField: Slime 1
-  <Level>k__BackingField: 1
-  <HPMax>k__BackingField: 100
-  <MPMax>k__BackingField: 10
-  <Attack>k__BackingField: 10
-  <Defense>k__BackingField: 10
-  <Magic>k__BackingField: 10
-  <Resist>k__BackingField: 10
-  <Speed>k__BackingField: 10
-  <HP>k__BackingField: 100
-  <MP>k__BackingField: 10
-  <IsKnockedOut>k__BackingField: 0
-  <Affinities>k__BackingField:
-  - 1
-  - 1.5
-  - 1
-  - 1
-  - 1
-  - 1
-  <StartingSkills>k__BackingField:
-  - {fileID: 11400000, guid: 266830f9c0b6468449eb19c057b67383, type: 2}
-  _stun: 0
-  _stunState: 0
---- !u!212 &883358962
+--- !u!212 &953051919
 SpriteRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883358959}
+  m_GameObject: {fileID: 953051917}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -952,17 +1064,57 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -973339696, guid: 0e4ffceb21fe1bfd4852684e6bf26734, type: 3}
+  m_Sprite: {fileID: 1963052384, guid: b3387ec9da46a10428910ab1ef70369a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &953051920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 953051917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd4a51fdbe422317a0b9661c380c630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Ally
+  <Name>k__BackingField: Victoria
+  <HPMax>k__BackingField: 60
+  <MPMax>k__BackingField: 30
+  <Attack>k__BackingField: 10
+  <Defense>k__BackingField: 10
+  <Magic>k__BackingField: 20
+  <Resist>k__BackingField: 10
+  <Speed>k__BackingField: 10
+  <HP>k__BackingField: 60
+  <MP>k__BackingField: 30
+  <OutDamageMod>k__BackingField: 1
+  <IncDamageMod>k__BackingField: 1
+  <SpeedMod>k__BackingField: 1
+  <IsKnockedOut>k__BackingField: 0
+  <Affinities>k__BackingField:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  <AppliedStatuses>k__BackingField: []
+  <SkillList>k__BackingField:
+  - {fileID: 11400000, guid: 266830f9c0b6468449eb19c057b67383, type: 2}
+  - {fileID: 11400000, guid: fdf447b104718fb4984e2f9b7f3f3c0e, type: 2}
+  - {fileID: 11400000, guid: 7d83e2148a7ad664297e8d8e38e7cf77, type: 2}
+  - {fileID: 11400000, guid: 7d83e2148a7ad664297e8d8e38e7cf77, type: 2}
+  _class: 0
 --- !u!1 &1048885793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,6 +1409,37 @@ Transform:
   - {fileID: 1570807582}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1695839786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1695839787}
+  m_Layer: 0
+  m_Name: Troop
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1695839787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1695839786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.80923, y: -0.06379, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1759752713
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,7 +1720,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1839122154}
   m_Layer: 0
-  m_Name: UnitsGroup
+  m_Name: Party
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1557,7 +1740,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 132679103}
-  - {fileID: 883358960}
+  - {fileID: 953051918}
+  - {fileID: 385796240}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &854032829653495823 stripped
@@ -2015,5 +2199,6 @@ SceneRoots:
   - {fileID: 1759752716}
   - {fileID: 549106366}
   - {fileID: 1839122154}
+  - {fileID: 1695839787}
   - {fileID: 1435836280}
   - {fileID: 1676929337}

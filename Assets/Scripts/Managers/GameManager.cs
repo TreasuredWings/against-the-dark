@@ -4,29 +4,87 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 
-    // *** Fields ***
-
-    [SerializeField] private List<Unit> _party;
-
-    [Header("Debug")]
-    [SerializeField] private List<Unit> _testTroop;
-
     // *** Properties ***
 
     public static GameManager Instance { get; private set; }
 
-    public List<Unit> Party { get => _party; private set => _party = value; }
-    public List<Unit> TestTroop { get => _testTroop; private set => _testTroop = value; }
+    [field: SerializeField] public List<Unit> Party { get; private set; } = new List<Unit>();
+    [field: SerializeField] public List<EnemyData> TestTroop { get; private set; }
+
+    [field: SerializeField] public string Ally1Name { get; private set; } = "Alex";
+    // [field: SerializeField] public Class Ally1Class { get; private set; }
+    [field: SerializeField] public string ALly2Name { get; private set; } = "Victoria";
+    [field: SerializeField] public string ALly3Name { get; private set; } = "Selphie";
+
+    [field: SerializeField] public int BattleNumber { get; private set; } = 0;
 
     /***************************************
     * Class functions *
     ***************************************/
 
+    // TODO
+    public void StartGame()
+    {
+        // Instantiate ally prefabs
+        // Add them to party
+        // Give names
+        // Give starting classes
+        // Add their prefabs to the correct game object
+        // Initialize their starting data and skills
+        UIManager.Instance.SetStatusWindow();
+        // Pull a random troop to start the game
+        // Start a battle with those troops
+    }
+
+    // TODO
+    // Start a battle with the chosen troop
+    // public void StartBattle(Troop encounter)
+    // This will involve spawning their prefabs, assigning their data, initializing their data, and starting the encounter
+
     public void StartBattle()
     {
         Debug.Log("GameManager: Starting battle!");
+        
         BattleManager.Instance.InitializeBattle(Party, TestTroop);
         BattleManager.Instance.ProcessTurns();
+    }
+
+    // TODO
+    public void EndBattle()
+    {
+        if (BattleManager.Instance.State == BattleState.Defeat)
+        {
+            // Return the game to the start screen
+        }
+        else if (BattleManager.Instance.State == BattleState.Victory)
+        {
+            // Yay!
+            // If this is the last battle (BattleNumber 4) go back to the start screen
+            if (BattleNumber >= 4)
+            {
+                // Go back to start
+            }
+            else
+            {
+                // Else, show an upgrade screen
+                // The upgrade screen needs to wait for input
+                // After input, the upgrade screen will tell the game manager to advance the game to the next battle
+            }
+        }
+    }
+
+    // TODO
+    public void Progress()
+    {
+        BattleNumber++;
+        if (BattleNumber >= 4)
+        {
+            // Start a boss
+        }
+        else
+        {
+            // Start a normal fight
+        }
     }
 
     /***************************************
@@ -41,7 +99,8 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UIManager.Instance.SetStatusWindow();
+        // FOR DEBUG PURPOSES. REPLACE WITH A START SCREEN'S BUTTON.
+        StartGame();
     }
 
     // Update is called once per frame

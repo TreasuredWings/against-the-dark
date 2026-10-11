@@ -13,32 +13,28 @@ public class Unit : MonoBehaviour
 
     // Dynamic stats
     [Header("Unit Parameters")]
-    [field: SerializeField] public string Name {get; private set;} = "Default Unit";
-    [field: SerializeField] public int HPMax {get; private set;} = 100;
-    [field: SerializeField] public int MPMax {get; private set;} = 10;
-    [field: SerializeField] public int Attack {get; private set;} = 10;
-    [field: SerializeField] public int Defense {get; private set;} = 10;
-    [field: SerializeField] public int Magic {get; private set;} = 10;
-    [field: SerializeField] public int Resist {get; private set;} = 10;
-    [field: SerializeField] public int Speed {get; private set;} = 10;
+    [field: SerializeField] public string Name {get; protected set;} = "Default Unit";
+    [field: SerializeField] public int HPMax {get; protected set;} = 100;
+    [field: SerializeField] public int MPMax {get; protected set;} = 10;
+    [field: SerializeField] public int Attack {get; protected set;} = 10;
+    [field: SerializeField] public int Defense {get; protected set;} = 10;
+    [field: SerializeField] public int Magic {get; protected set;} = 10;
+    [field: SerializeField] public int Resist {get; protected set;} = 10;
+    [field: SerializeField] public int Speed {get; protected set;} = 10;
 
     // Dynamic stats
-    [field: SerializeField] public int HP {get; private set;} = 100;
-    [field: SerializeField] public int MP {get; private set;} = 10;
+    [field: SerializeField] public int HP {get; protected set;} = 100;
+    [field: SerializeField] public int MP {get; protected set;} = 10;
 
-    [field: SerializeField] public float OutDamageMod {get; private set;} = 1;
-    [field: SerializeField] public float IncDamageMod {get; private set;} = 1;
-    [field: SerializeField] public float SpeedMod {get; private set;} = 1;
+    [field: SerializeField] public float OutDamageMod {get; protected set;} = 1;
+    [field: SerializeField] public float IncDamageMod {get; protected set;} = 1;
+    [field: SerializeField] public float SpeedMod {get; protected set;} = 1;
 
-    [field: SerializeField] public bool IsKnockedOut {get; private set;} = false;
+    [field: SerializeField] public bool IsKnockedOut {get; protected set;} = false;
 
-    [field: SerializeField] public List<float> Affinities { get; private set; } = new List<float> { 1, 1, 1, 1, 1, 1 };
-    [field: SerializeField] public List<StatusEffectBase> AppliedStatuses { get; private set; } = new List<StatusEffectBase>();
-    [field: SerializeField] public List<SkillData> StartingSkills { get; private set; } = new List<SkillData>();
-
-    // The real skill list is hidden from the editor
-    private List<Skill> _skillList = new List<Skill>();
-    public List<Skill> SkillList {get => _skillList; private set => _skillList = value;}
+    [field: SerializeField] public List<float> Affinities { get; protected set; } = new List<float> { 1, 1, 1, 1, 1, 1 };
+    [field: SerializeField] public List<StatusEffectBase> AppliedStatuses { get; protected set; } = new List<StatusEffectBase>();
+    [field: SerializeField] public List<Skill> SkillList { get; protected set; } = new List<Skill>();
 
     // *** Functions ***
 
@@ -46,7 +42,7 @@ public class Unit : MonoBehaviour
     // Return: True if skill could be executed, False if requirements were not met/skill was not executed.
     public bool UseSkill(Skill chosen, List<Unit> targets)
     {
-        int mpCost = chosen.Config.MPCost;
+        int mpCost = chosen.MPCost;
         if (!SpendMP(mpCost))
         {
             // Could not spend enough MP, cancel skill.
@@ -72,7 +68,26 @@ public class Unit : MonoBehaviour
         {
             HP -= incomingDamage;
         }
+        if (HP <= 0)
+        {
+            Knockout();
+        }
         return HP;
+    }
+
+    public virtual void Knockout()
+    {
+        IsKnockedOut = true;
+        for (int i = AppliedStatuses.Count - 1; i >= 0; i--)
+        {
+            AppliedStatuses[i].Removal(this);
+            AppliedStatuses.RemoveAt(i);
+        }
+    }
+
+    public virtual int TakeStun(int incomingStun)
+    {
+        return 0;
     }
 
     // Attempt to spend the specified ammount of MP
@@ -101,6 +116,7 @@ public class Unit : MonoBehaviour
             StatusEffectBase status = AppliedStatuses[i];
             if (status.Duration <= 0)
             {
+                status.Removal(this);
                 AppliedStatuses.RemoveAt(i);
             }
         }
@@ -109,6 +125,7 @@ public class Unit : MonoBehaviour
     public virtual void AddStatus(StatusEffectBase status)
     {
         AppliedStatuses.Add(status);
+        status.Application(this);
     }
 
     public virtual void AddSkill(Skill newSkill)
@@ -117,13 +134,5 @@ public class Unit : MonoBehaviour
     }
 
     // *** Unity Functions ***
-
-    void Awake()
-    {
-        foreach (SkillData data in StartingSkills)
-        {
-            SkillList.Add(new Skill(data));
-        }
-    }
 
 }

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-[CreateAssetMenu(fileName = "SkillData", menuName = "Scriptable Objects/SkillData")]
-public class SkillData : ScriptableObject
+// Skill: an object that can be Used to affect targets.
+[CreateAssetMenu(fileName = "Skill", menuName = "Scriptable Objects/Skill")]
+public class Skill : ScriptableObject
 {
     [Header("Base Skill Info")]
     [field: SerializeField] public string Name { get; private set; } = "Skill Name";
@@ -17,4 +16,13 @@ public class SkillData : ScriptableObject
 
     [field: SerializeField] public int MPCost { get; private set; } = 0;
     [field: SerializeField] public List<SkillEffectBase> EffectChain { get; private set; } = new List<SkillEffectBase>();
+
+    public bool Use(Unit user, List<Unit> targets)
+    {
+        foreach (SkillEffectBase effect in EffectChain)
+        {
+            effect?.Use(user, targets);
+        }
+        return true;
+    }
 }

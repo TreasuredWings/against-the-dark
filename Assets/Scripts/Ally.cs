@@ -12,9 +12,9 @@ public class Ally : Unit
 
     public override int TakeDamage(int incomingDamage)
     {
-        int damageTaken = base.TakeDamage(incomingDamage);
+        int newHP = base.TakeDamage(incomingDamage);
         UIManager.Instance.UpdateAllStatusWindows();
-        return damageTaken;
+        return newHP;
     }
 
     public override bool SpendMP(int cost)

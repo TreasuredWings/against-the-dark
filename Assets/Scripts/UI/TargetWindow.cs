@@ -30,20 +30,19 @@ public class TargetWindow : MonoBehaviour
         {
             case TargetType.AllEnemies:
                 singleButtonText = "All Enemies";
-                targetList = BattleManager.Instance.Enemies;
+                targetList = BattleManager.Instance.Enemies.Cast<Unit>().ToList();
                 break;
             case TargetType.AllAllies:
                 singleButtonText = "All Allies";
-                targetList = BattleManager.Instance.Allies;
+                targetList = BattleManager.Instance.Allies.Cast<Unit>().ToList();
                 break;
-            
             case TargetType.SingleEnemy:
                 isList = true;
-                targetList = BattleManager.Instance.Enemies;
+                targetList = BattleManager.Instance.Enemies.Cast<Unit>().ToList();
                 break;
             case TargetType.SingleAlly:
                 isList = true;
-                targetList = BattleManager.Instance.Allies;
+                targetList = BattleManager.Instance.Allies.Cast<Unit>().ToList();
                 break;
             case TargetType.Self:
             default:
@@ -70,7 +69,10 @@ public class TargetWindow : MonoBehaviour
             Unit target = targets[i];
             btn.SetText( target.Name );
             btn.SetTargets( new List<Unit> { target } );
-            btn.ToggleInteractable(true);
+            if (!target.IsKnockedOut)
+            {
+                btn.ToggleInteractable(true);
+            }
         }
         BackButton.ToggleInteractable(true);
     }

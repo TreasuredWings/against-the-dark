@@ -26,12 +26,12 @@ public class InputManager : MonoBehaviour
         {
             case ActionButtons.Attack:
                 ActiveSkill = ActiveAlly.SkillList[0];
-                ActiveTargeting = ActiveSkill.Config.Target;
+                ActiveTargeting = ActiveSkill.Target;
                 UIManager.Instance.ShowWindow(UIState.Target);
                 break;
             case ActionButtons.Class:
                 ActiveSkill = ActiveAlly.SkillList[2];
-                ActiveTargeting = ActiveSkill.Config.Target;
+                ActiveTargeting = ActiveSkill.Target;
                 UIManager.Instance.ShowWindow(UIState.Target);
                 break;
             case ActionButtons.Skill:
@@ -39,11 +39,11 @@ public class InputManager : MonoBehaviour
                 break;
             case ActionButtons.Defend:
                 ActiveSkill = ActiveAlly.SkillList[1];
-                ActiveTargeting = ActiveSkill.Config.Target;
+                ActiveTargeting = ActiveSkill.Target;
                 UIManager.Instance.ShowWindow(UIState.Target);
                 break;
             case ActionButtons.Item:
-                // TODO: MAKE THIS WORK
+                // TODO: maybe.
                 break;
             default:
                 break;
@@ -54,7 +54,7 @@ public class InputManager : MonoBehaviour
     public void SkillButtonClicked(Skill skill)
     {
         ActiveSkill = skill;
-        ActiveTargeting = ActiveSkill.Config.Target;
+        ActiveTargeting = ActiveSkill.Target;
         UIManager.Instance.ShowWindow(UIState.Target);
     }
 

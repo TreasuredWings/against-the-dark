@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e11fe17aee629c60991e436b4ea064cd, type: 3}
+  m_Script: {fileID: 11500000, guid: da7a244ae2e33375faed01ef351bf89b, type: 3}
   m_Name: Attack
-  m_EditorClassIdentifier: Assembly-CSharp::SkillData
+  m_EditorClassIdentifier: Assembly-CSharp::Skill
   <Name>k__BackingField: Attack
-  <Description>k__BackingField: Perform a basic attack.
+  <Description>k__BackingField: Perform a physical attack on an enemy.
   <Type>k__BackingField: 0
   <AssociatedClass>k__BackingField: 0
   <Target>k__BackingField: 1

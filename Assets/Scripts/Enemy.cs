@@ -1,27 +1,140 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+
+public enum EnemyAIType { Static, Random, Ordered }
 
 public class Enemy : Unit
 {
 
-    [Header("Enemy Parameters")]
-    [SerializeField] private int _stun = 0;
-    [SerializeField] private bool _stunState = false;
+    [Header("Enemy Data to Pull")]
 
-    public int Stun { get => _stun; set => _stun = value; }
-    public bool StunState { get => _stunState; set => _stunState = value; }
+    [field: SerializeField] public EnemyData Data { get; set; }
+
+    [Header("Enemy Parameters")]
+
+    [field: SerializeField] public int Stun { get; private set; } = 0; // Stun max is 100
+    [field: SerializeField] public float StunMod { get; private set; } = 1;
+    [field: SerializeField] public bool IsStunned { get; private set; } = false;
 
     // TakeTurn automates the process of taking a turn for the enemy,
     // calling the correct action function from Unit.
     // Meant to be called by BattleManager to process enemy turns.
-    public void TakeTurn()
+
+    public void InitializeData()
     {
-        Debug.Log("Enemy: " + Name + " is taking a turn.");
-        // TEST: For placeholder's sake, enemies will by default attack a random party member
-        int targetIndex = Random.Range(0, BattleManager.Instance.Allies.Count - 1);
-        List<Unit> targets = new List<Unit> { BattleManager.Instance.Allies[targetIndex] };
-        UseSkill(SkillList[0], targets);
+        Name = Data.Name;
+        HPMax = Data.HPMax;
+        HP = HPMax;
+        MPMax = Data.MPMax;
+        MP = MPMax;
+        Attack = Data.Attack;
+        Defense = Data.Defense;
+        Magic = Data.Magic;
+        Resist = Data.Resist;
+        Speed = Data.Speed;
+        Affinities = new List<float>(Data.Affinities);
+        SkillList = new List<Skill>(Data.SkillList);
     }
 
-    // TODO: OVERRIDE TakeDamage() TO HANDLE STUN AS WELL
+    public void TakeTurn()
+    {
+        // Debug.Log("Enemy: " + Name + " is taking a turn.");
+        Skill toUse = GetSkill();
+        List<Unit> onTargets = GetTargets(toUse);
+        UseSkill(toUse, onTargets);
+    }
+
+    public List<Unit> GetTargets(Skill skill)
+    {
+        List<Unit> targets;
+        int targetIndex;
+        switch (skill.Target)
+        {
+            case TargetType.SingleEnemy:
+                targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Allies.Count - 1);
+                targets = new List<Unit> { BattleManager.Instance.Allies[targetIndex] };
+                break;
+            case TargetType.SingleAlly:
+                targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Enemies.Count - 1);
+                targets = new List<Unit> { BattleManager.Instance.Enemies[targetIndex] };
+                break;
+            case TargetType.AllEnemies:
+                targets = BattleManager.Instance.Allies.Cast<Unit>().ToList();
+                break;
+            case TargetType.AllAllies:
+                targets = BattleManager.Instance.Enemies.Cast<Unit>().ToList();
+                break;
+            case TargetType.Self:
+            default:
+                targets = new List<Unit> { this };
+                break;
+        }
+        return targets;
+    }
+
+    public Skill GetSkill()
+    {
+        Skill chosen = null;
+        int index;
+        switch (Data.AIType)
+        {
+            default:
+            case EnemyAIType.Static:
+                chosen = SkillList[0];
+                break;
+            case EnemyAIType.Random:
+                for (int i = 0; i < SkillList.Count - 1; i++)
+                {
+                    if (UnityEngine.Random.value <= Data.SkillChance[i])
+                    {
+                        chosen = SkillList[i];
+                    }
+                }
+                if (chosen == null)
+                {
+                    chosen = SkillList[SkillList.Count - 1];
+                }
+                break;
+            case EnemyAIType.Ordered:
+                index = (BattleManager.Instance.RoundNumber % SkillList.Count) - 1;
+                chosen = SkillList[index];
+                break;
+        }
+        return chosen;
+    }
+
+    public override int TakeDamage(int incomingDamage)
+    {
+        if (IsStunned)
+        {
+            return base.TakeDamage((int) Math.Floor(incomingDamage * 1.5));
+        }
+        return base.TakeDamage(incomingDamage);
+    }
+
+    public override int TakeStun(int incomingStun)
+    {
+        if (incomingStun > (100 - Stun))
+        {
+            Stun = 100;
+        }
+        else
+        {
+            Stun += incomingStun;
+        }
+        if (Stun >= 100)
+        {
+            IsStunned = true;
+        }
+        return Stun;
+    }
+
+    public void ResetStun()
+    {
+        IsStunned = false;
+        Stun = 0;
+    }
 }

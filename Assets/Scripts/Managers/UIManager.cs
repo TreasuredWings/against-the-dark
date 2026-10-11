@@ -29,6 +29,8 @@ public class UIManager : MonoBehaviour
         }
     }
     public UIState Previous { get => _previous; private set => _previous = value; }
+    public List<UIState> MenuList { get; private set; }
+    public int MenuNumber { get; private set; } = 0;
     [field: SerializeField] public GameObject ActionWindow { get; private set; }
     [field: SerializeField] public GameObject SkillWindow { get; private set; }
     [field: SerializeField] public GameObject TargetWindow { get; private set; }
@@ -66,9 +68,9 @@ public class UIManager : MonoBehaviour
     public void SetStatusWindow()
     {
         AllyStatus1.SetAlly( (Ally)GameManager.Instance.Party[0] );
-        // TODO: Set up allies two and three
-        // AllyStatus1.SetAlly( (Ally)GameManager.Instance.Party[1] );
-        // AllyStatus1.SetAlly( (Ally)GameManager.Instance.Party[2] );
+        // TODO
+        AllyStatus2.SetAlly( (Ally)GameManager.Instance.Party[1] );
+        AllyStatus3.SetAlly( (Ally)GameManager.Instance.Party[2] );
         UpdateAllStatusWindows();
     }
 
