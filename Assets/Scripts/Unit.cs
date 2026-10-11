@@ -96,7 +96,7 @@ public class Unit : MonoBehaviour
                 status.Trigger(this);
             }
         }
-        for (int i = AppliedStatuses.Count - 1; i < 0; i--)
+        for (int i = AppliedStatuses.Count - 1; i >= 0; i--)
         {
             StatusEffectBase status = AppliedStatuses[i];
             if (status.Duration <= 0)

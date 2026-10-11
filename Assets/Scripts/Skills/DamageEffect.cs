@@ -14,10 +14,10 @@ public class DamageData : SkillEffectBase
 
     public override bool Use(Unit user, List<Unit> targets)
     {
-        int pierceValue = 0;
+        int pierceValue = 1;
         if (Pierce)
         {
-            pierceValue = 1;
+            pierceValue = 0;
         }
 
         foreach (Unit target in targets)
@@ -36,7 +36,7 @@ public class DamageData : SkillEffectBase
                 baseDamage = (int) Math.Floor( Math.Max( ( user.Magic - ( target.Resist * 0.5 * pierceValue ) ) * target.Affinities[(int)Element], 1 ) );
             }
             // TODO: MODIFY HOW DAMAGE MODS WORK
-            int finalDamage = (int) Math.Max( Math.Floor( baseDamage * (user.OutDamageMod + target.IncDamageMod) ), 1 );
+            int finalDamage = (int) Math.Max( Math.Floor( baseDamage * user.OutDamageMod * target.IncDamageMod ), 1 );
             target.TakeDamage(finalDamage);
             Debug.Log(user.Name + " dealt " + finalDamage.ToString() + " damage to " + target.Name);
         }
