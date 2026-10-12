@@ -136,6 +136,10 @@ public class BattleManager : MonoBehaviour
             if (AllKO(Enemies.Cast<Unit>().ToList()))
             {
                 // End the battle on a win
+                foreach (Ally member in Allies)
+                {
+                    member.UnitAnim.Anim.SetTrigger("Victory");
+                }
                 VictoryScreen.SetActive(true);
                 break;
             }
@@ -151,10 +155,10 @@ public class BattleManager : MonoBehaviour
             {
                 // Process the enemy's turn by calling it for an action
                 Enemy next = (Enemy)TurnOrder[0];
-                next.CheckStatuses(StatusTiming.Start);
+                yield return StartCoroutine(next.CheckStatuses(StatusTiming.Start));
                 Debug.Log(next.Name + "'s Turn");
                 yield return StartCoroutine(next.TakeTurn());
-                next.CheckStatuses(StatusTiming.End);
+                yield return StartCoroutine(next.CheckStatuses(StatusTiming.End));
                 TurnOrder.RemoveAt(0);
             }
             else if (TurnOrder[0].GetType() == typeof(Ally) && !TurnOrder[0].IsKnockedOut)
@@ -162,7 +166,7 @@ public class BattleManager : MonoBehaviour
                 // End this process and wait for input
                 State = BattleState.Command;
                 InputManager.Instance.ActiveAlly = (Ally)TurnOrder[0];
-                TurnOrder[0].CheckStatuses(StatusTiming.Start);
+                yield return StartCoroutine(TurnOrder[0].CheckStatuses(StatusTiming.Start));
                 StartCoroutine(TurnOrder[0].UnitAnim.StepForward());
                 UIManager.Instance.UpdateAllStatusWindows();
                 UIManager.Instance.EnterWindow(UIState.Action);
@@ -177,11 +181,11 @@ public class BattleManager : MonoBehaviour
     }
 
     // InputManager calls InputComplete when the player successfully completed their turn
-    public void InputComplete()
+    public IEnumerator InputComplete()
     {
         // Go back to waiting, remove the ally from the turn queue, and resume turn processing.
         State = BattleState.Wait;
-        InputManager.Instance.ActiveAlly.CheckStatuses(StatusTiming.End);
+        yield return StartCoroutine(InputManager.Instance.ActiveAlly.CheckStatuses(StatusTiming.End));
         TurnOrder.RemoveAt(0);
         StartCoroutine(ProcessTurns());
     }

@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.SocialPlatforms;
-
-
 
 [CreateAssetMenu(fileName = "DamageData", menuName = "Scriptable Objects/Skill Effects/DamageData")]
 public class DamageData : SkillEffectBase

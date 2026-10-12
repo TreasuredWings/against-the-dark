@@ -19,4 +19,5 @@ MonoBehaviour:
   <Target>k__BackingField: 0
   <AnimationType>k__BackingField: 1
   <MPCost>k__BackingField: 0
-  <EffectChain>k__BackingField: []
+  <EffectChain>k__BackingField:
+  - {fileID: 11400000, guid: 2c8342742dab8bb4d9ab96dd5b53ffe6, type: 2}

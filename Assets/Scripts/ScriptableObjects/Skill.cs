@@ -23,14 +23,12 @@ public class Skill : ScriptableObject
 
     public IEnumerator Effect(Unit user, List<Unit> targets)
     {
-        Debug.Log("Effect start");
         foreach (SkillEffectBase effect in EffectChain)
         {
             effect?.Use(user, targets);
             // Wait half a second between effects
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(0.25f);
         }
-        Debug.Log("Effect end");
     }
 
     public IEnumerator PreEffectAnim(Unit user, List<Unit> targets)
@@ -38,39 +36,35 @@ public class Skill : ScriptableObject
         if (AnimationType == AnimType.Physical)
         {
             // Swing
-            Debug.Log("Swing start");
             user.UnitAnim.Anim.SetTrigger("Physical");
-            yield return new WaitUntil( () => user.UnitAnim.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 4.0f );
-            Debug.Log("Swing end");
+            yield return new WaitForNextFrameUnit();
+            yield return new WaitUntil( () => user.UnitAnim.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f );
         }
         else
         {
             // Chant
-            Debug.Log("Chant");
             user.UnitAnim.Anim.SetTrigger("Chant");
-            yield return new WaitUntil( () => user.UnitAnim.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 3.0f );
+            yield return new WaitForNextFrameUnit();
+            yield return new WaitUntil( () => user.UnitAnim.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 2.0f );
             if (Target == TargetType.SingleEnemy || Target == TargetType.AllEnemies)
             {
                 // Magic offense
-                Debug.Log("Magic offense");
                 user.UnitAnim.Anim.SetTrigger("MagicOffense");
+                yield return new WaitForNextFrameUnit();
                 yield return new WaitUntil( () => user.UnitAnim.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f );
             }
             else
             {
                 // Magic defense
-                Debug.Log("Magic defense");
                 user.UnitAnim.Anim.SetTrigger("MagicDefense");
+                yield return new WaitForNextFrameUnit();
                 yield return new WaitUntil( () => user.UnitAnim.Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f );
             }
-            Debug.Log("Magic end");
         }
-        
     }
 
     public IEnumerator PostEffectAnim(Unit user)
     {
-        Debug.Log("Start return");
         user.UnitAnim.Anim.SetTrigger("Neutral");
         while (user.transform.position != user.UnitAnim.HomePoint)
         {
@@ -84,6 +78,5 @@ public class Skill : ScriptableObject
             }
             yield return new WaitForNextFrameUnit();
         }
-        Debug.Log("End return");
     }
 }

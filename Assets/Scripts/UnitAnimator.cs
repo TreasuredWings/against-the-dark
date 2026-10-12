@@ -22,4 +22,17 @@ public class UnitAnimator : MonoBehaviour
             yield return new WaitForNextFrameUnit();
         }
     }
+
+    public void CheckIdle()
+    {
+        Anim.SetTrigger("Neutral");
+    }
+
+    public IEnumerator DamageAnim()
+    {
+        Anim.SetTrigger("Damage");
+        yield return null;
+        yield return new WaitUntil( () => Anim.GetCurrentAnimatorStateInfo(0).normalizedTime > 1.0f );
+        Anim.SetTrigger("Neutral");
+    }
 }

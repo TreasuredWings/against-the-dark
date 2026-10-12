@@ -7,6 +7,7 @@ public class EnemyData : ScriptableObject
 {
     [field: SerializeField] public string Name {get; private set;} = "Default Unit";
     [field: SerializeField] public Sprite EnemySprite {get; private set;}
+    [field: SerializeField] public RuntimeAnimatorController EnemySpriteOverride {get; private set;}
     [field: SerializeField] public int HPMax {get; private set;} = 100;
     [field: SerializeField] public int MPMax {get; private set;} = 10;
     [field: SerializeField] public int Attack {get; private set;} = 10;

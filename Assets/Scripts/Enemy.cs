@@ -31,6 +31,7 @@ public class Enemy : Unit
     {
         Name = Data.Name;
         UnitSprite.sprite = Data.EnemySprite;
+        UnitAnim.Anim.runtimeAnimatorController = Data.EnemySpriteOverride;
         HPMax = Data.HPMax;
         HP = HPMax;
         MPMax = Data.MPMax;
@@ -42,6 +43,7 @@ public class Enemy : Unit
         Speed = Data.Speed;
         Affinities = new List<float>(Data.Affinities);
         SkillList = new List<Skill>(Data.SkillList);
+        UnitAnim.HomePoint = transform.position;
     }
 
     public IEnumerator TakeTurn()
@@ -54,13 +56,26 @@ public class Enemy : Unit
 
     public List<Unit> GetTargets(Skill skill)
     {
-        List<Unit> targets;
+        List<Unit> targets = null;
         int targetIndex;
         switch (skill.Target)
         {
             case TargetType.SingleEnemy:
-                targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Allies.Count - 1);
-                targets = new List<Unit> { BattleManager.Instance.Allies[targetIndex] };
+                // Check for taunt on all possible targets
+                foreach (Ally ally in BattleManager.Instance.Allies)
+                {
+                    if (ally.Taunting)
+                    {
+                        // Target that unit if they have taunt, and end search
+                        targets = new List<Unit> { ally };
+                    }
+                }
+                // If nothing has taunt, roll randomly
+                if (targets == null)
+                {
+                    targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Allies.Count - 1);
+                    targets = new List<Unit> { BattleManager.Instance.Allies[targetIndex] };
+                }
                 break;
             case TargetType.SingleAlly:
                 targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Enemies.Count - 1);
@@ -125,6 +140,14 @@ public class Enemy : Unit
             UIManager.Instance.CreateEffectText(transform.position, incomingDamage.ToString(), Colors.White);
             newHP = base.TakeDamage(incomingDamage);
         }
+        UpdateStatus();
+        return newHP;
+    }
+
+    public override int TakeHealing(int incomingHealing)
+    {
+        UIManager.Instance.CreateEffectText(transform.position, incomingHealing.ToString(), Colors.HP);
+        int newHP = base.TakeHealing(incomingHealing);
         UpdateStatus();
         return newHP;
     }

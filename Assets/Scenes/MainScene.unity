@@ -828,17 +828,21 @@ MonoBehaviour:
   <TestTroop>k__BackingField: {fileID: 11400000, guid: f8bb7b66f2061855eaeca3e485c75d15, type: 2}
   <AllyNames>k__BackingField:
   - Alex
-  - Victoria
   - Sylvie
+  - Victoria
   <AllySprites>k__BackingField:
   - {fileID: -157019734, guid: c7bbb026876c9604c8590fb39ca57d1f, type: 3}
   - {fileID: 1048973849, guid: 539318b9031412a4ca2dba443141cb3a, type: 3}
   - {fileID: 1963052384, guid: b3387ec9da46a10428910ab1ef70369a, type: 3}
+  <AllyAnimations>k__BackingField:
+  - {fileID: 22100000, guid: 1c8c9e8922e0e3d479d7d9429eb6867a, type: 2}
+  - {fileID: 22100000, guid: fb2c5b40c81e03d44a042a75c347b603, type: 2}
+  - {fileID: 22100000, guid: d0df499b25891ad41834ef19eb6bb6d0, type: 2}
   <AllyClasses>k__BackingField:
-  - {fileID: 11400000, guid: c5619464be5aaf3dfbd4472ba6170fd0, type: 2}
-  - {fileID: 11400000, guid: 83baeabf03ef7f8e09f4aafa21b34908, type: 2}
+  - {fileID: 11400000, guid: 2405ae37a14d79547aa785a0f85ec2ad, type: 2}
   - {fileID: 11400000, guid: 91f28bfb8803ac571984077a6b313ec4, type: 2}
-  <DebugSkill>k__BackingField: {fileID: 11400000, guid: 7d83e2148a7ad664297e8d8e38e7cf77, type: 2}
+  - {fileID: 11400000, guid: 83baeabf03ef7f8e09f4aafa21b34908, type: 2}
+  <DebugSkill>k__BackingField: {fileID: 11400000, guid: a4882ba3e598b144dbb329b9b9b9d3d4, type: 2}
   <BattleNumber>k__BackingField: 0
 --- !u!114 &702980281 stripped
 MonoBehaviour:
@@ -1931,6 +1935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   _state: 0
   _previous: 0
+  <MenuLayers>k__BackingField: 00000000
   <ActionWindow>k__BackingField: {fileID: 1223616524}
   <SkillWindow>k__BackingField: {fileID: 4501445260819007247}
   <TargetWindow>k__BackingField: {fileID: 6373021245325965401}

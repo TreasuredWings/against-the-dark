@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 
     [field: SerializeField] public List<string> AllyNames {get; private set;} = new List<string> { "Alex", "Victoria", "Sylvie" };
     [field: SerializeField] public List<Sprite> AllySprites {get; private set;} = new List<Sprite>();
+    [field: SerializeField] public List<RuntimeAnimatorController> AllyAnimations {get; private set;} = new List<RuntimeAnimatorController>();
     [field: SerializeField] public List<AllyClass> AllyClasses {get; private set;} = new List<AllyClass>();
     [field: SerializeField] public Skill DebugSkill {get; private set;}
 
@@ -32,16 +33,18 @@ public class GameManager : MonoBehaviour
         {
             // Instantiate, parented to PartyContainer
             Vector3 homePos = new Vector3(-4 - i, i - 1, 0);
+            int sortingOrder = i*-1+2;
             GameObject tempObj = Instantiate(AllyPrefab, homePos, Quaternion.identity, PartyContainer.transform);
             Ally tempA = tempObj.GetComponent<Ally>();
-            // Assign names and classes
-            tempA.Name = AllyNames[i];
-            tempA.UnitSprite.sprite = AllySprites[i];
-            tempA.AssignClass(AllyClasses[i]);
+            // Assign names
+            // Assign default sprite
+            // Assign animatior override
+            // Assign class
+            // Any debug skills also add them
+            // Set animation home point and draw order
+            tempA.InitializeData(AllyNames[i], AllyClasses[i], AllySprites[i], AllyAnimations[i], homePos, sortingOrder);
             tempA.AddSkill(DebugSkill);
-            tempA.UnitAnim.HomePoint = homePos;
-            int sortingOrder = i*-1+2;
-            tempA.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
+            // Finally, add them
             Party.Add(tempA);
         }
         UIManager.Instance.SetStatusWindow();

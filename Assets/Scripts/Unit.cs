@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
+using Unity.VisualScripting;
 
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
@@ -24,15 +26,16 @@ public class Unit : MonoBehaviour
     [field: SerializeField] public int HP {get; protected set;} = 100;
     [field: SerializeField] public int MP {get; protected set;} = 10;
 
-    [field: SerializeField] public float OutDamageMod {get; protected set;} = 1;
-    [field: SerializeField] public float IncDamageMod {get; protected set;} = 1;
-    [field: SerializeField] public float SpeedMod {get; protected set;} = 1;
+    [field: SerializeField] public float OutDamageMod {get; set;} = 1;
+    [field: SerializeField] public float IncDamageMod {get; set;} = 1;
+    [field: SerializeField] public float SpeedMod {get; set;} = 1;
     [field: SerializeField] public float SpeedVariance {get; protected set;} = 1;
 
     [field: SerializeField] public bool IsKnockedOut {get; protected set;} = false;
 
     [field: SerializeField] public List<float> Affinities { get; protected set; } = new List<float> { 1, 1, 1, 1, 1, 1 };
     [field: SerializeField] public List<StatusEffectBase> AppliedStatuses { get; protected set; } = new List<StatusEffectBase>();
+    [field: SerializeField] public List<int> AppliedStatusesDurations {get; protected set;} = new List<int>();
     [field: SerializeField] public List<Skill> SkillList { get; protected set; } = new List<Skill>();
 
     [field: SerializeField] public UnitAnimator UnitAnim {get; protected set;}
@@ -53,7 +56,7 @@ public class Unit : MonoBehaviour
     // Returns: this unit's new HP
     public virtual int TakeDamage(int incomingDamage)
     {
-        
+        StartCoroutine(UnitAnim.DamageAnim());
         if (incomingDamage > HP)
         {
             HP = 0;
@@ -61,6 +64,10 @@ public class Unit : MonoBehaviour
         else
         {
             HP -= incomingDamage;
+        }
+        if (HP <= HPMax / 3)
+        {
+            UnitAnim.Anim.SetBool("Low", true);
         }
         if (HP <= 0)
         {
@@ -72,11 +79,35 @@ public class Unit : MonoBehaviour
     public virtual void Knockout()
     {
         IsKnockedOut = true;
+        UnitAnim.Anim.SetBool("Knockout", true);
         for (int i = AppliedStatuses.Count - 1; i >= 0; i--)
         {
             AppliedStatuses[i].Removal(this);
             AppliedStatuses.RemoveAt(i);
         }
+    }
+
+    public virtual int TakeHealing(int incomingHealing)
+    {
+        if (IsKnockedOut)
+        {
+            return 0;
+        }
+
+        if (incomingHealing > (HPMax - HP))
+        {
+            HP = HPMax;
+        }
+        else
+        {
+            HP += incomingHealing;
+        }
+        if (HP > HPMax / 3)
+        {
+            UnitAnim.Anim.SetBool("Low", false);
+            UnitAnim.CheckIdle();
+        }
+        return HP;
     }
 
     public virtual int TakeStun(int incomingStun)
@@ -96,37 +127,52 @@ public class Unit : MonoBehaviour
         return false;
     }
 
-    public virtual void CheckStatuses(StatusTiming filter)
+    public virtual IEnumerator CheckStatuses(StatusTiming filter)
     {
-        foreach (StatusEffectBase status in AppliedStatuses)
+        for (int i = 0; i < AppliedStatuses.Count; i++)
         {
+            StatusEffectBase status = AppliedStatuses[i];
             if (status.Timing == filter)
             {
                 status.Trigger(this);
+                AppliedStatusesDurations[i]--;
             }
         }
         for (int i = AppliedStatuses.Count - 1; i >= 0; i--)
         {
             StatusEffectBase status = AppliedStatuses[i];
-            if (status.Duration <= 0)
+            if (AppliedStatusesDurations[i] <= 0)
             {
-                status.Removal(this);
-                AppliedStatuses.RemoveAt(i);
+                yield return StartCoroutine(RemoveStatus(i));
             }
         }
     }
 
-    public virtual void AddStatus(StatusEffectBase status)
+    public virtual bool AddStatus(StatusEffectBase status)
     {
         AppliedStatuses.Add(status);
+        AppliedStatusesDurations.Add(status.Duration);
         status.Application(this);
+        UIManager.Instance.CreateEffectText(transform.position, "+" + status.Name, Colors.White);
+        return true;
     }
+
+    public virtual IEnumerator RemoveStatus(int index)
+    {
+        StatusEffectBase status = AppliedStatuses[index];
+        UIManager.Instance.CreateEffectText(transform.position, "-" + status.Name, Colors.White);
+        status.Removal(this);
+        AppliedStatuses.RemoveAt(index);
+        AppliedStatusesDurations.RemoveAt(index);
+        yield return new WaitForSeconds(0.25f);
+    }
+
 
     public virtual void AddSkill(Skill newSkill)
     {
         SkillList.Add(newSkill);
     }
-
+    
     public void RollSpeed()
     {
         SpeedVariance = (float) (UnityEngine.Random.value * 0.4 + 0.8);
