@@ -839,10 +839,10 @@ MonoBehaviour:
   - {fileID: 22100000, guid: fb2c5b40c81e03d44a042a75c347b603, type: 2}
   - {fileID: 22100000, guid: d0df499b25891ad41834ef19eb6bb6d0, type: 2}
   <AllyClasses>k__BackingField:
-  - {fileID: 11400000, guid: 2405ae37a14d79547aa785a0f85ec2ad, type: 2}
-  - {fileID: 11400000, guid: 91f28bfb8803ac571984077a6b313ec4, type: 2}
-  - {fileID: 11400000, guid: 83baeabf03ef7f8e09f4aafa21b34908, type: 2}
-  <DebugSkill>k__BackingField: {fileID: 11400000, guid: a4882ba3e598b144dbb329b9b9b9d3d4, type: 2}
+  - {fileID: 11400000, guid: 962098e3ae524b7da929ef0f71bcdc71, type: 2}
+  - {fileID: 11400000, guid: 28de004c8dcb39ed2963878f9289785a, type: 2}
+  - {fileID: 11400000, guid: 5dd964c31182ce4229c942687800e771, type: 2}
+  <DebugSkill>k__BackingField: {fileID: 0}
   <BattleNumber>k__BackingField: 0
 --- !u!114 &702980281 stripped
 MonoBehaviour:

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fire
   m_EditorClassIdentifier: Assembly-CSharp::Skill
   <Name>k__BackingField: Fire
-  <Description>k__BackingField: Cast a fire magical attack at a single enemy.
+  <Description>k__BackingField: Cast a fire magic attack at a single enemy.
   <Type>k__BackingField: 2
   <AssociatedClass>k__BackingField: 4
   <Target>k__BackingField: 1

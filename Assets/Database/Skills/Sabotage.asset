@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da7a244ae2e33375faed01ef351bf89b, type: 3}
+  m_Name: Sabotage
+  m_EditorClassIdentifier: Assembly-CSharp::Skill
+  <Name>k__BackingField: Sabotage
+  <Description>k__BackingField: Give an enemy Weak and Vulnerable for 3 turns.
+  <Type>k__BackingField: 1
+  <AssociatedClass>k__BackingField: 7
+  <Target>k__BackingField: 1
+  <AnimationType>k__BackingField: 1
+  <MPCost>k__BackingField: 15
+  <EffectChain>k__BackingField:
+  - {fileID: 11400000, guid: 808339e60f28b76cfb2e1cac902af243, type: 2}
+  - {fileID: 11400000, guid: 3da7997df8871fff6bd7537c5ad27289, type: 2}

@@ -17,7 +17,7 @@ public class Enemy : Unit
     [Header("Enemy Parameters")]
 
     [field: SerializeField] public int Stun { get; private set; } = 0; // Stun max is 100
-    [field: SerializeField] public float StunMod { get; private set; } = 1;
+    [field: SerializeField] public float StunMod { get; set; } = 1;
     [field: SerializeField] public bool IsStunned { get; private set; } = false;
 
     [Header("UI Hooks")]

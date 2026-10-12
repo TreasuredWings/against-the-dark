@@ -10,6 +10,11 @@ public class ApplyStatusEffect : SkillEffectBase
     {
         foreach (Unit target in targets)
         {
+            if (target.IsKnockedOut)
+            {
+                continue;
+            }
+            
             target.AddStatus(StatusEffect);
         }
         return true;

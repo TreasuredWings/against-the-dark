@@ -140,7 +140,6 @@ public class Unit : MonoBehaviour
         }
         for (int i = AppliedStatuses.Count - 1; i >= 0; i--)
         {
-            StatusEffectBase status = AppliedStatuses[i];
             if (AppliedStatusesDurations[i] <= 0)
             {
                 yield return StartCoroutine(RemoveStatus(i));
@@ -148,12 +147,25 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public virtual bool AddStatus(StatusEffectBase status)
+    public virtual bool AddStatus(StatusEffectBase newStatus)
     {
-        AppliedStatuses.Add(status);
-        AppliedStatusesDurations.Add(status.Duration);
-        status.Application(this);
-        UIManager.Instance.CreateEffectText(transform.position, "+" + status.Name, Colors.White);
+        bool refresh = false;
+        for (int i = 0; i < AppliedStatuses.Count; i++)
+        {
+            if (newStatus.Name == AppliedStatuses[i].Name)
+            {
+                refresh = true;
+                AppliedStatusesDurations[i] = newStatus.Duration;
+                break;
+            }
+        }
+        if (!refresh)
+        {
+            AppliedStatuses.Add(newStatus);
+            AppliedStatusesDurations.Add(newStatus.Duration);
+            newStatus.Application(this);
+        }
+        UIManager.Instance.CreateEffectText(transform.position, "+" + newStatus.Name, Colors.White);
         return true;
     }
 
