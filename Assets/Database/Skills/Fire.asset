@@ -17,6 +17,7 @@ MonoBehaviour:
   <Type>k__BackingField: 2
   <AssociatedClass>k__BackingField: 4
   <Target>k__BackingField: 1
+  <AnimationType>k__BackingField: 1
   <MPCost>k__BackingField: 5
   <EffectChain>k__BackingField:
   - {fileID: 11400000, guid: f8d1f2ac30774844480d6c170f2556bc, type: 2}

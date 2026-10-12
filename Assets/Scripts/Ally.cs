@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Ally : Unit
 {
@@ -26,6 +27,13 @@ public class Ally : Unit
         Speed = Class.Speed;
         Affinities = new List<float>(Class.Affinities);
         AddSkill(Class.ClassSkill);
+    }
+
+    public IEnumerator TakeTurn(Skill chosen, List<Unit> targets)
+    {
+        Debug.Log(Name + " uses " + chosen.Name);
+        yield return StartCoroutine(UseSkill(chosen, targets));
+        BattleManager.Instance.InputComplete();
     }
 
     public override int TakeDamage(int incomingDamage)

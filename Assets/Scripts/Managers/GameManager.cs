@@ -31,13 +31,17 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             // Instantiate, parented to PartyContainer
-            GameObject tempObj = Instantiate(AllyPrefab, new Vector3(-4 - i, i - 1, 0), Quaternion.identity, PartyContainer.transform);
+            Vector3 homePos = new Vector3(-4 - i, i - 1, 0);
+            GameObject tempObj = Instantiate(AllyPrefab, homePos, Quaternion.identity, PartyContainer.transform);
             Ally tempA = tempObj.GetComponent<Ally>();
             // Assign names and classes
             tempA.Name = AllyNames[i];
             tempA.UnitSprite.sprite = AllySprites[i];
             tempA.AssignClass(AllyClasses[i]);
             tempA.AddSkill(DebugSkill);
+            tempA.UnitAnim.HomePoint = homePos;
+            int sortingOrder = i*-1+2;
+            tempA.GetComponent<SpriteRenderer>().sortingOrder = sortingOrder;
             Party.Add(tempA);
         }
         UIManager.Instance.SetStatusWindow();
@@ -56,7 +60,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager: Starting battle!");
         
         BattleManager.Instance.InitializeBattle(Party, TestTroop.EnemyList);
-        BattleManager.Instance.ProcessTurns();
+        StartCoroutine(BattleManager.Instance.ProcessTurns());
     }
 
     // TODO

@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.UIElements;
-using Unity.VisualScripting;
 
 /*
 The BattleManager is responsible for managing turns, recieving inputs from the UI, and telling Units to perform skills.
@@ -122,7 +120,7 @@ public class BattleManager : MonoBehaviour
     // All allies are knocked out
     // All enemies are knocked out
     // A player turn is reached and we need input
-    public void ProcessTurns()
+    public IEnumerator ProcessTurns()
     {
         while (State == BattleState.Wait)
         {
@@ -154,7 +152,8 @@ public class BattleManager : MonoBehaviour
                 // Process the enemy's turn by calling it for an action
                 Enemy next = (Enemy)TurnOrder[0];
                 next.CheckStatuses(StatusTiming.Start);
-                next.TakeTurn();
+                Debug.Log(next.Name + "'s Turn");
+                yield return StartCoroutine(next.TakeTurn());
                 next.CheckStatuses(StatusTiming.End);
                 TurnOrder.RemoveAt(0);
             }
@@ -163,9 +162,11 @@ public class BattleManager : MonoBehaviour
                 // End this process and wait for input
                 State = BattleState.Command;
                 InputManager.Instance.ActiveAlly = (Ally)TurnOrder[0];
-                InputManager.Instance.ActiveAlly.CheckStatuses(StatusTiming.Start);
+                TurnOrder[0].CheckStatuses(StatusTiming.Start);
+                StartCoroutine(TurnOrder[0].UnitAnim.StepForward());
                 UIManager.Instance.UpdateAllStatusWindows();
                 UIManager.Instance.EnterWindow(UIState.Action);
+                Debug.Log(InputManager.Instance.ActiveAlly.Name + "'s Turn");
             }
             else
             {
@@ -182,7 +183,7 @@ public class BattleManager : MonoBehaviour
         State = BattleState.Wait;
         InputManager.Instance.ActiveAlly.CheckStatuses(StatusTiming.End);
         TurnOrder.RemoveAt(0);
-        ProcessTurns();
+        StartCoroutine(ProcessTurns());
     }
 
     public bool AllKO(List<Unit> units)

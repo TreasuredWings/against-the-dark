@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -43,11 +44,12 @@ public class Enemy : Unit
         SkillList = new List<Skill>(Data.SkillList);
     }
 
-    public void TakeTurn()
+    public IEnumerator TakeTurn()
     {
         Skill toUse = GetSkill();
         List<Unit> onTargets = GetTargets(toUse);
-        UseSkill(toUse, onTargets);
+        Debug.Log(Name + " uses " + toUse.Name);
+        yield return StartCoroutine(UseSkill(toUse, onTargets));
     }
 
     public List<Unit> GetTargets(Skill skill)

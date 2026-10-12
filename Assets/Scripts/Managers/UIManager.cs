@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
         }
     }
     public UIState Previous { get => _previous; private set => _previous = value; }
-    public List<UIState> MenuLayers { get; private set; } = new List<UIState>();
+    [field: SerializeField] public List<UIState> MenuLayers { get; private set; } = new List<UIState> { UIState.Wait };
     public int MenuNumber { get; private set; } = 0;
     [field: SerializeField] public GameObject ActionWindow { get; private set; }
     [field: SerializeField] public GameObject SkillWindow { get; private set; }
@@ -92,6 +92,15 @@ public class UIManager : MonoBehaviour
     public void GoBack()
     {
         MenuLayers.RemoveAt(MenuLayers.Count - 1);
+        ShowWindow();
+    }
+
+    public void CloseWindow()
+    {
+        for (int i = MenuLayers.Count - 1; i > 0; i--)
+        {
+            MenuLayers.RemoveAt(i);
+        }
         ShowWindow();
     }
 

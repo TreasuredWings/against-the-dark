@@ -1,7 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public enum ActionButtons { Attack, Class, Skill, Defend, Item }
 
@@ -62,16 +64,9 @@ public class InputManager : MonoBehaviour
     // TargetChosen tells the ActiveAlly to use ActiveSkill on a list of targets given by the target buttons
     public void TargetButtonClicked(List<Unit> targets)
     {
-        if (ActiveAlly.UseSkill(ActiveSkill, targets))
-        {
-            UIManager.Instance.HideDescriptionText();
-            BattleManager.Instance.InputComplete();
-        }
-        else
-        {
-            // Skill could not be used
-            Debug.Log("Skill could not be used");
-        }
+        UIManager.Instance.HideDescriptionText();
+        UIManager.Instance.CloseWindow();
+        StartCoroutine(ActiveAlly.TakeTurn(ActiveSkill, targets));
     }
 
     public void BackButtonClicked()

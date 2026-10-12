@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5581916627278778270}
   - component: {fileID: 1920148712381556073}
   - component: {fileID: 7457370983864329384}
+  - component: {fileID: 2100712555753299219}
+  - component: {fileID: 1445190925680358483}
   m_Layer: 0
   m_Name: PartyMember
   m_TagString: Untagged
@@ -132,4 +134,43 @@ MonoBehaviour:
   <SkillList>k__BackingField:
   - {fileID: 11400000, guid: 266830f9c0b6468449eb19c057b67383, type: 2}
   - {fileID: 11400000, guid: fdf447b104718fb4984e2f9b7f3f3c0e, type: 2}
+  <UnitAnim>k__BackingField: {fileID: 1445190925680358483}
   <Class>k__BackingField: {fileID: 11400000, guid: c5619464be5aaf3dfbd4472ba6170fd0, type: 2}
+--- !u!95 &2100712555753299219
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5318367913125358701}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2b6ccdf386d37d00c922ad87c58dcdd1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1445190925680358483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5318367913125358701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8be9678a0d217d808aaff098a1caa3c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitAnimator
+  <Anim>k__BackingField: {fileID: 2100712555753299219}
+  <HomePoint>k__BackingField: {x: 0, y: 0, z: 0}
+  <ForwardDistance>k__BackingField: 1
+  <DashSpeed>k__BackingField: 20

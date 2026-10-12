@@ -1,9 +1,6 @@
-using System.Runtime;
-using System;
 using UnityEngine;
-using System.Diagnostics;
 using System.Collections.Generic;
-using UnityEngine.Rendering.Universal.Internal;
+using System.Collections;
 
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
@@ -38,24 +35,18 @@ public class Unit : MonoBehaviour
     [field: SerializeField] public List<StatusEffectBase> AppliedStatuses { get; protected set; } = new List<StatusEffectBase>();
     [field: SerializeField] public List<Skill> SkillList { get; protected set; } = new List<Skill>();
 
+    [field: SerializeField] public UnitAnimator UnitAnim {get; protected set;}
+
     // *** Functions ***
 
     // UseSkill: Attempt to use specified Skill on targets.
     // Return: True if skill could be executed, False if requirements were not met/skill was not executed.
-    public bool UseSkill(Skill chosen, List<Unit> targets)
+    public IEnumerator UseSkill(Skill chosen, List<Unit> targets)
     {
-        int mpCost = chosen.MPCost;
-        if (!SpendMP(mpCost))
-        {
-            // Could not spend enough MP, cancel skill.
-            return false;
-        }
-        if (!chosen.Use(this, targets))
-        {
-            // Could not apply skill fully, cancel skill.
-            return false;
-        }
-        return true;
+        SpendMP(chosen.MPCost);
+        yield return StartCoroutine(chosen.PreEffectAnim(this, targets));
+        yield return StartCoroutine(chosen.Effect(this, targets));
+        yield return StartCoroutine(chosen.PostEffectAnim(this));
     }
 
     // Recieve damage, capped at this unit's current hp

@@ -17,5 +17,6 @@ MonoBehaviour:
   <Type>k__BackingField: 0
   <AssociatedClass>k__BackingField: 0
   <Target>k__BackingField: 0
+  <AnimationType>k__BackingField: 1
   <MPCost>k__BackingField: 0
   <EffectChain>k__BackingField: []
