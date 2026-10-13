@@ -24,7 +24,7 @@ public class HealingEffect : SkillEffectBase
             {
                 statBoost = user.Resist;
             }
-            float variance = (float) (UnityEngine.Random.value * 0.1 + 0.95);
+            float variance = (float) (UnityEngine.Random.value * 0.2 + 0.90);
             int totalHealing = (int) Math.Max( Math.Floor( (target.HPMax * HealStrength + user.Resist) * variance ), 1);
             target.TakeHealing(totalHealing);
         }

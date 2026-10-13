@@ -113,9 +113,9 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    member.TakeHealing( (int) (member.HPMax * 0.5f) );
+                    member.TakeHealing( (int) (member.HPMax * 0.4f) );
                 }
-                member.GainMP( (int) (member.MPMax * 0.5f) );
+                member.GainMP( (int) (member.MPMax * 0.4f) );
             }
             // If this is the last battle (BattleNumber 10) go back to the start screen
             if (BattleNumber >= 10)
@@ -144,7 +144,7 @@ public class GameManager : MonoBehaviour
         {
             // Randomly pick a troop out of the possible list
             // Start that battle
-            Troop encounter = TroopPool[ Random.Range(0, TroopPool.Count - 1) ];
+            Troop encounter = TroopPool[ Random.Range(0, TroopPool.Count) ];
             StartBattle(encounter);
         }
     }

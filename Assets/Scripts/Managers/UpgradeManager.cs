@@ -53,7 +53,7 @@ public class UpgradeManager : MonoBehaviour
         {
             ResetEligible();
         }
-        ChosenAlly = EligibleAllies[ Random.Range(0, EligibleAllies.Count - 1) ];
+        ChosenAlly = EligibleAllies[ Random.Range(0, EligibleAllies.Count) ];
         UpgradeDecks[ChosenAlly].Shuffle();
         // Pick 3 different upgrades from their class's upgrade pool
         for (int i = 0; i <= 2; i++)
@@ -93,6 +93,10 @@ public class UpgradeManager : MonoBehaviour
             {
                 UpgradeDecks[ChosenAlly].Return(RolledUpgrades[i]);
             }
+        }
+        for (int i = 0; i <= 2; i++)
+        {
+            RolledUpgrades.RemoveAt(0);
         }
         EligibleAllies.Remove(ChosenAlly);
         // Tell UIManager to hide upgrades

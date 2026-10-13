@@ -75,12 +75,12 @@ public class Enemy : Unit
                 // If nothing has taunt, roll randomly
                 if (targets == null)
                 {
-                    targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Allies.Count - 1);
+                    targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Allies.Count);
                     targets = new List<Unit> { BattleManager.Instance.Allies[targetIndex] };
                 }
                 break;
             case TargetType.SingleAlly:
-                targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Enemies.Count - 1);
+                targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Enemies.Count);
                 targets = new List<Unit> { BattleManager.Instance.Enemies[targetIndex] };
                 break;
             case TargetType.AllEnemies:
