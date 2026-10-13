@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae4e23a1dd6f9ac709a797d6ee361b65, type: 3}
+  m_Name: Wisp
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  <Name>k__BackingField: Magic Wisp
+  <EnemySprite>k__BackingField: {fileID: 3586392811686792816, guid: 99f979f993adccc40b85ffa3bc6e82b6, type: 3}
+  <EnemySpriteOverride>k__BackingField: {fileID: 22100000, guid: 6c5bf6b83a7fc564ab4a8ece941221d0, type: 2}
+  <HPMax>k__BackingField: 300
+  <MPMax>k__BackingField: 100
+  <Attack>k__BackingField: 75
+  <Defense>k__BackingField: 20
+  <Magic>k__BackingField: 125
+  <Resist>k__BackingField: 20
+  <Speed>k__BackingField: 65
+  <Affinities>k__BackingField:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1.5
+  <SkillList>k__BackingField:
+  - {fileID: 11400000, guid: 266830f9c0b6468449eb19c057b67383, type: 2}
+  - {fileID: 11400000, guid: a6ebd8cae78b5798c8ef9895bdad33c3, type: 2}
+  - {fileID: 11400000, guid: 266830f9c0b6468449eb19c057b67383, type: 2}
+  <AIType>k__BackingField: 2
+  <SkillChance>k__BackingField: []
+  <StunModifier>k__BackingField: 1

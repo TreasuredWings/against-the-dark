@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7375baaef6b92504ea42a61e79294742, type: 3}
+  m_Name: Enhancer
+  m_EditorClassIdentifier: Assembly-CSharp::AllyClass
+  <Name>k__BackingField: Enhancer
+  <Type>k__BackingField: 6
+  <HPMax>k__BackingField: 150
+  <MPMax>k__BackingField: 40
+  <Attack>k__BackingField: 50
+  <Defense>k__BackingField: 40
+  <Magic>k__BackingField: 70
+  <Resist>k__BackingField: 50
+  <Speed>k__BackingField: 40
+  <Affinities>k__BackingField:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  <ClassSkill>k__BackingField: {fileID: 11400000, guid: 68f50312b88f79333b37e688165a82c4, type: 2}
+  <UpgradePool>k__BackingField:
+  - {fileID: 11400000, guid: 097d080258c57cc9bae3e646ecd37370, type: 2}
+  - {fileID: 11400000, guid: 83f122b2902392c85ab799c9283a73c2, type: 2}
+  - {fileID: 11400000, guid: 158da45ca11729921b156ac60b63b132, type: 2}
+  - {fileID: 11400000, guid: c31a1f857b9a67b4e9ae0f3b9ff74ab8, type: 2}
+  - {fileID: 11400000, guid: 5bfd0bd2b83268517a8918f521424445, type: 2}
+  - {fileID: 11400000, guid: 6dfd87fc45d17cfa7a60f8ed07cd7c0f, type: 2}

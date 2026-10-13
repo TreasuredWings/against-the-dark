@@ -1,130 +1,220 @@
-using System.Runtime;
-using System;
 using UnityEngine;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Collections;
+using System;
+using Unity.VisualScripting;
 
 // Base class for all Unit-type classes.
 public class Unit : MonoBehaviour
 {
-    /***************************************
-    * Fields *
-    ***************************************/
+    // *** Properties ***
 
-    // Unit stats
-    [SerializeField] private string _name = "Default";
-    [SerializeField] private int _level = 1;
-    [SerializeField] private int _hp = 100;
-    [SerializeField] private int _hpMax = 100;
-    [SerializeField] private int _mp = 10;
-    [SerializeField] private int _mpMax = 10;
-    [SerializeField] private int _attack = 5;
-    [SerializeField] private int _defense = 5;
-    [SerializeField] private int _magic = 5;
-    [SerializeField] private int _resist = 5;
-    [SerializeField] private int _speed = 5;
 
-    // Statuses
-    [SerializeField] private bool _ally = false;
-    [SerializeField] private bool _knockout = false;
+    // Dynamic stats
+    [Header("Unit Parameters")]
+    [field: SerializeField] public SpriteRenderer UnitSprite {get; set;}
+    [field: SerializeField] public string Name {get; set;} = "Default Unit";
+    [field: SerializeField] public int HPMax {get; set;} = 100;
+    [field: SerializeField] public int MPMax {get; set;} = 10;
+    [field: SerializeField] public int Attack {get; set;} = 10;
+    [field: SerializeField] public int Defense {get; set;} = 10;
+    [field: SerializeField] public int Magic {get; set;} = 10;
+    [field: SerializeField] public int Resist {get; set;} = 10;
+    [field: SerializeField] public int Speed {get; set;} = 10;
 
-    // In battle stats
-    
+    // Dynamic stats
+    [field: SerializeField] public int HP {get; protected set;} = 100;
+    [field: SerializeField] public int MP {get; protected set;} = 10;
 
-    /***************************************
-    * Properties *
-    ***************************************/
-    
-    // Read-write properties
-    // HP/MP must stay within bounds 0 < value < HP/MP max
-    public int HP
+    [field: SerializeField] public float OutDamageMod {get; set;} = 1;
+    [field: SerializeField] public float IncDamageMod {get; set;} = 1;
+    [field: SerializeField] public float SpeedMod {get; set;} = 1;
+    [field: SerializeField] public float SpeedVariance {get; protected set;} = 1;
+
+    [field: SerializeField] public bool IsKnockedOut {get; protected set;} = false;
+
+    [field: SerializeField] public List<float> Affinities { get; protected set; } = new List<float> { 1, 1, 1, 1, 1, 1 };
+    [field: SerializeField] public List<StatusEffectBase> AppliedStatuses { get; protected set; } = new List<StatusEffectBase>();
+    [field: SerializeField] public List<int> AppliedStatusesDurations {get; protected set;} = new List<int>();
+    [field: SerializeField] public List<Skill> SkillList { get; protected set; } = new List<Skill>();
+
+    [field: SerializeField] public UnitAnimator UnitAnim {get; protected set;}
+
+    // *** Functions ***
+
+    // UseSkill: Attempt to use specified Skill on targets.
+    // Return: True if skill could be executed, False if requirements were not met/skill was not executed.
+    public IEnumerator UseSkill(Skill chosen, List<Unit> targets)
     {
-        get => _hp;
-        set
+        SpendMP(chosen.MPCost);
+        yield return StartCoroutine(chosen.PreEffectAnim(this, targets));
+        yield return StartCoroutine(chosen.Effect(this, targets));
+        yield return StartCoroutine(chosen.PostEffectAnim(this));
+    }
+
+    // Recieve damage, capped at this unit's current hp
+    // Returns: this unit's new HP
+    public virtual int TakeDamage(int incomingDamage)
+    {
+        StartCoroutine(UnitAnim.DamageAnim());
+        if (incomingDamage > HP)
         {
-            if (value > _hpMax)
+            HP = 0;
+        }
+        else
+        {
+            HP -= incomingDamage;
+        }
+        if (HP <= HPMax / 3)
+        {
+            UnitAnim.Anim.SetBool("Low", true);
+        }
+        if (HP <= 0)
+        {
+            Knockout();
+        }
+        return HP;
+    }
+
+    public virtual void Knockout()
+    {
+        IsKnockedOut = true;
+        UnitAnim.Anim.SetBool("Knockout", true);
+        for (int i = AppliedStatuses.Count - 1; i >= 0; i--)
+        {
+            AppliedStatuses[i].Removal(this);
+            AppliedStatuses.RemoveAt(i);
+        }
+    }
+
+    public virtual void Revive()
+    {
+        IsKnockedOut = false;
+        TakeHealing( (int) (HPMax * 0.5f) );
+        UnitAnim.Anim.SetBool("Knockout", false);
+    }
+
+    public virtual int TakeHealing(int incomingHealing)
+    {
+        if (IsKnockedOut)
+        {
+            return 0;
+        }
+
+        if (incomingHealing > (HPMax - HP))
+        {
+            HP = HPMax;
+        }
+        else
+        {
+            HP += incomingHealing;
+        }
+        if (HP > HPMax / 3)
+        {
+            UnitAnim.Anim.SetBool("Low", false);
+            UnitAnim.CheckIdle();
+        }
+        return HP;
+    }
+
+    public virtual int TakeStun(int incomingStun)
+    {
+        return 0;
+    }
+
+    // Attempt to spend the specified ammount of MP
+    // Returns: true if it was able to spend, false if it could not
+    public virtual bool SpendMP(int cost)
+    {
+        if (cost <= MP)
+        {
+            MP -= cost;
+            return true;
+        }
+        return false;
+    }
+
+    public virtual int GainMP(int gain)
+    {
+        if (IsKnockedOut)
+        {
+            return 0;
+        }
+
+        if (gain > (MPMax - MP))
+        {
+            MP = MPMax;
+        }
+        else
+        {
+            MP += gain;
+        }
+        return MP;
+    }
+
+    public virtual IEnumerator CheckStatuses(StatusTiming filter)
+    {
+        for (int i = 0; i < AppliedStatuses.Count; i++)
+        {
+            StatusEffectBase status = AppliedStatuses[i];
+            if (status.Timing == filter)
             {
-                _hp = _hpMax;
+                status.Trigger(this);
+                AppliedStatusesDurations[i]--;
             }
-            else if (value < 0)
+        }
+        for (int i = AppliedStatuses.Count - 1; i >= 0; i--)
+        {
+            if (AppliedStatusesDurations[i] <= 0)
             {
-                _hp = 0;
-            }
-            else
-            {
-                _hp = value;
+                yield return StartCoroutine(RemoveStatus(i));
             }
         }
     }
 
-    public int MP
+    public virtual bool AddStatus(StatusEffectBase newStatus)
     {
-        get => _mp;
-        set
+        bool refresh = false;
+        for (int i = 0; i < AppliedStatuses.Count; i++)
         {
-            if (value > _mpMax)
+            if (newStatus.Name == AppliedStatuses[i].Name)
             {
-                _mp = _mpMax;
-            }
-            else if (value < 0)
-            {
-                _mp = 0;
-            }
-            else
-            {
-                _mp = value;
+                refresh = true;
+                AppliedStatusesDurations[i] = newStatus.Duration;
+                break;
             }
         }
+        if (!refresh)
+        {
+            AppliedStatuses.Add(newStatus);
+            AppliedStatusesDurations.Add(newStatus.Duration);
+            newStatus.Application(this);
+        }
+        UIManager.Instance.CreateEffectText(transform.position, "+" + newStatus.Name, Colors.White);
+        return true;
     }
 
-    // Read-only properties
-    public string Name => _name;
-    public int Level => _level;
-    public int HPMax => _hpMax;
-    public int MPMax => _mpMax;
-    public int Attack => _attack;
-    public int Defense => _defense;
-    public int Magic => _magic;
-    public int Resist => _resist;
-    public int Speed => _speed;
-
-    public bool IsAlly => _ally;
-    public bool IsKnockedOut => _knockout;
-
-    /***************************************
-    * Class Functions *
-    ***************************************/
-
-    // Perform a basic attack against the target Unit
-    // Damage formula is currently:
-    // damage = a.atk - (b.def * 0.5)
-    // Damage defaults to 1 if at 0 or under.
-    public void BasicAttack(Unit target)
+    public virtual IEnumerator RemoveStatus(int index)
     {
-        int damage = (int)Math.Floor( Math.Max( this.Attack - (target.Defense * 0.5), 1 ));
-        target.TakeDamage(damage);
-        UnityEngine.Debug.Log(this.Name + " dealt " + damage + " damage to " + target.Name);
+        StatusEffectBase status = AppliedStatuses[index];
+        UIManager.Instance.CreateEffectText(transform.position, "-" + status.Name, Colors.White);
+        status.Removal(this);
+        AppliedStatuses.RemoveAt(index);
+        AppliedStatusesDurations.RemoveAt(index);
+        yield return new WaitForSeconds(0.25f);
     }
 
-    // Recieve damage, capped at this unit's current hp (handled in property)
-    public void TakeDamage(int incomingDamage)
+
+    public virtual void AddSkill(Skill newSkill)
     {
-        HP -= incomingDamage;
+        SkillList.Add(newSkill);
     }
-
-    /***************************************
-    * Unity Functions *
-    ***************************************/
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    
+    public void RollSpeed()
     {
-        
+        SpeedVariance = (float) (UnityEngine.Random.value * 0.2 + 0.9);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    // *** Unity Functions ***
 
 }

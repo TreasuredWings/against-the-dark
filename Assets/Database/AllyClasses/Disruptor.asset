@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7375baaef6b92504ea42a61e79294742, type: 3}
+  m_Name: Disruptor
+  m_EditorClassIdentifier: Assembly-CSharp::AllyClass
+  <Name>k__BackingField: Disruptor
+  <Type>k__BackingField: 7
+  <HPMax>k__BackingField: 200
+  <MPMax>k__BackingField: 40
+  <Attack>k__BackingField: 70
+  <Defense>k__BackingField: 50
+  <Magic>k__BackingField: 50
+  <Resist>k__BackingField: 40
+  <Speed>k__BackingField: 60
+  <Affinities>k__BackingField:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  - 1
+  <ClassSkill>k__BackingField: {fileID: 11400000, guid: 70a064fbadefd849a841faadeb1c5699, type: 2}
+  <UpgradePool>k__BackingField:
+  - {fileID: 11400000, guid: b97662303df02d393ac9bf2882f7d16b, type: 2}
+  - {fileID: 11400000, guid: b79822a151a1f443fa9db161403b9180, type: 2}
+  - {fileID: 11400000, guid: 1b8474ac4090cfa0ba82402ecf9d720c, type: 2}
+  - {fileID: 11400000, guid: 68e5fff494fb19b35911021300c7baa1, type: 2}
+  - {fileID: 11400000, guid: e0b862aa3fd493284b6165bc28e18b8e, type: 2}
+  - {fileID: 11400000, guid: f58b23dfd2cd1acc9842c82deae12282, type: 2}
