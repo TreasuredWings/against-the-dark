@@ -8,6 +8,7 @@ public class ActionButton : ButtonBase, IPointerEnterHandler, IPointerExitHandle
 
     public override void Clicked()
     {
+        SFXManager.Instance.PlaySFX(1, Vector3.zero, 1);
         InputManager.Instance.ActionButtonClicked(ButtonType);
     }
 

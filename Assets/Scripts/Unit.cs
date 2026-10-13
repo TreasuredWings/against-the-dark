@@ -14,13 +14,13 @@ public class Unit : MonoBehaviour
     [Header("Unit Parameters")]
     [field: SerializeField] public SpriteRenderer UnitSprite {get; set;}
     [field: SerializeField] public string Name {get; set;} = "Default Unit";
-    [field: SerializeField] public int HPMax {get; protected set;} = 100;
-    [field: SerializeField] public int MPMax {get; protected set;} = 10;
-    [field: SerializeField] public int Attack {get; protected set;} = 10;
-    [field: SerializeField] public int Defense {get; protected set;} = 10;
-    [field: SerializeField] public int Magic {get; protected set;} = 10;
-    [field: SerializeField] public int Resist {get; protected set;} = 10;
-    [field: SerializeField] public int Speed {get; protected set;} = 10;
+    [field: SerializeField] public int HPMax {get; set;} = 100;
+    [field: SerializeField] public int MPMax {get; set;} = 10;
+    [field: SerializeField] public int Attack {get; set;} = 10;
+    [field: SerializeField] public int Defense {get; set;} = 10;
+    [field: SerializeField] public int Magic {get; set;} = 10;
+    [field: SerializeField] public int Resist {get; set;} = 10;
+    [field: SerializeField] public int Speed {get; set;} = 10;
 
     // Dynamic stats
     [field: SerializeField] public int HP {get; protected set;} = 100;
@@ -87,6 +87,13 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public virtual void Revive()
+    {
+        IsKnockedOut = false;
+        TakeHealing( (int) (HPMax * 0.25f) );
+        UnitAnim.Anim.SetBool("Knockout", false);
+    }
+
     public virtual int TakeHealing(int incomingHealing)
     {
         if (IsKnockedOut)
@@ -125,6 +132,24 @@ public class Unit : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public virtual int GainMP(int gain)
+    {
+        if (IsKnockedOut)
+        {
+            return 0;
+        }
+
+        if (gain > (MPMax - MP))
+        {
+            MP = MPMax;
+        }
+        else
+        {
+            MP += gain;
+        }
+        return MP;
     }
 
     public virtual IEnumerator CheckStatuses(StatusTiming filter)
@@ -187,7 +212,7 @@ public class Unit : MonoBehaviour
     
     public void RollSpeed()
     {
-        SpeedVariance = (float) (UnityEngine.Random.value * 0.4 + 0.8);
+        SpeedVariance = (float) (UnityEngine.Random.value * 0.2 + 0.9);
     }
 
     // *** Unity Functions ***

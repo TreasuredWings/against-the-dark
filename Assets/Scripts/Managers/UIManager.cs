@@ -10,39 +10,33 @@ public enum UIState { Wait, Action, Skill, Target }
 public class UIManager : MonoBehaviour
 {
 
-    // *** Fields ***
-
-    [SerializeField] private UIState _state = UIState.Wait;
-    [SerializeField] private UIState _previous = UIState.Wait;
-
     // *** Properties ***
 
     public static UIManager Instance { get; private set; }
 
-    public UIState State
-    {
-        get => _state;
-        private set
-        {
-            if (_state != value)
-            {
-                _previous = _state;
-            }
-            _state = value;
-        }
-    }
-    public UIState Previous { get => _previous; private set => _previous = value; }
     [field: SerializeField] public List<UIState> MenuLayers { get; private set; } = new List<UIState> { UIState.Wait };
-    public int MenuNumber { get; private set; } = 0;
+
+
+    [field: Header("Command Window References")]
     [field: SerializeField] public GameObject ActionWindow { get; private set; }
     [field: SerializeField] public GameObject SkillWindow { get; private set; }
     [field: SerializeField] public GameObject TargetWindow { get; private set; }
+    [field: SerializeField] public GameObject AllyStatusWindow { get; private set; }
     [field: SerializeField] public AllyStatus AllyStatus1 { get; private set; }
     [field: SerializeField] public AllyStatus AllyStatus2 { get; private set; }
     [field: SerializeField] public AllyStatus AllyStatus3 { get; private set; }
 
+    [field: Header("Game Screen References")]
+    [field: SerializeField] public GameObject StartScreenRef {get; private set;}
+    [field: SerializeField] public GameObject VictoryScreenRef {get; private set;}
+    [field: SerializeField] public GameObject DefeatScreenRef {get; private set;}
+    [field: SerializeField] public GameObject UpgradeScreenRef {get; private set;}
+
+    [field: Header("Effect Text References")]
     [field: SerializeField] public GameObject EffectTextPrefab { get; private set; }
     [field: SerializeField] public GameObject EffectTextContainer {get; private set;}
+    [field: Header("Description Bar Reference")]
+    [field: SerializeField] public GameObject DescriptionWindow {get; private set;}
     [field: SerializeField] public GameObject DescriptionText {get; private set;}
 
     // *** Functions ***
@@ -83,6 +77,12 @@ public class UIManager : MonoBehaviour
         AllyStatus3.UpdateValues();
     }
 
+    public void HUDWindows(bool toggle)
+    {
+        AllyStatusWindow.SetActive(toggle);
+        DescriptionWindow.SetActive(toggle);
+    }
+
     public void EnterWindow(UIState option)
     {
         MenuLayers.Add(option);
@@ -118,6 +118,26 @@ public class UIManager : MonoBehaviour
     public void HideDescriptionText()
     {
         DescriptionText.GetComponent<TextMeshProUGUI>().text = "";
+    }
+
+    public void StartScreen(bool activeState)
+    {
+        StartScreenRef.SetActive(activeState);
+    }
+
+    public void VictoryScreen(bool activeState)
+    {
+        VictoryScreenRef.SetActive(activeState);
+    }
+
+    public void DefeatScreen(bool activeState)
+    {
+        DefeatScreenRef.SetActive(activeState);
+    }
+
+    public void UpgradeScreen(bool activeState)
+    {
+        UpgradeScreenRef.SetActive(activeState);
     }
 
     // *** Unity Functions ***

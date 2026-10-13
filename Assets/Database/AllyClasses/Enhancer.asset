@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AllyClass
   <Name>k__BackingField: Enhancer
   <Type>k__BackingField: 6
-  <HPMax>k__BackingField: 100
-  <MPMax>k__BackingField: 30
-  <Attack>k__BackingField: 10
-  <Defense>k__BackingField: 10
-  <Magic>k__BackingField: 10
-  <Resist>k__BackingField: 10
-  <Speed>k__BackingField: 10
+  <HPMax>k__BackingField: 150
+  <MPMax>k__BackingField: 40
+  <Attack>k__BackingField: 50
+  <Defense>k__BackingField: 40
+  <Magic>k__BackingField: 70
+  <Resist>k__BackingField: 50
+  <Speed>k__BackingField: 40
   <Affinities>k__BackingField:
   - 1
   - 1
@@ -29,3 +29,4 @@ MonoBehaviour:
   - 1
   - 1
   <ClassSkill>k__BackingField: {fileID: 11400000, guid: 68f50312b88f79333b37e688165a82c4, type: 2}
+  <UpgradePool>k__BackingField: []

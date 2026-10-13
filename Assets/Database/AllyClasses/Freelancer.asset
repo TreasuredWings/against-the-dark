@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AllyClass
   <Name>k__BackingField: Freelancer
   <Type>k__BackingField: 1
-  <HPMax>k__BackingField: 100
-  <MPMax>k__BackingField: 10
-  <Attack>k__BackingField: 10
-  <Defense>k__BackingField: 10
-  <Magic>k__BackingField: 10
-  <Resist>k__BackingField: 10
-  <Speed>k__BackingField: 10
+  <HPMax>k__BackingField: 200
+  <MPMax>k__BackingField: 40
+  <Attack>k__BackingField: 50
+  <Defense>k__BackingField: 50
+  <Magic>k__BackingField: 50
+  <Resist>k__BackingField: 50
+  <Speed>k__BackingField: 50
   <Affinities>k__BackingField:
   - 1
   - 1
@@ -29,3 +29,4 @@ MonoBehaviour:
   - 1
   - 1
   <ClassSkill>k__BackingField: {fileID: 11400000, guid: 77d28f04d762c4b798638225364783e7, type: 2}
+  <UpgradePool>k__BackingField: []

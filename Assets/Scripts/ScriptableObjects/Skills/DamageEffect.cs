@@ -12,6 +12,7 @@ public class DamageData : SkillEffectBase
 
     public override bool Use(Unit user, List<Unit> targets)
     {
+        bool DidSomeoneKO = false;
         int pierceValue = 1;
         if (Pierce)
         {
@@ -41,8 +42,17 @@ public class DamageData : SkillEffectBase
             int finalDamage = (int) Math.Max( Math.Floor( baseDamage * user.OutDamageMod * target.IncDamageMod ), 1 );
             target.TakeDamage(finalDamage);
             target.TakeStun( (int) Math.Max( Math.Floor( StunValue * target.Affinities[ (int)Element ] ), 0) );
+            if (target.IsKnockedOut)
+            {
+                DidSomeoneKO = true;
+            }
         }
-
+        int sfx = 3;
+        if (DidSomeoneKO)
+        {
+            sfx = 8;
+        }
+        SFXManager.Instance.PlaySFX(sfx, Vector3.zero, 1);
         return true;
     }
 }

@@ -18,6 +18,7 @@ public class SkillButton : ButtonBase, IPointerEnterHandler, IPointerExitHandler
 
     public override void Clicked()
     {
+        SFXManager.Instance.PlaySFX(1, Vector3.zero, 1);
         InputManager.Instance.SkillButtonClicked(AssignedSkill);
     }
 

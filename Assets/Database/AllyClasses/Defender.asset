@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AllyClass
   <Name>k__BackingField: Defender
   <Type>k__BackingField: 2
-  <HPMax>k__BackingField: 120
-  <MPMax>k__BackingField: 15
-  <Attack>k__BackingField: 10
-  <Defense>k__BackingField: 15
-  <Magic>k__BackingField: 10
-  <Resist>k__BackingField: 10
-  <Speed>k__BackingField: 10
+  <HPMax>k__BackingField: 250
+  <MPMax>k__BackingField: 30
+  <Attack>k__BackingField: 40
+  <Defense>k__BackingField: 70
+  <Magic>k__BackingField: 70
+  <Resist>k__BackingField: 40
+  <Speed>k__BackingField: 70
   <Affinities>k__BackingField:
   - 1
   - 1
@@ -29,3 +29,6 @@ MonoBehaviour:
   - 1
   - 1
   <ClassSkill>k__BackingField: {fileID: 11400000, guid: 96ae04844e1d1fe47a4288d8c10c3ec3, type: 2}
+  <UpgradePool>k__BackingField:
+  - {fileID: 11400000, guid: 68fbc6dcf7957f04d9f9f1feeee0fe11, type: 2}
+  - {fileID: 11400000, guid: dc876e302a129eb4c9bfc82dfcde8d4c, type: 2}

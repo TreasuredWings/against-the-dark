@@ -15,13 +15,13 @@ MonoBehaviour:
   <Name>k__BackingField: Slime
   <EnemySprite>k__BackingField: {fileID: -973339696, guid: 0e4ffceb21fe1bfd4852684e6bf26734, type: 3}
   <EnemySpriteOverride>k__BackingField: {fileID: 22100000, guid: 5eb1a0b64daad7648a687be8f088db74, type: 2}
-  <HPMax>k__BackingField: 20
-  <MPMax>k__BackingField: 20
-  <Attack>k__BackingField: 15
+  <HPMax>k__BackingField: 200
+  <MPMax>k__BackingField: 50
+  <Attack>k__BackingField: 75
   <Defense>k__BackingField: 10
-  <Magic>k__BackingField: 10
+  <Magic>k__BackingField: 75
   <Resist>k__BackingField: 10
-  <Speed>k__BackingField: 10
+  <Speed>k__BackingField: 45
   <Affinities>k__BackingField:
   - 1
   - 1.5
@@ -36,3 +36,4 @@ MonoBehaviour:
   <SkillChance>k__BackingField:
   - 0.25
   - 1
+  <StunModifier>k__BackingField: 1

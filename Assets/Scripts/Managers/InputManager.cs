@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Security;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -18,6 +20,7 @@ public class InputManager : MonoBehaviour
     public Ally ActiveAlly { get; set; }
     public Skill ActiveSkill { get; private set; }
     public TargetType ActiveTargeting { get; private set; }
+    [field: SerializeField] public TMP_Dropdown[] ClassSelectDropdowns {get; private set;}
     
     // *** Functions ***
 
@@ -64,7 +67,7 @@ public class InputManager : MonoBehaviour
     // TargetChosen tells the ActiveAlly to use ActiveSkill on a list of targets given by the target buttons
     public void TargetButtonClicked(List<Unit> targets)
     {
-        UIManager.Instance.HideDescriptionText();
+        UIManager.Instance.ShowDescriptionText(ActiveSkill.Name);
         UIManager.Instance.CloseWindow();
         StartCoroutine(ActiveAlly.TakeTurn(ActiveSkill, targets));
     }
@@ -75,16 +78,20 @@ public class InputManager : MonoBehaviour
         UIManager.Instance.GoBack();
     }
 
-    public void VictoryContinueClicked()
+    public void EndBattleClicked()
     {
-        // TODO: Continue game
-        GameManager.Instance.StartGame();
+        GameManager.Instance.EndBattle();
     }
 
-    public void DefeatMainMenuClicked()
+    public void UpgradeButtonClicked(int index)
     {
-        // TODO: Properly reset game to start menu
-        GameManager.Instance.StartGame();
+        UpgradeManager.Instance.ChooseUpgrade(index);
+    }
+
+    public void ClassSelected(int dropdownNumber)
+    {
+        int id = ClassSelectDropdowns[dropdownNumber].value;
+        GameManager.Instance.AssignedClasses[dropdownNumber] = id;
     }
 
     // *** Unity Functions ***

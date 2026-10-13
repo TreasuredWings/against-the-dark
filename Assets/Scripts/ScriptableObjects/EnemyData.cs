@@ -19,4 +19,5 @@ public class EnemyData : ScriptableObject
     [field: SerializeField] public List<Skill> SkillList { get; private set; } = new List<Skill>();
     [field: SerializeField] public EnemyAIType AIType {get; private set;} = EnemyAIType.Static;
     [field: SerializeField] public List<float> SkillChance { get; private set; } = new List<float>();
+    [field: SerializeField] public float StunModifier {get; private set;} = 1f;
 }

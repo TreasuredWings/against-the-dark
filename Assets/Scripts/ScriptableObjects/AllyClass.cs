@@ -15,4 +15,5 @@ public class AllyClass : ScriptableObject
     [field: SerializeField] public int Speed {get; private set;} = 10;
     [field: SerializeField] public List<float> Affinities { get; private set; } = new List<float> { 1, 1, 1, 1, 1, 1 };
     [field: SerializeField] public Skill ClassSkill { get; private set; }
+    [field: SerializeField] public List<Upgrade> UpgradePool {get; private set;} = new List<Upgrade>();
 }

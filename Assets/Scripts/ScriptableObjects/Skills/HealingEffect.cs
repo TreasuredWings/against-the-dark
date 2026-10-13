@@ -27,6 +27,7 @@ public class HealingEffect : SkillEffectBase
             int totalHealing = (int) Math.Max( Math.Floor( target.HPMax * HealStrength + user.Resist ), 1);
             target.TakeHealing(totalHealing);
         }
+        SFXManager.Instance.PlaySFX(4, Vector3.zero, 1);
         return true;
     }
 }

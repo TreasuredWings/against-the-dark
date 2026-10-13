@@ -32,6 +32,7 @@ public class StunDamageEffect : SkillEffectBase
             target.TakeDamage(finalDamage);
             target.TakeStun( (int) Math.Max( Math.Floor( StunValue * target.Affinities[ (int)Element ] ), 0) );
         }
+        SFXManager.Instance.PlaySFX(3, Vector3.zero, 1);
         return true;
     }
 }

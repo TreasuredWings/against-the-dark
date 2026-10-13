@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae4e23a1dd6f9ac709a797d6ee361b65, type: 3}
+  m_Name: Leaf
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  <Name>k__BackingField: Living Leaf
+  <EnemySprite>k__BackingField: {fileID: 7647240639167449756, guid: 8999994a06402414e8ca1652bce764b9, type: 3}
+  <EnemySpriteOverride>k__BackingField: {fileID: 22100000, guid: 7d2e66440f163ee4685caed6cab0ac2d, type: 2}
+  <HPMax>k__BackingField: 300
+  <MPMax>k__BackingField: 50
+  <Attack>k__BackingField: 100
+  <Defense>k__BackingField: 10
+  <Magic>k__BackingField: 100
+  <Resist>k__BackingField: 10
+  <Speed>k__BackingField: 50
+  <Affinities>k__BackingField:
+  - 1
+  - 1.5
+  - 0.5
+  - 0.5
+  - 1
+  - 1
+  <SkillList>k__BackingField:
+  - {fileID: 11400000, guid: e21d3a2190bf485408cae7dc55c0306d, type: 2}
+  - {fileID: 11400000, guid: 7d83e2148a7ad664297e8d8e38e7cf77, type: 2}
+  - {fileID: 11400000, guid: 266830f9c0b6468449eb19c057b67383, type: 2}
+  <AIType>k__BackingField: 1
+  <SkillChance>k__BackingField:
+  - 0.25
+  - 0.5
+  - 1
+  <StunModifier>k__BackingField: 1

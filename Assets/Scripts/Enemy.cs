@@ -41,6 +41,7 @@ public class Enemy : Unit
         Magic = Data.Magic;
         Resist = Data.Resist;
         Speed = Data.Speed;
+        StunMod = Data.StunModifier;
         Affinities = new List<float>(Data.Affinities);
         SkillList = new List<Skill>(Data.SkillList);
         UnitAnim.HomePoint = transform.position;
@@ -50,6 +51,7 @@ public class Enemy : Unit
     {
         Skill toUse = GetSkill();
         List<Unit> onTargets = GetTargets(toUse);
+        UIManager.Instance.ShowDescriptionText(toUse.Name);
         Debug.Log(Name + " uses " + toUse.Name);
         yield return StartCoroutine(UseSkill(toUse, onTargets));
     }
@@ -154,13 +156,14 @@ public class Enemy : Unit
 
     public override int TakeStun(int incomingStun)
     {
-        if (incomingStun > (100 - Stun))
+        int finalStun = (int) (incomingStun * StunMod);
+        if (finalStun > (100 - Stun))
         {
             Stun = 100;
         }
         else
         {
-            Stun += incomingStun;
+            Stun += finalStun;
         }
         if (Stun >= 100)
         {

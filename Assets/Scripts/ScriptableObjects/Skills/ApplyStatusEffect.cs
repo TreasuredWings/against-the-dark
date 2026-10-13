@@ -17,6 +17,12 @@ public class ApplyStatusEffect : SkillEffectBase
             
             target.AddStatus(StatusEffect);
         }
+        int sfx = 6;
+        if (StatusEffect.Type == StatusType.Positive)
+        {
+            sfx = 5;
+        }
+        SFXManager.Instance.PlaySFX(sfx, Vector3.zero, 1);
         return true;
     }
 }

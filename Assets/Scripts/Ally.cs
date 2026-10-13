@@ -64,4 +64,10 @@ public class Ally : Unit
         UIManager.Instance.UpdateAllStatusWindows();
         return result;
     }
+
+    public override void Revive()
+    {
+        base.Revive();
+        UIManager.Instance.UpdateAllStatusWindows();
+    }
 }

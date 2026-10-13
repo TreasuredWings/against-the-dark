@@ -26,6 +26,7 @@ public class TargetButton : ButtonBase
 
     public override void Clicked()
     {
+        SFXManager.Instance.PlaySFX(1, Vector3.zero, 1);
         InputManager.Instance.TargetButtonClicked(Targets);
     }
 }

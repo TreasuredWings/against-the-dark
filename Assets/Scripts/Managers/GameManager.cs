@@ -8,26 +8,39 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+    [field: Header("Object References")]
     [field: SerializeField] public GameObject AllyPrefab { get; private set; }
     [field: SerializeField] public GameObject PartyContainer { get; private set; }
-    [field: SerializeField] public List<Ally> Party { get; private set; } = new List<Ally>();
-    [field: SerializeField] public Troop TestTroop { get; private set; }
 
+    [field: Header("Party")]
+    [field: SerializeField] public List<Ally> Party { get; private set; } = new List<Ally>();
+
+    [field: Header("Initial Party Settings")]
     [field: SerializeField] public List<string> AllyNames {get; private set;} = new List<string> { "Alex", "Victoria", "Sylvie" };
     [field: SerializeField] public List<Sprite> AllySprites {get; private set;} = new List<Sprite>();
     [field: SerializeField] public List<RuntimeAnimatorController> AllyAnimations {get; private set;} = new List<RuntimeAnimatorController>();
     [field: SerializeField] public List<AllyClass> AllyClasses {get; private set;} = new List<AllyClass>();
-    [field: SerializeField] public Skill DebugSkill {get; private set;}
+    [field: SerializeField] public int[] AssignedClasses {get; set;} = {0, 0, 0};
 
-    [field: SerializeField] public int BattleNumber { get; private set; } = 0;
+    [field: Header("Run Settings")]
+    [field: SerializeField] public Troop Battle1Troop { get; private set; }
+    [field: SerializeField] public List<Troop> TroopPool {get; private set;}
+    [field: SerializeField] public Troop BossTroop {get; private set;}
+    [field: SerializeField] public int BattleNumber { get; private set; } = 1;
+
+    [field: Header("Debug Settings")]
+    [field: SerializeField] public Skill DebugSkill {get; private set;}
+    [field: SerializeField] public List<Upgrade> DebugUpgrades {get; private set;} = new List<Upgrade>();
 
     /***************************************
     * Class functions *
     ***************************************/
 
-    // TODO
     public void StartGame()
     {
+        SFXManager.Instance.PlaySFX(13, Vector3.zero, 1);
+        UIManager.Instance.StartScreen(false);
+        UIManager.Instance.HUDWindows(true);
         // Instantiate ally prefabs
         for (int i = 0; i < 3; i++)
         {
@@ -42,50 +55,77 @@ public class GameManager : MonoBehaviour
             // Assign class
             // Any debug skills also add them
             // Set animation home point and draw order
-            tempA.InitializeData(AllyNames[i], AllyClasses[i], AllySprites[i], AllyAnimations[i], homePos, sortingOrder);
-            tempA.AddSkill(DebugSkill);
+            AllyClass chosenClass = AllyClasses[ AssignedClasses[i] ];
+            tempA.InitializeData(AllyNames[i], chosenClass, AllySprites[i], AllyAnimations[i], homePos, sortingOrder);
             // Finally, add them
             Party.Add(tempA);
         }
         UIManager.Instance.SetStatusWindow();
+
+        // Debug, add upgrades only to ally 1
+        foreach (Upgrade upgrade in DebugUpgrades)
+        {
+            upgrade.Application(Party[0]);
+        }
+
+        UpgradeManager.Instance.InitializePools();
+
         // Pull a random troop to start the game
         // Start a battle with those troops
-        StartBattle();
+        StartBattle(Battle1Troop);
     }
 
-    // TODO
     // Start a battle with the chosen troop
     // public void StartBattle(Troop encounter)
-    // This will involve spawning their prefabs, assigning their data, initializing their data, and starting the encounter
-
-    public void StartBattle()
+    public void StartBattle(Troop encounter)
     {
         Debug.Log("GameManager: Starting battle!");
-        
-        BattleManager.Instance.InitializeBattle(Party, TestTroop.EnemyList);
+        // Maybe play a transition effect
+        BattleManager.Instance.InitializeBattle(Party, encounter.EnemyList);
+        int music = 0;
+        if (BattleNumber >= 10)
+        {
+            music = 1;
+        }
+        SFXManager.Instance.PlayMusic(music, 1);
         StartCoroutine(BattleManager.Instance.ProcessTurns());
     }
 
-    // TODO
     public void EndBattle()
     {
+        BattleManager.Instance.CleanUpField();
         if (BattleManager.Instance.State == BattleState.Defeat)
         {
+            UIManager.Instance.DefeatScreen(false);
             // Return the game to the start screen
+            UIManager.Instance.StartScreen(true);
         }
         else if (BattleManager.Instance.State == BattleState.Victory)
         {
-            // Yay!
-            // If this is the last battle (BattleNumber 4) go back to the start screen
-            if (BattleNumber >= 4)
+            UIManager.Instance.VictoryScreen(false);
+            // Heal the party
+            foreach (Ally member in Party)
             {
-                // Go back to start
+                if (member.IsKnockedOut)
+                {
+                    member.Revive();
+                }
+                else
+                {
+                    member.TakeHealing( (int) (member.HPMax * 0.2f) );
+                }
+                member.GainMP( (int) (member.MPMax * 0.2f) );
+            }
+            // If this is the last battle (BattleNumber 10) go back to the start screen
+            if (BattleNumber >= 10)
+            {
+                UIManager.Instance.HUDWindows(false);
+                UIManager.Instance.StartScreen(true);
             }
             else
             {
                 // Else, show an upgrade screen
-                // The upgrade screen needs to wait for input
-                // After input, the upgrade screen will tell the game manager to advance the game to the next battle
+                UIManager.Instance.UpgradeScreen(true);
             }
         }
     }
@@ -94,13 +134,17 @@ public class GameManager : MonoBehaviour
     public void Progress()
     {
         BattleNumber++;
-        if (BattleNumber >= 4)
+        if (BattleNumber >= 10)
         {
             // Start a boss
+            StartBattle(BossTroop);
         }
         else
         {
-            // Start a normal fight
+            // Randomly pick a troop out of the possible list
+            // Start that battle
+            Troop encounter = TroopPool[ Random.Range(0, TroopPool.Count - 1) ];
+            StartBattle(encounter);
         }
     }
 
@@ -111,18 +155,5 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-    }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        // FOR DEBUG PURPOSES. REPLACE WITH A START SCREEN'S BUTTON.
-        StartGame();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

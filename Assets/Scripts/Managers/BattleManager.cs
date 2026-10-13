@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Categorization;
 
 /*
 The BattleManager is responsible for managing turns, recieving inputs from the UI, and telling Units to perform skills.
@@ -95,6 +96,7 @@ public class BattleManager : MonoBehaviour
             if (member.IsStunned)
             {
                 member.ResetStun();
+                member.UpdateStatus();
             }
         }
 
@@ -128,7 +130,10 @@ public class BattleManager : MonoBehaviour
             if (AllKO(Allies.Cast<Unit>().ToList()))
             {
                 // End the battle on a loss
-                DefeatScreen.SetActive(true);
+                UIManager.Instance.DefeatScreen(true);
+                State = BattleState.Defeat;
+                SFXManager.Instance.PlaySFX(11, Vector3.zero, 1);
+                SFXManager.Instance.StopMusic();
                 break;
             }
 
@@ -140,7 +145,15 @@ public class BattleManager : MonoBehaviour
                 {
                     member.UnitAnim.Anim.SetTrigger("Victory");
                 }
-                VictoryScreen.SetActive(true);
+                UIManager.Instance.VictoryScreen(true);
+                State = BattleState.Victory;
+                int sfx = 9;
+                if (GameManager.Instance.BattleNumber >= 10)
+                {
+                    sfx = 10;
+                }
+                SFXManager.Instance.PlaySFX(sfx, Vector3.zero, 1);
+                SFXManager.Instance.StopMusic();
                 break;
             }
 
@@ -200,6 +213,16 @@ public class BattleManager : MonoBehaviour
             }
         }
         return true;
+    }
+
+    public void CleanUpField()
+    {
+        for (int i = Enemies.Count - 1; i >= 0; i--)
+        {
+            Enemy temp = Enemies[i];
+            Enemies.RemoveAt(i);
+            Destroy(temp.gameObject);
+        }
     }
 
     // *** Unity Functions ***

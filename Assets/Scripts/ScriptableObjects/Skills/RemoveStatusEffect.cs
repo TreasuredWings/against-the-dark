@@ -24,6 +24,7 @@ public class RemoveStatusEffect : SkillEffectBase
                 }
             }
         }
+        SFXManager.Instance.PlaySFX(7, Vector3.zero, 1);
         return true;
     }
 }
