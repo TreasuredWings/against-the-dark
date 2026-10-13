@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public List<RuntimeAnimatorController> AllyAnimations {get; private set;} = new List<RuntimeAnimatorController>();
     [field: SerializeField] public List<AllyClass> AllyClasses {get; private set;} = new List<AllyClass>();
     [field: SerializeField] public int[] AssignedClasses {get; set;} = {0, 0, 0};
+    [field: SerializeField] public Vector3[] PartyPositions {get; private set;} = { new Vector3(-4, 1, 0), new Vector3(-5, 0, 0), new Vector3(-6, -1, 0) };
 
     [field: Header("Run Settings")]
     [field: SerializeField] public Troop Battle1Troop { get; private set; }
@@ -45,8 +46,8 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             // Instantiate, parented to PartyContainer
-            Vector3 homePos = new Vector3(-4 - i, i - 1, 0);
-            int sortingOrder = i*-1+2;
+            Vector3 homePos = PartyPositions[i];
+            int sortingOrder = i;
             GameObject tempObj = Instantiate(AllyPrefab, homePos, Quaternion.identity, PartyContainer.transform);
             Ally tempA = tempObj.GetComponent<Ally>();
             // Assign names
@@ -112,9 +113,9 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    member.TakeHealing( (int) (member.HPMax * 0.2f) );
+                    member.TakeHealing( (int) (member.HPMax * 0.5f) );
                 }
-                member.GainMP( (int) (member.MPMax * 0.2f) );
+                member.GainMP( (int) (member.MPMax * 0.5f) );
             }
             // If this is the last battle (BattleNumber 10) go back to the start screen
             if (BattleNumber >= 10)

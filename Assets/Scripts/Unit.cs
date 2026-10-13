@@ -90,7 +90,7 @@ public class Unit : MonoBehaviour
     public virtual void Revive()
     {
         IsKnockedOut = false;
-        TakeHealing( (int) (HPMax * 0.25f) );
+        TakeHealing( (int) (HPMax * 0.5f) );
         UnitAnim.Anim.SetBool("Knockout", false);
     }
 

@@ -17,7 +17,7 @@ MonoBehaviour:
   <EnemySpriteOverride>k__BackingField: {fileID: 22100000, guid: 7d2e66440f163ee4685caed6cab0ac2d, type: 2}
   <HPMax>k__BackingField: 300
   <MPMax>k__BackingField: 50
-  <Attack>k__BackingField: 100
+  <Attack>k__BackingField: 75
   <Defense>k__BackingField: 10
   <Magic>k__BackingField: 100
   <Resist>k__BackingField: 10

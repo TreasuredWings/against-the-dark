@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ebb633b5ce5a8241a7b65995f515358, type: 3}
-  m_Name: Striker_Atk
+  m_Name: Defender_SharpenSword
   m_EditorClassIdentifier: Assembly-CSharp::StatUpgrade
-  <Name>k__BackingField: Striking Training
+  <Name>k__BackingField: Sharpen Sword
   <Description>k__BackingField: Attack +10
-  <Class>k__BackingField: 3
+  <Class>k__BackingField: 2
   <StatUps>k__BackingField: 02000000
   <StatUpValues>k__BackingField: 0a000000

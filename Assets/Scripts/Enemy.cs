@@ -121,7 +121,7 @@ public class Enemy : Unit
                 }
                 break;
             case EnemyAIType.Ordered:
-                index = (BattleManager.Instance.RoundNumber % SkillList.Count) - 1;
+                index = (BattleManager.Instance.RoundNumber - 1) % SkillList.Count;
                 chosen = SkillList[index];
                 break;
         }

@@ -29,9 +29,10 @@ public class BattleManager : MonoBehaviour
 
     public static BattleManager Instance { get; private set; }
     [field: SerializeField] public GameObject PartyContainer { get; private set; }
-    
     [field: SerializeField] public GameObject TroopContainer { get; private set; }
     [field: SerializeField] public GameObject EnemyPrefab { get; private set; }
+    [field: SerializeField] public Vector3[] EnemyPositions {get; private set;} = { new Vector3(1, -1, 0), new Vector3(3, 1, 0), new Vector3(5, -1, 0), new Vector3(7, 1, 0) };
+    [field: SerializeField] public Vector3 BossPosition {get; private set;}
 
     public BattleState State { get => _state; private set => _state = value; }
     public int RoundNumber { get => _roundNumber; private set => _roundNumber = value; }
@@ -62,13 +63,18 @@ public class BattleManager : MonoBehaviour
         int i = 0;
         foreach (EnemyData data in troop)
         {
-            i++;
-            GameObject tempObj = Instantiate(EnemyPrefab, new Vector3(i*2, i - 2, 0), Quaternion.identity, TroopContainer.transform);
+            Vector3 pos = EnemyPositions[i];
+            if (GameManager.Instance.BattleNumber >= 10)
+            {
+                pos = new Vector3(3, -1, 0);
+            }
+            GameObject tempObj = Instantiate(EnemyPrefab, pos, Quaternion.identity, TroopContainer.transform);
             Enemy tempE = tempObj.GetComponent<Enemy>();
             tempE.Data = data;
             tempE.InitializeData();
             tempE.UpdateStatus();
             Enemies.Add(tempE);
+            i++;
         }
 
         // Initialize the TurnOrder Queue

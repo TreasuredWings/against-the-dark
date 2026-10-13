@@ -8,7 +8,7 @@ public enum HealType { Stat, Percent }
 public class HealingEffect : SkillEffectBase
 {
     [field: SerializeField] public HealType Type {get; private set;} = HealType.Stat;
-    [field: SerializeField] public float HealStrength {get; private set;} = 0.2f;
+    [field: SerializeField] public float HealStrength {get; private set;} = 0.1f;
 
     public override bool Use(Unit user, List<Unit> targets)
     {
@@ -24,7 +24,8 @@ public class HealingEffect : SkillEffectBase
             {
                 statBoost = user.Resist;
             }
-            int totalHealing = (int) Math.Max( Math.Floor( target.HPMax * HealStrength + user.Resist ), 1);
+            float variance = (float) (UnityEngine.Random.value * 0.1 + 0.95);
+            int totalHealing = (int) Math.Max( Math.Floor( (target.HPMax * HealStrength + user.Resist) * variance ), 1);
             target.TakeHealing(totalHealing);
         }
         SFXManager.Instance.PlaySFX(4, Vector3.zero, 1);

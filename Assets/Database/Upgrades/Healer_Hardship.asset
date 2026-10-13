@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ebb633b5ce5a8241a7b65995f515358, type: 3}
-  m_Name: Defender_HP
+  m_Name: Healer_Hardship
   m_EditorClassIdentifier: Assembly-CSharp::StatUpgrade
-  <Name>k__BackingField: I'll Live Forever!
-  <Description>k__BackingField: Max HP +100
-  <Class>k__BackingField: 2
-  <StatUps>k__BackingField: 00000000
-  <StatUpValues>k__BackingField: 64000000
+  <Name>k__BackingField: Hardship
+  <Description>k__BackingField: Resist +20
+  <Class>k__BackingField: 5
+  <StatUps>k__BackingField: 05000000
+  <StatUpValues>k__BackingField: 14000000

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97fc3da67fb2ccb49a22f631e9424c0d, type: 3}
-  m_Name: Striker_Deathblow
+  m_Name: Breaker_LearnIce
   m_EditorClassIdentifier: Assembly-CSharp::SkillUpgrade
-  <Name>k__BackingField: Learn Deathblow
-  <Description>k__BackingField: Perform a strong attack on a stunned enemy only.
-  <Class>k__BackingField: 3
-  <SkillToAdd>k__BackingField: {fileID: 11400000, guid: c6577f2869df2105b8177ccc941c739a, type: 2}
+  <Name>k__BackingField: Learn Ice
+  <Description>k__BackingField: This is an upgrade description.
+  <Class>k__BackingField: 4
+  <SkillToAdd>k__BackingField: {fileID: 11400000, guid: 1558917083fd5bb66be7554e309511b5, type: 2}

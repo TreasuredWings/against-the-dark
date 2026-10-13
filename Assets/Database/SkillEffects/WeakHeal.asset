@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: WeakHeal
   m_EditorClassIdentifier: Assembly-CSharp::HealingEffect
   <Type>k__BackingField: 0
-  <HealStrength>k__BackingField: 0.2
+  <HealStrength>k__BackingField: 0.1

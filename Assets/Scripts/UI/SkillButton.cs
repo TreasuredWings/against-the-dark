@@ -26,7 +26,7 @@ public class SkillButton : ButtonBase, IPointerEnterHandler, IPointerExitHandler
     {
         if (AssignedSkill != null)
         {
-            UIManager.Instance.ShowDescriptionText( AssignedSkill.Description );
+            UIManager.Instance.ShowDescriptionText( AssignedSkill.MPCost + " MP: " + AssignedSkill.Description );
         }
     }
 

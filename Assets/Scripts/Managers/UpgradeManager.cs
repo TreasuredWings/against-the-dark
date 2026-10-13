@@ -31,10 +31,6 @@ public class UpgradeManager : MonoBehaviour
         {
             UpgradeDecks.Add( new UpgradeDeck(new List<Upgrade>( GameManager.Instance.Party[i].Class.UpgradePool ) ) );
         }
-        foreach (UpgradeDeck deck in UpgradeDecks)
-        {
-            deck.Shuffle();
-        }
     }
 
     // Resets the eligibility list, so allies can be chosen again
@@ -58,6 +54,7 @@ public class UpgradeManager : MonoBehaviour
             ResetEligible();
         }
         ChosenAlly = EligibleAllies[ Random.Range(0, EligibleAllies.Count - 1) ];
+        UpgradeDecks[ChosenAlly].Shuffle();
         // Pick 3 different upgrades from their class's upgrade pool
         for (int i = 0; i <= 2; i++)
         {
@@ -68,7 +65,13 @@ public class UpgradeManager : MonoBehaviour
         for (int i = 0; i <= RolledUpgrades.Count - 1; i++)
         {
             ButtonName[i].text = RolledUpgrades[i].Name;
-            ButtonDesc[i].text = RolledUpgrades[i].Description;
+            string desc = RolledUpgrades[i].Description;
+            if (RolledUpgrades[i].GetType() == typeof(SkillUpgrade))
+            {
+                SkillUpgrade temp = (SkillUpgrade) RolledUpgrades[i];
+                desc = temp.SkillToAdd.Description;
+            }
+            ButtonDesc[i].text = desc;
         }
     }
 
@@ -82,6 +85,14 @@ public class UpgradeManager : MonoBehaviour
         if (RolledUpgrades[index].GetType() == typeof(StatUpgrade))
         {
             UpgradeDecks[ChosenAlly].Return(RolledUpgrades[index]);
+        }
+        // Add the other upgrades back into the pool
+        for (int i = 0; i <= 2; i++)
+        {
+            if (i != index)
+            {
+                UpgradeDecks[ChosenAlly].Return(RolledUpgrades[i]);
+            }
         }
         EligibleAllies.Remove(ChosenAlly);
         // Tell UIManager to hide upgrades

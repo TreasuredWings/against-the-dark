@@ -39,7 +39,8 @@ public class DamageData : SkillEffectBase
             {
                 baseDamage = (int) Math.Max( Math.Floor( ( user.Magic - ( target.Resist * 0.5 * pierceValue ) ) * target.Affinities[ (int)Element ]), 1 );
             }
-            int finalDamage = (int) Math.Max( Math.Floor( baseDamage * user.OutDamageMod * target.IncDamageMod ), 1 );
+            float variance = (float) (UnityEngine.Random.value * 0.1 + 0.95);
+            int finalDamage = (int) Math.Max( Math.Floor( baseDamage * user.OutDamageMod * target.IncDamageMod * variance ), 1 );
             target.TakeDamage(finalDamage);
             target.TakeStun( (int) Math.Max( Math.Floor( StunValue * target.Affinities[ (int)Element ] ), 0) );
             if (target.IsKnockedOut)

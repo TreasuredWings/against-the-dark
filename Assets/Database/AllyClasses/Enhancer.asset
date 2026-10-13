@@ -29,4 +29,10 @@ MonoBehaviour:
   - 1
   - 1
   <ClassSkill>k__BackingField: {fileID: 11400000, guid: 68f50312b88f79333b37e688165a82c4, type: 2}
-  <UpgradePool>k__BackingField: []
+  <UpgradePool>k__BackingField:
+  - {fileID: 11400000, guid: 097d080258c57cc9bae3e646ecd37370, type: 2}
+  - {fileID: 11400000, guid: 83f122b2902392c85ab799c9283a73c2, type: 2}
+  - {fileID: 11400000, guid: 158da45ca11729921b156ac60b63b132, type: 2}
+  - {fileID: 11400000, guid: c31a1f857b9a67b4e9ae0f3b9ff74ab8, type: 2}
+  - {fileID: 11400000, guid: 5bfd0bd2b83268517a8918f521424445, type: 2}
+  - {fileID: 11400000, guid: 6dfd87fc45d17cfa7a60f8ed07cd7c0f, type: 2}

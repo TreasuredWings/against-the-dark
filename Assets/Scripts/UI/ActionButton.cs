@@ -24,7 +24,9 @@ public class ActionButton : ButtonBase, IPointerEnterHandler, IPointerExitHandle
                 description = InputManager.Instance.ActiveAlly.SkillList[1].Description;
                 break;
             case ActionButtons.Class:
-                description = InputManager.Instance.ActiveAlly.SkillList[2].Description;
+                string mp = InputManager.Instance.ActiveAlly.SkillList[2].MPCost.ToString();
+                string desc = InputManager.Instance.ActiveAlly.SkillList[2].Description;
+                description = mp + " MP: " + desc;
                 break;
             case ActionButtons.Skill:
                 description = "Use a skill that this party member knows.";

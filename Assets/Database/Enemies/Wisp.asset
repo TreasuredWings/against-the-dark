@@ -19,7 +19,7 @@ MonoBehaviour:
   <MPMax>k__BackingField: 100
   <Attack>k__BackingField: 75
   <Defense>k__BackingField: 20
-  <Magic>k__BackingField: 100
+  <Magic>k__BackingField: 125
   <Resist>k__BackingField: 20
   <Speed>k__BackingField: 65
   <Affinities>k__BackingField:

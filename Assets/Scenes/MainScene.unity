@@ -1348,6 +1348,12 @@ MonoBehaviour:
   <PartyContainer>k__BackingField: {fileID: 1839122153}
   <TroopContainer>k__BackingField: {fileID: 1695839786}
   <EnemyPrefab>k__BackingField: {fileID: 2068601689634491412, guid: f52dcd0345dcfe6b98109abbd736ff03, type: 3}
+  <EnemyPositions>k__BackingField:
+  - {x: 1, y: -1, z: 0}
+  - {x: 3, y: 1, z: 0}
+  - {x: 5, y: -1, z: 0}
+  - {x: 7, y: 1, z: 0}
+  <BossPosition>k__BackingField: {x: 0, y: 0, z: 0}
   <VictoryScreen>k__BackingField: {fileID: 1613511955}
   <DefeatScreen>k__BackingField: {fileID: 1626353228}
 --- !u!4 &361951707
@@ -2615,6 +2621,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 28de004c8dcb39ed2963878f9289785a, type: 2}
   - {fileID: 11400000, guid: 5dd964c31182ce4229c942687800e771, type: 2}
   <AssignedClasses>k__BackingField: 000000000000000000000000
+  <PartyPositions>k__BackingField:
+  - {x: -4, y: 1, z: 0}
+  - {x: -5, y: 0, z: 0}
+  - {x: -6, y: -1, z: 0}
   <Battle1Troop>k__BackingField: {fileID: 11400000, guid: f8bb7b66f2061855eaeca3e485c75d15, type: 2}
   <TroopPool>k__BackingField:
   - {fileID: 11400000, guid: 8b27d2f42225a254a907a1a4c217ce56, type: 2}

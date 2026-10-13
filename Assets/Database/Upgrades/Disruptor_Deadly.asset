@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ebb633b5ce5a8241a7b65995f515358, type: 3}
-  m_Name: Defender_DefRes
+  m_Name: Disruptor_Deadly
   m_EditorClassIdentifier: Assembly-CSharp::StatUpgrade
-  <Name>k__BackingField: Iron Skin
-  <Description>k__BackingField: Defense +10, Resist +10
-  <Class>k__BackingField: 2
-  <StatUps>k__BackingField: 0300000005000000
-  <StatUpValues>k__BackingField: 0a0000000a000000
+  <Name>k__BackingField: Deadly
+  <Description>k__BackingField: Attack +20
+  <Class>k__BackingField: 7
+  <StatUps>k__BackingField: 02000000
+  <StatUpValues>k__BackingField: 14000000
