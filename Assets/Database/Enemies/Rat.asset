@@ -15,11 +15,11 @@ MonoBehaviour:
   <Name>k__BackingField: A RAT
   <EnemySprite>k__BackingField: {fileID: -3578019587575532720, guid: 8130f82b39bd4224288afb6da59bc9d9, type: 3}
   <EnemySpriteOverride>k__BackingField: {fileID: 22100000, guid: 01c80e154c71b334bab090389c7c9f8b, type: 2}
-  <HPMax>k__BackingField: 250
-  <MPMax>k__BackingField: 50
-  <Attack>k__BackingField: 50
-  <Defense>k__BackingField: 15
-  <Magic>k__BackingField: 75
+  <HPMax>k__BackingField: 160
+  <MPMax>k__BackingField: 100
+  <Attack>k__BackingField: 40
+  <Defense>k__BackingField: -60
+  <Magic>k__BackingField: 50
   <Resist>k__BackingField: 20
   <Speed>k__BackingField: 45
   <Affinities>k__BackingField:

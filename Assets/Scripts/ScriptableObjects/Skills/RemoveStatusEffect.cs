@@ -19,6 +19,7 @@ public class RemoveStatusEffect : SkillEffectBase
             {
                 if (target.AppliedStatuses[i].Type == RemovalType)
                 {
+                    UIManager.Instance.CreateEffectText(target.transform.position, "-" + target.AppliedStatuses[i].Name, Colors.White);
                     target.RemoveStatus(i);
                     break;
                 }

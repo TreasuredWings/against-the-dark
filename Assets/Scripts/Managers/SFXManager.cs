@@ -20,9 +20,14 @@ public class SFXManager : MonoBehaviour
 
     public void PlaySFX(int soundIndex, Vector3 pos, float vol)
     {
+        float pitchVariance = (float) (Random.value * 0.2 + 0.9);
         AudioSource source = Instantiate(AudioPrefab, pos, Quaternion.identity);
         source.clip = SFXList[soundIndex];
         source.volume = vol;
+        if (soundIndex >= 3 && soundIndex <= 6)
+        {
+            source.pitch = pitchVariance;
+        }
         source.Play();
         float length = source.clip.length;
         Destroy(source.gameObject, length);

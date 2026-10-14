@@ -60,6 +60,7 @@ public class Enemy : Unit
     {
         List<Unit> targets = null;
         int targetIndex;
+        List<Unit> eligible = new List<Unit>();
         switch (skill.Target)
         {
             case TargetType.SingleEnemy:
@@ -75,13 +76,27 @@ public class Enemy : Unit
                 // If nothing has taunt, roll randomly
                 if (targets == null)
                 {
-                    targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Allies.Count);
-                    targets = new List<Unit> { BattleManager.Instance.Allies[targetIndex] };
+                    foreach (Unit ally in BattleManager.Instance.Allies)
+                    {
+                        if (!ally.IsKnockedOut)
+                        {
+                            eligible.Add(ally);
+                        }
+                    }
+                    targetIndex = UnityEngine.Random.Range(0, eligible.Count);
+                    targets = new List<Unit> { eligible[targetIndex] };
                 }
                 break;
             case TargetType.SingleAlly:
-                targetIndex = UnityEngine.Random.Range(0, BattleManager.Instance.Enemies.Count);
-                targets = new List<Unit> { BattleManager.Instance.Enemies[targetIndex] };
+                foreach (Unit enemy in BattleManager.Instance.Enemies)
+                {
+                    if (!enemy.IsKnockedOut)
+                    {
+                        eligible.Add(enemy);
+                    }
+                }
+                targetIndex = UnityEngine.Random.Range(0, eligible.Count);
+                targets = new List<Unit> { eligible[targetIndex] };
                 break;
             case TargetType.AllEnemies:
                 targets = BattleManager.Instance.Allies.Cast<Unit>().ToList();

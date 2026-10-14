@@ -15,12 +15,12 @@ MonoBehaviour:
   <Name>k__BackingField: Magic Wisp
   <EnemySprite>k__BackingField: {fileID: 3586392811686792816, guid: 99f979f993adccc40b85ffa3bc6e82b6, type: 3}
   <EnemySpriteOverride>k__BackingField: {fileID: 22100000, guid: 6c5bf6b83a7fc564ab4a8ece941221d0, type: 2}
-  <HPMax>k__BackingField: 300
+  <HPMax>k__BackingField: 180
   <MPMax>k__BackingField: 100
-  <Attack>k__BackingField: 75
-  <Defense>k__BackingField: 20
-  <Magic>k__BackingField: 125
-  <Resist>k__BackingField: 20
+  <Attack>k__BackingField: 50
+  <Defense>k__BackingField: 40
+  <Magic>k__BackingField: 75
+  <Resist>k__BackingField: 40
   <Speed>k__BackingField: 65
   <Affinities>k__BackingField:
   - 1

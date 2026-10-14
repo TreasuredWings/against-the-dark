@@ -15,12 +15,12 @@ MonoBehaviour:
   <Name>k__BackingField: Cave Dragon
   <EnemySprite>k__BackingField: {fileID: 1372335161102834277, guid: d3fde5acbce8e6945b48b0c853895d62, type: 3}
   <EnemySpriteOverride>k__BackingField: {fileID: 22100000, guid: 012cd28b7a5d1254c88bb714ddd389eb, type: 2}
-  <HPMax>k__BackingField: 2500
+  <HPMax>k__BackingField: 1800
   <MPMax>k__BackingField: 1000
-  <Attack>k__BackingField: 100
-  <Defense>k__BackingField: 50
-  <Magic>k__BackingField: 150
-  <Resist>k__BackingField: 50
+  <Attack>k__BackingField: 50
+  <Defense>k__BackingField: 40
+  <Magic>k__BackingField: 75
+  <Resist>k__BackingField: 40
   <Speed>k__BackingField: 70
   <Affinities>k__BackingField:
   - 1

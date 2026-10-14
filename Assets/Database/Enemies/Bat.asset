@@ -15,19 +15,19 @@ MonoBehaviour:
   <Name>k__BackingField: Cave Bat
   <EnemySprite>k__BackingField: {fileID: 8647823593821616703, guid: 23fbf516bd87e87499c3cfd3f69eb6c7, type: 3}
   <EnemySpriteOverride>k__BackingField: {fileID: 22100000, guid: c3f25849b7f54154ba1b3e2e78affb50, type: 2}
-  <HPMax>k__BackingField: 250
-  <MPMax>k__BackingField: 50
-  <Attack>k__BackingField: 50
-  <Defense>k__BackingField: 30
-  <Magic>k__BackingField: 50
-  <Resist>k__BackingField: 30
+  <HPMax>k__BackingField: 200
+  <MPMax>k__BackingField: 100
+  <Attack>k__BackingField: 55
+  <Defense>k__BackingField: 0
+  <Magic>k__BackingField: 55
+  <Resist>k__BackingField: -20
   <Speed>k__BackingField: 70
   <Affinities>k__BackingField:
   - 1
   - 1
   - 1
   - 1
-  - 1
+  - 1.5
   - 1
   <SkillList>k__BackingField:
   - {fileID: 11400000, guid: 70a064fbadefd849a841faadeb1c5699, type: 2}

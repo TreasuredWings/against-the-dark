@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RegenStatus
   <Name>k__BackingField: Regen
   <Description>k__BackingField: Heal 15% of Max HP on turn start.
-  <Duration>k__BackingField: 5
+  <Duration>k__BackingField: 6
   <Timing>k__BackingField: 0
   <Type>k__BackingField: 0
   <HealStrength>k__BackingField: 0.15

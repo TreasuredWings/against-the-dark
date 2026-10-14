@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StatModStatus
   <Name>k__BackingField: Brave
   <Description>k__BackingField: Outgoing damage +50%.
-  <Duration>k__BackingField: 3
+  <Duration>k__BackingField: 4
   <Timing>k__BackingField: 0
   <Type>k__BackingField: 0
   <TargetStat>k__BackingField: 0
