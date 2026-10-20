@@ -97,8 +97,10 @@ public class GameManager : MonoBehaviour
         BattleManager.Instance.CleanUpField();
         if (BattleManager.Instance.State == BattleState.Defeat)
         {
-            UIManager.Instance.DefeatScreen(false);
             // Return the game to the start screen
+            FullReset();
+            UIManager.Instance.DefeatScreen(false);
+            UIManager.Instance.HUDWindows(false);
             UIManager.Instance.StartScreen(true);
         }
         else if (BattleManager.Instance.State == BattleState.Victory)
@@ -120,6 +122,7 @@ public class GameManager : MonoBehaviour
             // If this is the last battle (BattleNumber 10) go back to the start screen
             if (BattleNumber >= 10)
             {
+                FullReset();
                 UIManager.Instance.HUDWindows(false);
                 UIManager.Instance.StartScreen(true);
             }
@@ -147,6 +150,18 @@ public class GameManager : MonoBehaviour
             Troop encounter = TroopPool[ Random.Range(0, TroopPool.Count) ];
             StartBattle(encounter);
         }
+    }
+
+    public void FullReset()
+    {
+        for (int i = Party.Count - 1; i >= 0; i--)
+        {
+            Ally temp = Party[i];
+            Party.RemoveAt(i);
+            Destroy(temp.gameObject);
+        }
+        BattleManager.Instance.CleanUpField();
+        BattleNumber = 0;
     }
 
     /***************************************
