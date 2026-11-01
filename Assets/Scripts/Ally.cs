@@ -42,10 +42,15 @@ public class Ally : Unit
         StartCoroutine(BattleManager.Instance.InputComplete());
     }
 
-    public override int TakeDamage(int incomingDamage)
+    public override int TakeDamage(int incomingDamage, bool crit)
     {
-        UIManager.Instance.CreateEffectText(transform.position, incomingDamage.ToString(), Colors.White);
-        int newHP = base.TakeDamage(incomingDamage);
+        string dmgText = incomingDamage.ToString();
+        if (crit)
+        {
+            dmgText += "!!";
+        }
+        UIManager.Instance.CreateEffectText(transform.position, dmgText, Colors.White);
+        int newHP = base.TakeDamage(incomingDamage, crit);
         UIManager.Instance.UpdateAllStatusWindows();
         return newHP;
     }

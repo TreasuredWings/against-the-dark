@@ -30,6 +30,8 @@ public class Unit : MonoBehaviour
     [field: SerializeField] public float IncDamageMod {get; set;} = 1;
     [field: SerializeField] public float SpeedMod {get; set;} = 1;
     [field: SerializeField] public float SpeedVariance {get; protected set;} = 1;
+    [field: SerializeField] public float CritChance {get; protected set;} = 0.05f;
+    [field: SerializeField] public float CritMod {get; protected set;} = 1.5f;
 
     [field: SerializeField] public bool IsKnockedOut {get; protected set;} = false;
 
@@ -54,7 +56,7 @@ public class Unit : MonoBehaviour
 
     // Recieve damage, capped at this unit's current hp
     // Returns: this unit's new HP
-    public virtual int TakeDamage(int incomingDamage)
+    public virtual int TakeDamage(int incomingDamage, bool crit)
     {
         StartCoroutine(UnitAnim.DamageAnim());
         if (incomingDamage > HP)

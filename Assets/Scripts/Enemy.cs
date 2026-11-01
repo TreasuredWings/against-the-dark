@@ -143,20 +143,26 @@ public class Enemy : Unit
         return chosen;
     }
 
-    public override int TakeDamage(int incomingDamage)
+    public override int TakeDamage(int incomingDamage, bool crit)
     {
         int newHP;
+
+        int incDamage = incomingDamage;
+        Color32 dmgColor = Colors.White;
         if (IsStunned)
         {
-            int stunDamage = (int) Math.Floor(incomingDamage * 1.5);
-            UIManager.Instance.CreateEffectText(transform.position, stunDamage.ToString(), Colors.Stun);
-            newHP = base.TakeDamage(stunDamage);
-        } 
-        else
-        {
-            UIManager.Instance.CreateEffectText(transform.position, incomingDamage.ToString(), Colors.White);
-            newHP = base.TakeDamage(incomingDamage);
+            incDamage = (int) Math.Floor(incDamage * 1.5);
+            dmgColor = Colors.Stun;
         }
+
+        string dmgText = incDamage.ToString();
+        if (crit)
+        {
+            dmgText += "!!";
+        }
+        
+        newHP = base.TakeDamage(incDamage, crit);
+        UIManager.Instance.CreateEffectText(transform.position, dmgText, dmgColor);
         UpdateStatus();
         return newHP;
     }
